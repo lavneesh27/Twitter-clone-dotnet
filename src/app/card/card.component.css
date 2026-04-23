@@ -7,7 +7,8 @@
 .card {
   border-radius: 0;
   border: 1px solid rgba(230, 230, 230, 0.5);
-  width: 1000px;
+  width: 100%;
+  max-width: 100%;
   margin: 0;
 }
 
@@ -32,7 +33,9 @@ input {
   border-radius: 1rem;
   border: none;
   cursor: pointer;
-  max-width: 500px;
+  width: min(100%, 500px);
+  max-height: 70vh;
+  object-fit: contain;
 }
 
 .action {
@@ -78,6 +81,8 @@ img:hover {
 .card-text{
   cursor: pointer;
   font-size: 18px;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
 }
 .more-btn{
   width: 35px;
@@ -85,4 +90,35 @@ img:hover {
 }
 .more-btn:hover{
   background-color: rgb(230, 230, 230);
+}
+
+@media (max-width: 575.98px) {
+  .card-body {
+    padding: 12px;
+  }
+
+  .profile {
+    align-items: flex-start !important;
+  }
+
+  .profile > div:nth-child(2) {
+    align-items: flex-start !important;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .name,
+  .card-text {
+    font-size: 16px;
+  }
+
+  .card-text,
+  .img-container {
+    margin-left: 0 !important;
+  }
+
+  .action {
+    width: 36px;
+    height: 36px;
+  }
 }

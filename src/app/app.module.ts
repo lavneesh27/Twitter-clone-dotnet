@@ -18,9 +18,6 @@ import { BookmarkComponent } from './bookmark/bookmark.component';
 import { CardComponent } from './card/card.component';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StartComponent } from './start/start.component';
-import { FirestoreModule } from '@angular/fire/firestore';
-import { AngularFireModule } from '@angular/fire/compat';
-import { environment } from '../environments/environment';
 import { NgxUiLoaderConfig, NgxUiLoaderModule } from 'ngx-ui-loader';
 import { ChatComponent } from './chat/chat.component';
 import { CommonModule } from '@angular/common'
@@ -91,8 +88,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     }),
     NgbModule,
     NgbModalModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    FirestoreModule,
     CommonModule,
     HttpClientJsonpModule,
   ],

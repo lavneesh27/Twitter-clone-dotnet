@@ -3,7 +3,8 @@
 }
 
 .header {
-  width: 1000px;
+  width: inherit;
+  max-width: var(--content-max-width);
   height: 50px;
   position: fixed;
   top: 0;
@@ -14,13 +15,14 @@
   border-bottom: 1px solid rgba(230, 230, 230, 0.5);;
 }
 .message{
-  width: 1000px;
+  width: 100%;
 }
 
 .body {
   position: absolute;
   top: 50px;
-  width: 1000px !important;
+  width: 100% !important;
+  max-width: var(--content-max-width);
 }
 .rounded-circle{
   min-width: 60px;
@@ -34,8 +36,8 @@
   text-overflow:ellipsis !important;
 }
 .time{
-  position: absolute;
-  right:10px;
+  margin-left: auto;
+  white-space: nowrap;
 
 }
 li{
@@ -79,4 +81,28 @@ ul:hover::-webkit-scrollbar-thumb {
   font-size: 1.25rem;     
   margin-top: 1rem;       
   color: #6c757d;        
+}
+
+@media (max-width: 1399.98px) {
+  .header,
+  .body {
+    max-width: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .header,
+  .body {
+    left: 0;
+    width: 100vw !important;
+  }
+
+  .profile {
+    min-width: 0;
+  }
+
+  .recentMessage {
+    max-width: calc(100vw - 110px);
+    white-space: nowrap;
+  }
 }

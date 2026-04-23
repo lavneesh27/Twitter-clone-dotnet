@@ -1,25 +1,26 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { GoogleAuthProvider } from '@angular/fire/auth';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
-import { DataService } from './data.service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private readonly baseUrl = environment.apiUrl;
+
   constructor(
-    private fireAuth: AngularFireAuth,
+    private http: HttpClient,
     private router: Router,
-    private data: DataService,
     private toastr: ToastrService
   ) {}
   login(email: string, password: string, remember: boolean): Promise<string | null> {
-    return this.fireAuth.signInWithEmailAndPassword(email, password)
+    return firstValueFrom(this.http.post<{ token: number | string; user: User }>(`${this.baseUrl}/auth/login`, { email, password }))
       .then((res) => {
-        const userId = res.user?.uid || null;
+        const userId = res.token?.toString() || null;
         if (userId) {
           this.router.navigate(['home']);
           remember
@@ -39,43 +40,34 @@ export class AuthService {
   }
   
   register(user: User) {
-    this.fireAuth
-      .createUserWithEmailAndPassword(user.email, user.password)
+    firstValueFrom(this.http.post<User>(`${this.baseUrl}/auth/register`, user))
       .then(
         (res) => {
           this.toastr.success('Registration Successful');
-          user.id = res.user!.uid;
-          user.createdAt = new Date().toDateString();
-          this.data.addUser(user);
           this.router.navigate(['login']);
         },
         (err) => {
-          alert(err.message);
+          alert(err.error || err.message);
           this.router.navigate(['/register']);
         }
       );
   }
 
   logout() {
-    this.fireAuth.signOut().then(
-      () => {
-        localStorage.removeItem('token');
-        this.router.navigate(['login']);
-      },
-      (err) => {
-        alert(err.message);
-      }
-    );
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    this.router.navigate(['login']);
   }
 
   googleSignIn() {
-    return this.fireAuth.signInWithRedirect(new GoogleAuthProvider());
+    alert('Google sign-in is not configured for the .NET API yet.');
+    return Promise.resolve();
   }
 
   forgotPassword(email: string) {
-    this.fireAuth.sendPasswordResetEmail(email).then(
+    firstValueFrom(this.http.post(`${this.baseUrl}/auth/forgot-password`, { email }, { responseType: 'text' })).then(
       () => {
-        alert('Password reset link is sent to your email');
+        alert('Password reset is not configured for the local .NET API yet.');
         this.router.navigate(['login'])
       },
       (_err) => {

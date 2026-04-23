@@ -12,11 +12,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../shared/data.service';
 import { Location } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { Chat } from '../models/chat.model';
 import { MainService } from '../shared/main.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { UploadService } from '../shared/upload.service';
 
 @Component({
   selector: 'app-chat',
@@ -32,9 +32,9 @@ export class ChatComponent {
   subscription: any;
   gifs: any[] = [];
   message: Chat = {
-    id: '',
-    senderId: '',
-    recieverId: '',
+    id: 0,
+    senderId: 0,
+    recieverId: 0,
     text: '',
     createdAt: '',
     attachment: '',
@@ -54,7 +54,8 @@ export class ChatComponent {
     private route: Router,
     private service: MainService,
     private toastr: ToastrService,
-    private ngxService: NgxUiLoaderService
+    private ngxService: NgxUiLoaderService,
+    private uploadService: UploadService
   ) {}
   async ngOnInit() {
     this.isRecieverLoading = true;
@@ -86,7 +87,9 @@ export class ChatComponent {
           if (this.myDiv) {
             this.scrollToBottom();
           }
-        }, 300);
+        }, 500);
+        this.ngxService.stop();
+      }else{
         this.ngxService.stop();
       }
     });
@@ -103,9 +106,9 @@ export class ChatComponent {
     }
     this.chatService.sendMessage(this.message, this.reciever.id);
     this.message = {
-      id: '',
-      senderId: '',
-      recieverId: '',
+      id: 0,
+      senderId: 0,
+      recieverId: 0,
       text: '',
       createdAt: '',
       attachment: '',
@@ -114,7 +117,7 @@ export class ChatComponent {
   goBack() {
     this._location.back();
   }
-  navigateToProfile(userId: string): void {
+  navigateToProfile(userId: string | number): void {
     this.route.navigate(['/profile', userId]);
   }
   clear() {
@@ -148,13 +151,7 @@ export class ChatComponent {
       return;
     }
 
-    const storage = getStorage();
-    const storageRef = ref(storage, 'images/' + file.name);
-
-    uploadBytes(storageRef, file)
-      .then((snapshot) => {
-        return getDownloadURL(snapshot.ref);
-      })
+    this.uploadService.uploadImage(file)
       .then((downloadURL) => {
         this.message!.attachment = downloadURL;
         this.sendMessage();

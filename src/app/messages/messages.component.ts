@@ -112,7 +112,7 @@ export class MessagesComponent implements OnInit {
   goBack() {
     this._location.back();
   }
-  navigateToChat(userId: string): void {
+  navigateToChat(userId: string | number): void {
     this.router.navigate(['/chat', userId]);
   }
 }

@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit {
   inputUser: string = '';
   user: any;
   isPeoplesLoading: boolean = true;
-  hoverState: string | null = null;
+  hoverState: string | number | null = null;
   async ngOnInit() {
     const userToken =
       sessionStorage.getItem('token') ?? localStorage.getItem('token');
@@ -73,18 +73,18 @@ export class SidebarComponent implements OnInit {
       !!followers &&
       !!followers.length &&
       !!this.user &&
-      followers.includes(this.user.id)
+      followers.includes(this.user.id.toString())
     );
   }
-  navigateToProfile(userId: string): void {
+  navigateToProfile(userId: string | number): void {
     this.router.navigate(['/profile', userId]);
   }
 
-  follow(userId: string) {
+  follow(userId: string | number) {
     this.data.follow(this.user.id, userId);
     this.toastr.success('Follow Successull');
   }
-  unFollow(userId: string) {
+  unFollow(userId: string | number) {
     this.data.unFollow(this.user.id, userId);
     this.toastr.success('Unfollow Successull');
   }

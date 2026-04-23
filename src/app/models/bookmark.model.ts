@@ -1,7 +1,7 @@
 
 export interface Bookmark {
-    id:string;
-    userId: string;
-    tweetId:string;
+    id: number | string;
+    userId: number | string;
+    tweetId: number | string;
   }
   

@@ -1,204 +1,115 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { HttpClient } from '@angular/common/http';
+import { Observable, firstValueFrom, map } from 'rxjs';
 import { Tweet } from '../models/tweet.model';
 import { User } from '../models/user.model';
 import { Bookmark } from '../models/bookmark.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  constructor(private afs: AngularFirestore) {}
+  private readonly baseUrl = environment.apiUrl;
+
+  constructor(private http: HttpClient) {}
+
+  private snapshotList<T extends { id: string | number }>(source: Observable<T[]>) {
+    return source.pipe(
+      map((items) =>
+        items.map((item) => ({
+          payload: {
+            doc: {
+              id: item.id,
+              data: () => ({ ...item }),
+            },
+          },
+        }))
+      )
+    );
+  }
 
   //tweet
   addTweet(tweet: Tweet) {
     tweet.createdAt = new Date().toDateString();
-    tweet.id = this.afs.createId();
-    return this.afs.collection('/Tweets').doc(tweet.id).set(tweet);
+    return firstValueFrom(this.http.post<Tweet>(`${this.baseUrl}/tweets`, tweet));
   }
-  removeTweet(tweetId: string) {
-    return this.afs.collection('/Tweets').doc(tweetId).delete();
+  removeTweet(tweetId: string | number) {
+    return firstValueFrom(this.http.delete<void>(`${this.baseUrl}/tweets/${tweetId}`));
   }
   getAllTweets() {
-    return this.afs.collection('/Tweets').snapshotChanges();
+    return this.snapshotList(this.http.get<Tweet[]>(`${this.baseUrl}/tweets`));
   }
-  likeTweet(tweet: Tweet, userId: string) {
-    const postRef = this.afs.collection('/Tweets').doc(tweet.id).ref;
-
-    return this.afs.firestore.runTransaction(async (transaction) => {
-      const postDoc = await transaction.get(postRef);
-
-      if (!postDoc.exists) {
-        throw new Error('Post does not exist!');
-      }
-
-      const likes = postDoc.get('likes') || [];
-      likes.push(userId);
-
-      transaction.update(postRef, { likes });
-    });
+  likeTweet(tweet: Tweet, userId: string | number) {
+    return firstValueFrom(this.http.post<void>(`${this.baseUrl}/tweets/${tweet.id}/likes/${userId}`, null));
   }
-  unlikeTweet(tweet: Tweet, userId: string) {
-    const postRef = this.afs.collection('/Tweets').doc(tweet.id).ref;
-
-    return this.afs.firestore.runTransaction(async (transaction) => {
-      const postDoc = await transaction.get(postRef);
-
-      if (!postDoc.exists) {
-        throw new Error('Post does not exist!');
-      }
-
-      const likes = postDoc.get('likes') || [];
-      const updatedLikes = likes.filter((id: string) => id !== userId);
-
-      transaction.update(postRef, { likes: updatedLikes });
-    });
+  unlikeTweet(tweet: Tweet, userId: string | number) {
+    return firstValueFrom(this.http.delete<void>(`${this.baseUrl}/tweets/${tweet.id}/likes/${userId}`));
   }
 
-  async getTweet(id: string): Promise<any> {
+  async getTweet(id: string | number): Promise<any> {
     try {
-      const doc = await this.afs.collection('/Tweets').doc(id).ref.get();
-
-      if (doc.exists) {
-        return doc.data();
-      } else {
-        return null;
-      }
+      return await firstValueFrom(this.http.get<Tweet>(`${this.baseUrl}/tweets/${id}`));
     } catch (error) {
       console.error('There was an error getting your document:', error);
-      throw error; 
+      return null;
     }
   }
 
   //user
   addUser(user: User) {
-    return this.afs.collection('/Users').doc(user.id).set(user);
+    return firstValueFrom(this.http.post<User>(`${this.baseUrl}/users`, user));
   }
   getAllUsers() {
-    return this.afs.collection('/Users').snapshotChanges();
+    return this.snapshotList(this.http.get<User[]>(`${this.baseUrl}/users`));
   }
 
 
 
-  async getUser(id: string): Promise<any> {
+  async getUser(id: string | number): Promise<any> {
     try {
-      const doc = await this.afs.collection('/Users').doc(id).ref.get();
-
-      if (doc.exists) {
-        return doc.data();
-      } else {
-        return null; 
-      }
+      return await firstValueFrom(this.http.get<User>(`${this.baseUrl}/users/${id}`));
     } catch (error) {
       console.error('There was an error getting your document:', error);
-      throw error; 
+      return null;
     }
   }
   updateUser(user: User) {
-    this.afs.collection('/Users').doc(user.id).update({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      bio:user.bio,
-      location:user.location,
-      website:user.website,
-      userName: user.userName,
-      dob: user.dob,
-      image:user.image,
-      banner:user.banner,
-      defaultPrimaryColor: user.defaultPrimaryColor
-    })
+    return firstValueFrom(this.http.put<void>(`${this.baseUrl}/users/${user.id}`, user));
   }
 
   //user1 if following user2
-  follow(user1:string, user2:string){
-    const postRef = this.afs.collection('/Users').doc(user2).ref;
-    const postRef2 = this.afs.collection('/Users').doc(user1).ref;
-
-    return this.afs.firestore.runTransaction(async (transaction) => {
-      const postDoc = await transaction.get(postRef);
-      const postDoc2 = await transaction.get(postRef2);
-
-      if (!postDoc.exists) {
-        throw new Error('Post does not exist!');
-      }
-
-      const followers = postDoc.get('followers') || [];
-      const following = postDoc2.get('following') || [];
-      followers.push(user1);
-      following.push(user2);
-
-      transaction.update(postRef, { followers });
-      transaction.update(postRef2, { following });
-    });
+  follow(user1: string | number, user2: string | number) {
+    return firstValueFrom(this.http.post<void>(`${this.baseUrl}/users/${user1}/follow/${user2}`, null));
   }
 
-  unFollow(user1:string, user2:string) {
-    const postRef = this.afs.collection('/Users').doc(user2).ref;
-    const postRef2 = this.afs.collection('/Users').doc(user1).ref;
-
-    return this.afs.firestore.runTransaction(async (transaction) => {
-      const postDoc = await transaction.get(postRef);
-      const postDoc2 = await transaction.get(postRef2);
-
-      if (!postDoc.exists) {
-        throw new Error('Post does not exist!');
-      }
-
-      const followers = postDoc.get('followers') || [];
-      const following = postDoc2.get('following') || [];
-      const updatedFollowers = followers.filter((id: string) => id !== user1);
-      const updatedFollowings = following.filter((id: string) => id !== user2);
-
-      transaction.update(postRef, { followers: updatedFollowers });
-      transaction.update(postRef2, { following: updatedFollowings });
-    });
+  unFollow(user1: string | number, user2: string | number) {
+    return firstValueFrom(this.http.delete<void>(`${this.baseUrl}/users/${user1}/follow/${user2}`));
   }
 
   //bookmarks
 
   addBookmark(bookmark: Bookmark) {
-    bookmark.id = this.afs.createId();
-    
-    return this.afs.collection('/Bookmarks').add(bookmark);
+    return firstValueFrom(this.http.post<Bookmark>(`${this.baseUrl}/bookmarks`, bookmark));
   }
-  getAllBookmarks(id: number) {
-    return this.afs
-      .collection('/Bookmarks', (ref) => ref.where('userId', '==', id))
-      .snapshotChanges();
+  getAllBookmarks(id: string | number) {
+    return this.snapshotList(this.http.get<Bookmark[]>(`${this.baseUrl}/bookmarks/user/${id}`));
   }
 
-  clearBookmarks(userId: string) {
-    const bookmarksRef = this.afs.collection('/Bookmarks', ref => ref.where('userId', '==', userId));
-
-    return bookmarksRef.get().toPromise().then(snapshot => {
-      if (!snapshot || snapshot.empty) return;
-
-      const batch = this.afs.firestore.batch();
-
-      snapshot.forEach(doc => {
-        batch.delete(doc.ref);
-      });
-
-      return batch.commit();
-    }).catch(error => {
-      console.error("Error deleting bookmarks:", error);
+  clearBookmarks(userId: string | number) {
+    return firstValueFrom(this.http.delete<void>(`${this.baseUrl}/bookmarks/user/${userId}`));
+  }
+  isBookmark(tweetId: string | number, userId: string | number): Promise<boolean> {
+    return firstValueFrom(this.http.get<boolean>(`${this.baseUrl}/bookmarks/exists`, {
+      params: { tweetId, userId },
+    })).catch((error) => {
+      console.error("Error checking bookmark:", error);
+      return false;
     });
   }
-  isBookmark(tweetId: string, userId: string): Promise<boolean> {
-    return this.afs
-      .collection('/Bookmarks', (ref) => ref.where('userId', '==', userId).where('tweetId', '==', tweetId))
-      .get()
-      .toPromise()
-      .then((snapshot) => {
-        return !snapshot?.empty; // Returns true if the bookmark exists, otherwise false
-      })
-      .catch((error) => {
-        console.error("Error checking bookmark:", error);
-        return false;
-      });
-  }
-  removeBookmark(tweetId: string, userId: string): Promise<void> {
-    return this.afs.collection('/Bookmarks', ref => ref.where('tweetId', '==', tweetId).where('userId', '==', userId))
-      .get().toPromise().then(snapshot => !snapshot?.empty ? this.afs.collection('/Bookmarks').doc(snapshot?.docs[0]?.id).delete() : Promise.resolve());
+  removeBookmark(tweetId: string | number, userId: string | number): Promise<void> {
+    return firstValueFrom(this.http.delete<void>(`${this.baseUrl}/bookmarks`, {
+      params: { tweetId, userId },
+    }));
   }
 }

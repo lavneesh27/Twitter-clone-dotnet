@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from '../shared/data.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { UploadService } from '../shared/upload.service';
 
 @Component({
   selector: 'app-profile',
@@ -34,7 +34,8 @@ export class ProfileComponent {
     private data: DataService,
     private toastr: ToastrService,
     private ngxService: NgxUiLoaderService,
-    private aRoute: ActivatedRoute
+    private aRoute: ActivatedRoute,
+    private uploadService: UploadService
   ) {}
   async ngOnInit() {
     this.ngxService.start();
@@ -157,13 +158,7 @@ export class ProfileComponent {
       return;
     }
 
-    const storage = getStorage();
-    const storageRef = ref(storage, 'images/' + file.name);
-
-    uploadBytes(storageRef, file)
-      .then((snapshot) => {
-        return getDownloadURL(snapshot.ref);
-      })
+    this.uploadService.uploadImage(file)
       .then((downloadURL) => {
         this.user[type === 'banner' ? 'banner' : 'image'] = downloadURL;
       })
@@ -172,12 +167,7 @@ export class ProfileComponent {
       });
   }
   clearBanner() {
-    const storage = getStorage();
-    const storageRef = ref(storage, 'images/' + 'solid-color-image.png');
-
-    getDownloadURL(storageRef).then((downloadURL) => {
-      this.user.banner = downloadURL;
-    });
+    this.user.banner = './assets/images/banner_solid.png';
   }
   isFollower(user: User): boolean {
     const followers = user?.followers;
@@ -186,16 +176,16 @@ export class ProfileComponent {
       !!followers &&
       !!followers.length &&
       !!this.user &&
-      followers.includes(this.loginUser.id)
+      followers.includes(this.loginUser.id.toString())
     );
   }
-  follow(userId: string) {
+  follow(userId: string | number) {
     this.data.follow(this.loginUser.id, userId).then(async () => {
       this.user = await this.data.getUser(this.uid);
       this.toastr.success('Follow Successull');
     });
   }
-  unFollow(userId: string) {
+  unFollow(userId: string | number) {
     this.data.unFollow(this.loginUser.id, userId).then(async () => {
       this.user = await this.data.getUser(this.uid);
       this.toastr.success('Unfollow Successull');
@@ -214,7 +204,7 @@ export class ProfileComponent {
     this.loadTweets();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  redirect(id: string) {
+  redirect(id: string | number) {
     this.router.navigate(['post', id]);
   }
   copy() {

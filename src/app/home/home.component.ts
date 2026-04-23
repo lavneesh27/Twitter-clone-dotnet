@@ -5,9 +5,9 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../shared/data.service';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { MainService } from '../shared/main.service';
 import { ChatService } from '../shared/chat.service';
+import { UploadService } from '../shared/upload.service';
 
 @Component({
   selector: 'app-home',
@@ -19,10 +19,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   dataURL: string = '';
   isLoading: boolean = true;
   tweet: Tweet = {
-    id: '',
+    id: 0,
     content: '',
     likes: [],
-    userId: '',
+    userId: 0,
     createdAt: '',
     image: [],
   };
@@ -42,7 +42,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private dataService: DataService,
     private ngxService: NgxUiLoaderService,
     private service: MainService,
-    private chat: ChatService
+    private chat: ChatService,
+    private uploadService: UploadService
   ) {}
   ngOnDestroy(): void {
     if (this.subscription) {
@@ -84,6 +85,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.tweets = this.tweets.filter((tweet) => {
         return (
           this.user.following.includes(tweet.userId) ||
+          this.user.following.includes(tweet.userId?.toString()) ||
           this.user.id == tweet.userId
         );
       });
@@ -104,13 +106,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const storage = getStorage();
-    const storageRef = ref(storage, 'images/' + file.name);
-
-    uploadBytes(storageRef, file)
-      .then((snapshot) => {
-        return getDownloadURL(snapshot.ref);
-      })
+    this.uploadService.uploadImage(file)
       .then((downloadURL) => {
         this.tweet.image = downloadURL;
         this.dataURL = downloadURL;
@@ -157,7 +153,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.modalService.dismissAll();
   }
 
-  navigateToProfile(userId: string): void {
+  navigateToProfile(userId: string | number): void {
     this.router.navigate(['/profile', userId]);
   }
   @HostListener('window:scroll', [])

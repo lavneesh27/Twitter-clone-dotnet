@@ -1,9 +1,9 @@
 
 export interface Tweet {
-  id:string;
+  id: number | string;
   content: string;
   likes: any;
-  userId: string;
+  userId: number | string;
   createdAt: string;
   image?:any;
 }

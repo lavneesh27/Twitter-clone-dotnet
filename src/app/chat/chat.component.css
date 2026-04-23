@@ -2,7 +2,8 @@
   display: flex;
   position: fixed;
   bottom: 0;
-  width: 1000px;
+  width: inherit;
+  max-width: var(--content-max-width);
   align-items: center;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.6);
@@ -35,7 +36,8 @@
 }
 
 .header {
-  width: 1000px;
+  width: inherit;
+  max-width: var(--content-max-width);
   height: 70px;
   position: fixed;
   top: 0;
@@ -47,7 +49,8 @@
 .body {
   position: absolute;
   top: 70px;
-  width: 1000px;
+  width: 100%;
+  max-width: var(--content-max-width);
 }
 
 .chats {
@@ -164,4 +167,76 @@
 }
 .scroll-to-bottom-btn.show {
   opacity: 1;
+}
+
+@media (max-width: 1399.98px) {
+  .header,
+  .input-container,
+  .body {
+    max-width: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .header {
+    left: 0;
+    width: 100vw;
+  }
+
+  .body {
+    left: 0;
+    width: 100vw;
+  }
+
+  .input-container {
+    left: 0;
+    bottom: var(--mobile-nav-height);
+    width: 100vw;
+    height: auto;
+    min-height: 64px;
+    padding: 10px;
+    gap: 4px;
+  }
+
+  .input-container input[type="text"] {
+    min-width: 0;
+    margin-right: 4px;
+  }
+
+  .input-container button {
+    padding: 10px 12px;
+  }
+
+  .msg {
+    max-width: 78%;
+  }
+
+  .msg img {
+    max-width: min(65vw, 250px) !important;
+  }
+
+  .chats {
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 132px;
+  }
+
+  .scroll-to-bottom-btn {
+    bottom: calc(var(--mobile-nav-height) + 74px);
+  }
+}
+
+@media (max-width: 420px) {
+  .header h6,
+  .header p {
+    max-width: 52vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .input-container .image {
+    width: 36px;
+    height: 36px;
+  }
 }

@@ -1,10 +1,10 @@
 li app-card{
-    width: 1000px;
+    width: 100%;
 }
 .bookmark{
     position: relative;
     top: 50px;
-    width: 1000px;
+    width: 100%;
     height: calc(100vh-50px);
     border-top: 1px solid rgba(230, 230, 230,0.5);
     padding:0;
@@ -14,7 +14,8 @@ li{
     /* width: 720px; */
 }
 .header{
-    width: 1000px;
+    width: inherit;
+    max-width: var(--content-max-width);
     height: 50px;
     position: fixed;
     top:0;
@@ -42,7 +43,7 @@ li{
 }
 .no-data{
     height: 60vh;
-    width: 1000px;
+    width: 100%;
     display: flex;
     justify-content: center;
     position: relative;
@@ -50,3 +51,16 @@ li{
     color: #919191;
     flex-direction: column;
   }
+
+@media (max-width: 1399.98px) {
+    .header {
+        max-width: none;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .header {
+        left: 0;
+        width: 100vw;
+    }
+}

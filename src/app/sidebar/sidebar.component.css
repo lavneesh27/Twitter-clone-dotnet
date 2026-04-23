@@ -10,8 +10,8 @@
   position: fixed;
   right:0;
   top:0;
-  min-width: 470px;
-  max-width: 470px;
+  min-width: var(--sidebar-width);
+  max-width: var(--sidebar-width);
   padding-top: 5px;
   padding-left: 30px;
   padding-right: 30px;
@@ -66,5 +66,11 @@ img:hover{
 
 h6:hover{
   text-decoration: underline;
+}
+
+@media (max-width: 1399.98px) {
+  .sidebar {
+    display: none;
+  }
 }
 

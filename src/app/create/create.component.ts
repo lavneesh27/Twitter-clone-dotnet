@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {Location} from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from '../shared/data.service';
-import { getStorage, ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
+import { UploadService } from '../shared/upload.service';
 
 @Component({
   selector: 'app-create',
@@ -15,10 +15,10 @@ import { getStorage, ref, uploadBytes, getDownloadURL  } from 'firebase/storage'
 export class CreateComponent implements OnInit {
   dataURL: string = '';
   tweet: Tweet = {
-    id: '',
+    id: 0,
     content: '',
     likes: [],
-    userId: '',
+    userId: 0,
     createdAt: '',
     image: []
   };
@@ -30,7 +30,8 @@ export class CreateComponent implements OnInit {
     private fb: FormBuilder,
     private _location: Location,
     private toastr: ToastrService,
-    private data:DataService
+    private data:DataService,
+    private uploadService: UploadService
   ) {}
   ngOnInit(): void {
     if(!(sessionStorage.getItem('token') || localStorage.getItem('token'))){
@@ -54,13 +55,7 @@ export class CreateComponent implements OnInit {
       return;
     }
   
-    const storage = getStorage();
-    const storageRef = ref(storage, 'images/' + file.name);
-  
-    uploadBytes(storageRef, file)
-      .then(snapshot => {
-        return getDownloadURL(snapshot.ref);
-      })
+    this.uploadService.uploadImage(file)
       .then(downloadURL => {
         this.tweet.image = downloadURL;
         this.dataURL=downloadURL
@@ -73,7 +68,7 @@ export class CreateComponent implements OnInit {
 
   upload() {
     this.tweet.content = this.uploadForm.get('content')?.value.toString();
-    this.tweet.userId = sessionStorage.getItem('token') || localStorage.getItem('token')!;
+    this.tweet.userId = Number(sessionStorage.getItem('token') || localStorage.getItem('token'));
     this.data.addTweet(this.tweet).then(()=>{
       this.route.navigate(["home"]);
       this.toastr.success('uploaded');

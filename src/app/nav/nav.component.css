@@ -1,5 +1,5 @@
 nav {
-  width: 380px !important;
+  width: var(--nav-width) !important;
   margin: 0;
   position: fixed;
   height: 100vh;
@@ -10,6 +10,10 @@ nav {
   font-weight: bold;
   align-items: baseline;
   border: 1px solid rgba(230, 230, 230, 0.5);
+}
+
+.navbar-collapse {
+  display: block !important;
 }
 nav .nav-item {
   border-radius: 100px;
@@ -104,4 +108,106 @@ nav .nav-brand i {
 }
 .clr-circle:hover{
   outline: 3px solid rgba(150, 150, 150, .5);
+}
+
+@media (max-width: 1399.98px) {
+  nav {
+    width: var(--nav-compact-width) !important;
+    padding-top: 8px;
+  }
+
+  nav .container-fluid,
+  nav .navbar-nav {
+    align-items: center;
+    width: 100%;
+  }
+
+  .nav-link {
+    width: 52px;
+    height: 52px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0;
+  }
+
+  .nav-link i {
+    margin: 0 !important;
+    font-size: 1.8rem !important;
+  }
+
+  .tweet {
+    width: 52px;
+    height: 52px;
+    font-size: 0;
+  }
+
+  .tweet::before {
+    content: "+";
+    font-size: 30px;
+    line-height: 1;
+  }
+
+  .nav-item.dropup {
+    width: 64px !important;
+  }
+
+  .btn-profile {
+    width: 60px;
+    height: 60px;
+    padding: 5px !important;
+    overflow: hidden;
+  }
+
+  .btn-profile h5,
+  .btn-profile h6,
+  .btn-profile > div > div:last-child {
+    display: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  nav {
+    width: 100% !important;
+    height: var(--mobile-nav-height);
+    top: auto;
+    bottom: 0;
+    border-top: 1px solid rgba(230, 230, 230, 0.8);
+    border-right: none;
+    background-color: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(12px);
+    padding: 0;
+  }
+
+  nav .container-fluid,
+  nav .navbar-collapse,
+  nav .navbar-nav {
+    height: 100%;
+    width: 100%;
+  }
+
+  nav .navbar-nav {
+    flex-direction: row !important;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .nav-brand,
+  .nav-item.mb-3,
+  li.mb-3,
+  .nav-item.dropup {
+    margin: 0 !important;
+  }
+
+  .nav-brand,
+  .nav-item.dropup {
+    display: none;
+  }
+
+  .nav-link,
+  .tweet {
+    width: 48px;
+    height: 48px;
+  }
 }

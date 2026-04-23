@@ -1,8 +1,8 @@
 li app-card {
-  width: 1000px;
+  width: 100%;
 }
 .home {
-  width: 1000px;
+  width: 100%;
   border: 1px solid rgba(230, 230, 230, 0.5);
   padding: 0;
   position: relative;
@@ -14,7 +14,8 @@ li {
   
 }
 .header {
-  width: 1000px;
+  width: inherit;
+  max-width: var(--content-max-width);
   height: 50px;
   position: fixed;
   top: 0;
@@ -75,7 +76,7 @@ li {
 
 .no-data{
   height: 60vh;
-  width: 1000px;
+  width: 100%;
   display: flex;
   justify-content: center;
   position: relative;
@@ -129,4 +130,26 @@ li {
 
 .go-to-top.show {
   opacity: 1;
+}
+
+@media (max-width: 1399.98px) {
+  .header {
+    max-width: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .header {
+    left: 0;
+    width: 100vw;
+  }
+
+  .home {
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .go-to-top {
+    top: 56px;
+  }
 }

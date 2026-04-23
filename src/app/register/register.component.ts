@@ -8,8 +8,8 @@ import {
 import { User } from '../models/user.model';
 import { Location } from '@angular/common';
 import { AuthService } from '../shared/auth.service';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Router } from '@angular/router';
+import { UploadService } from '../shared/upload.service';
 
 @Component({
   selector: 'app-register',
@@ -25,6 +25,7 @@ export class RegisterComponent implements OnInit {
     private _location: Location,
     private auth: AuthService,
     private router: Router,
+    private uploadService: UploadService
   ) {}
   ngOnInit(): void {
     this.registerForm = this.fb.group(
@@ -79,13 +80,13 @@ export class RegisterComponent implements OnInit {
     this.submitted = true;
    
     let user: User = {
-      id: '',
+      id: 0,
       firstName: this.FirstName.value,
       lastName: this.LastName.value,
       bio:'',
       website:'',
       location:'',
-      banner:'',
+      banner:'./assets/images/banner_solid.png',
       email: this.Email.value,
       password: this.Password.value,
       dob: this.DOB.value.toString(),
@@ -96,12 +97,6 @@ export class RegisterComponent implements OnInit {
       following:[],
       defaultPrimaryColor: ''
     };
-    const storage = getStorage();
-    const storageRef = ref(storage, 'images/' + 'solid-color-image.png');
-
-    getDownloadURL(storageRef).then((downloadURL)=>{
-      user.banner=downloadURL;
-    })
     this.auth.register(user);
   }
 
@@ -115,13 +110,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const storage = getStorage();
-    const storageRef = ref(storage, 'images/' + file.name);
-
-    uploadBytes(storageRef, file)
-      .then((snapshot) => {
-        return getDownloadURL(snapshot.ref);
-      })
+    this.uploadService.uploadImage(file)
       .then((downloadURL) => {
         this.image = downloadURL;
       })

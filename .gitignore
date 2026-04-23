@@ -11,6 +11,24 @@
 npm-debug.log
 yarn-error.log
 
+# .NET
+bin/
+obj/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+*.nupkg
+*.snupkg
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# ASP.NET local logs
+*.log
+
 # IDEs and editors
 .idea/
 .project

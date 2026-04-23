@@ -8,6 +8,11 @@
 :root {
   --twitter-primary: #1d9bf0;
   --twitter-secondary: #3096DB;
+  --nav-width: 380px;
+  --nav-compact-width: 88px;
+  --sidebar-width: 470px;
+  --content-max-width: 1000px;
+  --mobile-nav-height: 64px;
 }
 
 * {
@@ -15,6 +20,29 @@
   font-family: "TwitterChirp", sans-serif;
   margin: 0;
   padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+app-home,
+app-bookmark,
+app-post,
+app-create,
+app-profile,
+app-messages,
+app-chat,
+app-login,
+app-register {
+  display: block;
+  width: min(var(--content-max-width), calc(100vw - var(--nav-width) - var(--sidebar-width)));
+  margin-left: var(--nav-width);
+  margin-right: var(--sidebar-width);
+  min-width: 0;
 }
 
 .toast-container .ngx-toastr {
@@ -100,4 +128,49 @@ body:hover::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+@media (max-width: 1399.98px) {
+  app-sidebar {
+    display: none;
+  }
+
+  app-home,
+  app-bookmark,
+  app-post,
+  app-create,
+  app-profile,
+  app-messages,
+  app-chat,
+  app-login,
+  app-register {
+    width: calc(100vw - var(--nav-compact-width));
+    margin-left: var(--nav-compact-width);
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 767.98px) {
+  body {
+    padding-bottom: var(--mobile-nav-height);
+  }
+
+  app-home,
+  app-bookmark,
+  app-post,
+  app-create,
+  app-profile,
+  app-messages,
+  app-chat,
+  app-login,
+  app-register {
+    width: 100vw;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .image-viewer-img-circle {
+    width: min(82vw, 320px);
+    height: min(82vw, 320px);
+  }
 }

@@ -52,7 +52,7 @@ export class CardComponent implements OnInit {
     const loginUser = this.loginUser;
 
     return (
-      !!likes && !!likes.length && !!loginUser && likes.includes(loginUser.id)
+      !!likes && !!likes.length && !!loginUser && likes.includes(loginUser.id.toString())
     );
   }
 
@@ -77,7 +77,7 @@ export class CardComponent implements OnInit {
   }
   bookmark() {
     let bookmark: Bookmark = {
-      id: '',
+      id: 0,
       userId: this.loginUser.id,
       tweetId: this.tweet.id,
     };
@@ -93,20 +93,20 @@ export class CardComponent implements OnInit {
     this.imgSrc = srcAttr.nodeValue;
   }
 
-  navigateToProfile(userId: string): void {
+  navigateToProfile(userId: string | number): void {
     this.router.navigate(['/profile', userId]);
   }
-  redirect(id: string) {
+  redirect(id: string | number) {
     this.router.navigate(['post', id]);
   }
-  delete(postId: string) {
+  delete(postId: string | number) {
     if (window.confirm("Are you sure you want to delete this post?")) {
       this.afs.removeTweet(postId).then((res) => {
         this.toastr.success('Tweet successfully deleted');
       })
     }
   }
-  unFollow(userId: string){
+  unFollow(userId: string | number) {
     this.afs.unFollow(this.loginUser?.id, userId).then(res=>{
       this.toastr.success('Unfollowed Successfully');
     })

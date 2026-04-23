@@ -1,5 +1,6 @@
 .header{
-    width:  1000px;
+    width: inherit;
+    max-width: var(--content-max-width);
     height: 50px;
     position: fixed;
     top:0;
@@ -12,5 +13,18 @@
 app-card{
     position: relative;
     top: 50px;
-    width: 1000px !important;
+    width: 100% !important;
+}
+
+@media (max-width: 1399.98px) {
+    .header {
+        max-width: none;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .header {
+        left: 0;
+        width: 100vw;
+    }
 }
