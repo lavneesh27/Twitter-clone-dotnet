@@ -29,4 +29,8 @@ export class PostComponent implements OnInit {
   goBack() {
     this._location.back();
   }
+  removePost(){
+    this.tweet = undefined;
+    this.postId = undefined;
+  }
 }

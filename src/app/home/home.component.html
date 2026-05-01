@@ -94,7 +94,7 @@
       class="list-group-item d-flex justify-content-center p-0"
       *ngFor="let tweet of tweets"
     >
-      <app-card [tweet]="tweet"></app-card>
+      <app-card [tweet]="tweet" (deleteTrigger)="loadTweets()"></app-card>
     </li>
   </ul>
 </div>

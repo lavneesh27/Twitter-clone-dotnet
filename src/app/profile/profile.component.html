@@ -107,7 +107,7 @@
       <div class="d-flex gap-2">
         <button id="more" *ngIf="user?.id != loginUser?.id" class="btn btn-outline-dark rounded-pill more-btn"
           style="cursor: pointer">
-            <a class="text-reset" type="button" data-bs-toggle="dropdown" data-bs-toggle="dropdown" title="More"><i
+            <a class="text-reset" type="button" data-bs-toggle="dropdown" title="More"><i
                 class='bx bx-dots-horizontal-rounded'></i></a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" (click)="copy()"><i class='bx bx-link'></i>&nbsp; Copy Link to Profile</a></li>
@@ -165,7 +165,7 @@
         class="list-group-item d-flex justify-content-center p-0 border-0"
         *ngFor="let tweet of tweets"
       >
-        <app-card [tweet]="tweet"></app-card>
+        <app-card [tweet]="tweet" style="width:100%" (deleteTrigger)="loadTweets()"></app-card>
       </li>
     </ul>
     <ngx-ui-loader [bgsPosition]="'bottom-center'"></ngx-ui-loader>
@@ -180,7 +180,7 @@
 </div>
 
 <div
-  class="modal fade"
+  class="modal"
   id="staticBackdrop"
   data-bs-backdrop="static"
   data-bs-keyboard="false"

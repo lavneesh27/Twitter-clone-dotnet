@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
 {
   options.AddPolicy("AngularApp", policy =>
   {
-    policy.WithOrigins("https://twitter-firebase-xi.vercel.app/")
+    policy.WithOrigins("http://localhost:4200", "https://twitter-firebase-xi.vercel.app")
       .AllowAnyHeader()
       .AllowAnyMethod()
       .AllowCredentials();

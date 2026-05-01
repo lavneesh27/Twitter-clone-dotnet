@@ -14,6 +14,7 @@ import { User } from '../models/user.model';
 export class CardComponent implements OnInit {
   @Input() tweet!: Tweet;
   @Output() bookmarkTrigger : EventEmitter<any> = new EventEmitter();
+  @Output() deleteTrigger : EventEmitter<void> = new EventEmitter();
   user?: any;
   loginUser?: any;
   dataURL?: string;
@@ -63,9 +64,13 @@ export class CardComponent implements OnInit {
 
   plusLike() {
     if (this.isLiked()) {
-      this.afs.unlikeTweet(this.tweet, this.loginUser.id);
+      this.afs.unlikeTweet(this.tweet, this.loginUser?.id).then(() => {
+        this.tweet.likes = this.tweet.likes?.filter((id: string) => id !== this.loginUser?.id?.toString()) ?? [];
+      });
     } else {
-      this.afs.likeTweet(this.tweet, this.loginUser.id);
+      this.afs.likeTweet(this.tweet, this.loginUser?.id).then(() => {
+        this.tweet.likes = [...(this.tweet.likes ?? []), this.loginUser?.id?.toString()];
+      });
     }
   }
   copy() {
@@ -103,6 +108,7 @@ export class CardComponent implements OnInit {
     if (window.confirm("Are you sure you want to delete this post?")) {
       this.afs.removeTweet(postId).then((res) => {
         this.toastr.success('Tweet successfully deleted');
+        this.deleteTrigger.emit();
       })
     }
   }

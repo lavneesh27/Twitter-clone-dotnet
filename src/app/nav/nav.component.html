@@ -93,12 +93,6 @@
     <div class="color-container d-flex p-3 justify-content-between mb-3">
       <div *ngFor="let color of colors" class="clr-circle" [style.background-color]="color.color" (click)="changeColor(color)"></div>
     </div>
-    
-    <div class="form-check form-switch mb-4 d-flex justify-content-center align-items-center gap-2" style="font-size: 1.1rem;">
-      <input class="form-check-input mt-0" type="checkbox" id="darkModeSwitch" style="width: 3rem; height: 1.5rem; cursor: pointer;" [checked]="isDarkMode" (change)="toggleDarkMode()">
-      <label class="form-check-label mb-0 ms-2" for="darkModeSwitch" style="cursor: pointer;">Dark Mode</label>
-    </div>
-
     <button class="btn btn-primary mb-2" (click)="modal.dismiss()">Done</button>
   </div>
 </ng-template>

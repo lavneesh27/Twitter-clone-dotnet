@@ -11,7 +11,7 @@
   --nav-width: 380px;
   --nav-compact-width: 88px;
   --sidebar-width: 470px;
-  --content-max-width: 1000px;
+  --content-max-width: 1070px;
   --mobile-nav-height: 64px;
 }
 
@@ -26,7 +26,7 @@ html,
 body {
   width: 100%;
   min-height: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 app-home,
@@ -124,10 +124,13 @@ body:hover::-webkit-scrollbar-thumb {
   border-bottom: 3px solid var(--twitter-primary);
 }
 .modal {
-  transition: opacity 0.3s;
+   transition: opacity 0.15s ease-out;
   background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(3px);          
+  -webkit-backdrop-filter: blur(3px);
+  will-change: opacity;               
+  transform: translateZ(0);         
+  -webkit-transform: translateZ(0);
 }
 
 @media (max-width: 1399.98px) {
@@ -174,3 +177,7 @@ body:hover::-webkit-scrollbar-thumb {
     height: min(82vw, 320px);
   }
 }
+.header{
+    width: 1070px !important;
+    max-width: 1070px !important;
+  }

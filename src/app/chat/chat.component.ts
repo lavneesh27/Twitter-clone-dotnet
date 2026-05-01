@@ -148,6 +148,7 @@ export class ChatComponent {
       centered: true,
       size: 'sm',
       windowClass: 'dark-modal',
+      animation: false
     });
   }
   onImport(vitalSignsDataModal: any) {

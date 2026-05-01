@@ -1,6 +1,11 @@
+:host {
+  display: block;
+  min-width: 1070px;
+  height: 100vh;
+}
+
 .header{
     width: inherit;
-    max-width: var(--content-max-width);
     height: 50px;
     position: fixed;
     top:0;

@@ -1,10 +1,12 @@
 * {
   box-sizing: border-box;
 }
-
+:host {
+  /* display: block; */
+  min-width: 1070px;
+  height: 100vh;
+}
 .header {
-  width: inherit;
-  max-width: var(--content-max-width);
   height: 50px;
   position: fixed;
   top: 0;
@@ -252,3 +254,10 @@ li {
     top: 92px;
   }
 }
+#more a {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   line-height: 1;
+   text-decoration: none;
+ }

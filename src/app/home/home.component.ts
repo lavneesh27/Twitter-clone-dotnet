@@ -121,10 +121,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.tweet.userId = this.user.id;
     this.uploadForm.image = '';
     this.uploadForm.content = '';
-    this.dataService.addTweet(this.tweet);
-    this.toastr.success('uploaded');
-    this.clearImage();
-    this.ngOnInit();
+    this.dataService.addTweet(this.tweet).then(()=>{
+      this.toastr.success('uploaded');
+      this.clearImage();
+      this.ngOnInit();
+    });
   }
   clearImage() {
     this.dataURL = '';
