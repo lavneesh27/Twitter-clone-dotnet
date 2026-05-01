@@ -184,6 +184,8 @@ DocProject/Help/html
 
 # Click-Once directory
 publish/
+Twitter-backend/publish/
+Twitter-backend/publish-check/
 
 # Publish Web Output
 *.[Pp]ublish.xml

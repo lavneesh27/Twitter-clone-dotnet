@@ -32,8 +32,9 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+if (app.Configuration.GetValue<bool>("Database:AutoMigrate"))
 {
+  using var scope = app.Services.CreateScope();
   var db = scope.ServiceProvider.GetRequiredService<TwitterDbContext>();
   db.Database.Migrate();
 }
@@ -42,10 +43,6 @@ using (var scope = app.Services.CreateScope())
 
 app.UseSwagger();
 app.UseSwaggerUI();
-using var serviceScope = app.Services.CreateScope();
-using var dbContext = serviceScope.ServiceProvider.GetRequiredService<TwitterDbContext>();
-dbContext?.Database.Migrate();
-
 
 app.UseStaticFiles();
 app.UseCors("AngularApp");
