@@ -47,8 +47,28 @@ export class MessagesComponent implements OnInit {
           .filter((people: User) => people.userName !== this.user.userName);
           this.getRecentForAllUsers();
         });
-      }
+
+      this.chat.newMessageReceived.subscribe((msg: any) => {
+        const otherUserId = msg.senderId === this.user.id ? msg.recieverId : msg.senderId;
+        const userIndex = this.users.findIndex(u => u.id === otherUserId);
+        if (userIndex !== -1) {
+          this.users[userIndex].recentMessage = msg.text;
+          this.users[userIndex].recentMessageTime = msg.createdAt;
+          this.displayUsers = this.users.filter(u => u.recentMessage).sort((a, b) => {
+            if (a.recentMessageTime && b.recentMessageTime) {
+              return new Date(b.recentMessageTime).getTime() - new Date(a.recentMessageTime).getTime();
+            } else if (a.recentMessageTime) {
+              return -1;
+            } else if (b.recentMessageTime) {
+              return 1;
+            }
+            return 0;
+          });
+        }
+      });
+    }
   }
+
   isMessagesLoading = true;
   getRecentForAllUsers() {
     this.isMessagesLoading = true;

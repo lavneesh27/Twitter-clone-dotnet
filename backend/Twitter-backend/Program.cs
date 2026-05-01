@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Twitter_backend.Data;
+using Twitter_backend.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,11 +14,13 @@ builder.Services.AddCors(options =>
 {
   options.AddPolicy("AngularApp", policy =>
   {
-    policy.WithOrigins("http://localhost:4200")
+    policy.WithOrigins("https://twitter-firebase-xi.vercel.app/")
       .AllowAnyHeader()
-      .AllowAnyMethod();
+      .AllowAnyMethod()
+      .AllowCredentials();
   });
 });
+builder.Services.AddSignalR();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<TwitterDbContext>(options =>
   options.UseSqlServer(
@@ -36,11 +39,13 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-  app.UseSwagger();
-  app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+using var serviceScope = app.Services.CreateScope();
+using var dbContext = serviceScope.ServiceProvider.GetRequiredService<TwitterDbContext>();
+dbContext?.Database.Migrate();
+
 
 app.UseStaticFiles();
 app.UseCors("AngularApp");
@@ -48,5 +53,6 @@ app.UseCors("AngularApp");
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();

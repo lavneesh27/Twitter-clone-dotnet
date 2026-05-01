@@ -93,6 +93,23 @@ export class ChatComponent {
         this.ngxService.stop();
       }
     });
+
+    this.chatService.newMessageReceived.subscribe((msg: any) => {
+      if (
+        (msg.recieverId === this.reciever.id && msg.senderId === this.user.id) ||
+        (msg.recieverId === this.user.id && msg.senderId === this.reciever.id)
+      ) {
+        if (!this.messages.find(m => m.id === msg.id)) {
+          this.messages.push(msg);
+          setTimeout(() => {
+            if (this.myDiv) {
+              this.scrollToBottom();
+            }
+          }, 100);
+        }
+      }
+    });
+
     if (this.myInput) {
       this.myInput.nativeElement.focus();
     }

@@ -1,16 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Chat } from '../models/chat.model';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import * as signalR from '@microsoft/signalr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
   private readonly baseUrl = environment.apiUrl;
+  private hubConnection: signalR.HubConnection | undefined;
+  public newMessageReceived = new Subject<Chat>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.startConnection();
+  }
+
+  private startConnection() {
+    this.hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl(this.baseUrl.replace('/api', '/chatHub'))
+      .build();
+
+    this.hubConnection
+      .start()
+      .then(() => console.log('SignalR connection started'))
+      .catch((err) => console.log('Error while starting SignalR connection: ' + err));
+
+    this.hubConnection.on('ReceiveMessage', (data: Chat) => {
+      this.newMessageReceived.next(data);
+    });
+  }
   chat: Chat = {
     id: 0,
     senderId: 0,

@@ -17,6 +17,7 @@ export class NavComponent implements OnInit {
   imgUrl: any;
   private modalService = inject(NgbModal);
   colors: any[] = colors;
+  isDarkMode = false;
 
   constructor(
     private router: Router,
@@ -33,6 +34,16 @@ export class NavComponent implements OnInit {
         const { color, secColor } = JSON.parse(this.user.defaultPrimaryColor);
         document.documentElement.style.setProperty('--twitter-primary', color);
         document.documentElement.style.setProperty('--twitter-secondary', secColor);
+      }
+
+      if (this.user?.isDarkMode) {
+        this.isDarkMode = true;
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+        document.body.classList.add('bg-dark', 'text-light');
+      } else {
+        this.isDarkMode = false;
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+        document.body.classList.remove('bg-dark', 'text-light');
       }
     }
   }
@@ -79,5 +90,21 @@ export class NavComponent implements OnInit {
 
     this.data.updateUser(this.user);
     this.toastr.success('Color set Successfully');
+  }
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+      document.body.classList.add('bg-dark', 'text-light');
+    } else {
+      document.documentElement.setAttribute('data-bs-theme', 'light');
+      document.body.classList.remove('bg-dark', 'text-light');
+    }
+    
+    if (this.user) {
+      this.user.isDarkMode = this.isDarkMode;
+      this.data.updateUser(this.user);
+    }
   }
 }

@@ -1,13 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Twitter_backend.Data;
+using Twitter_backend.Hubs;
 using Twitter_backend.Models;
 
 namespace Twitter_backend.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  public class ChatController(TwitterDbContext db) : ControllerBase
+  public class ChatController(TwitterDbContext db, IHubContext<ChatHub> hubContext) : ControllerBase
   {
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Chat>>> GetAll()
@@ -39,6 +41,7 @@ namespace Twitter_backend.Controllers
       chat.CreatedAt = string.IsNullOrWhiteSpace(chat.CreatedAt) ? DateTime.Now.ToString() : chat.CreatedAt;
       db.Messages.Add(chat);
       await db.SaveChangesAsync();
+      await hubContext.Clients.All.SendAsync("ReceiveMessage", chat);
       return CreatedAtAction(nameof(GetAll), new { id = chat.Id }, chat);
     }
 
