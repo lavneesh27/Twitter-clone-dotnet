@@ -7,14 +7,14 @@
   padding-right: 20px;
 }
 .sidebar{
-  position: fixed;
-  right:0;
+  position: sticky;
   top:0;
-  min-width: var(--sidebar-width);
-  max-width: var(--sidebar-width);
+  width: 100%;
+  min-width: 0;
+  max-width: none;
   padding-top: 5px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: clamp(12px, 1.0vw, 30px);
+  padding-right: clamp(12px, 1.0vw, 30px);
   height: 100vh;
   border-left: 1px solid rgba(230, 230, 230,0.5);
   z-index: 99;
@@ -23,6 +23,7 @@
 .people{
   background-color: rgb(247,249,249);
   border-radius: 20px;
+  overflow: hidden;
 }
 
 .people li{
@@ -31,8 +32,9 @@
 .btn{
     border-radius: 50px;
     height: 35px;
-    position: absolute;
-    right: 10px;
+    margin-left: auto;
+    position: static;
+    flex-shrink: 0;
     align-items: center;
     display: flex;
 }
@@ -47,6 +49,39 @@ footer a{
 
 .profile{
   cursor: pointer;
+  gap: 8px;
+  min-width: 0;
+}
+
+.follow-profile {
+  align-items: center !important;
+}
+
+.follow-avatar {
+  flex: 0 0 50px;
+}
+
+.follow-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.follow-name {
+  gap: 4px;
+  max-width: 100%;
+}
+
+.follow-name span,
+.follow-username {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.follow-name img {
+  flex: 0 0 auto;
 }
 
 .unfollow{
@@ -73,4 +108,3 @@ h6:hover{
     display: none;
   }
 }
-

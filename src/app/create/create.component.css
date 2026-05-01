@@ -1,7 +1,6 @@
 :host {
   display: block;
-  min-width: 1070px;
-  height: 100vh;
+  min-width: 0;
 }
 .create{
     width:  100%;

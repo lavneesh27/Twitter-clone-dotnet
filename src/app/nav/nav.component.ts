@@ -60,17 +60,6 @@ export class NavComponent implements OnInit {
       animation: false
     });
   }
-  toggle() {
-    let ele = document.querySelector('.dropdown-menu') as HTMLElement;
-    if (ele) {
-      const isVisible = ele.classList.toggle('show');
-      Object.assign(ele.style, {
-        opacity: isVisible ? '1' : '0',
-        visibility: isVisible ? 'visible' : 'hidden',
-        transform: isVisible ? 'translateY(0)' : 'translateY(-10px)'
-      });
-    }  
-  }
   changeColor(colorObj: any) {
     this.user.defaultPrimaryColor = JSON.stringify(colorObj);
 

@@ -13,6 +13,7 @@ export class LoginComponent {
   remember: boolean = false;
   email: string = '';
   password: string = '';
+  showPassword: boolean = false;
   constructor(private _location: Location, private auth: AuthService, private main: MainService, private data: DataService) {}
 
   login() {

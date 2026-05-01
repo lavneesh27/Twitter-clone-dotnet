@@ -1,28 +1,32 @@
 :host {
-  display: block;
-  min-width: 1070px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   height: 100vh;
+  overflow: hidden;
 }
 .input-container {
   display: flex;
-  position: fixed;
+  position: sticky;
   bottom: 0;
-  width: inherit;
-  max-width: var(--content-max-width);
+  width: 100%;
+  max-width: none;
   align-items: center;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(10px);
   height: 70px;
+  gap: 8px;
+  z-index: 4;
 }
 
 .input-container input[type="text"] {
   flex: 1;
+  min-width: 0;
   border: none;
   border-radius: 20px; /* Adjusted border-radius for a softer look */
   padding: 12px;
   font-size: 16px;
-  margin-right: 10px; /* Added margin between input and button */
   background-color: rgba(200, 200, 200, 0.5);
   backdrop-filter: blur(5px);
 }
@@ -41,8 +45,9 @@
 }
 
 .header {
+  flex: 0 0 70px;
   height: 70px;
-  position: fixed;
+  position: sticky;
   top: 0;
   z-index: 3;
   background-color: rgba(255, 255, 255, 0.6);
@@ -50,16 +55,18 @@
 }
 
 .body {
-  position: absolute;
-  top: 70px;
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
   width: 100%;
-  max-width: var(--content-max-width);
+  max-width: none;
+  overflow: hidden;
 }
 
 .chats {
   list-style: none;
-  /* height:1000px; */
-  margin-bottom: 58px;
+  height: 100%;
+  margin-bottom: 0;
   overflow-y: auto;
 }
 
@@ -182,19 +189,16 @@
 
 @media (max-width: 767.98px) {
   .header {
-    left: 0;
-    width: 100vw;
+    width: 100%;
   }
 
   .body {
-    left: 0;
-    width: 100vw;
+    width: 100%;
   }
 
   .input-container {
-    left: 0;
     bottom: var(--mobile-nav-height);
-    width: 100vw;
+    width: 100%;
     height: auto;
     min-height: 64px;
     padding: 10px;
@@ -203,7 +207,6 @@
 
   .input-container input[type="text"] {
     min-width: 0;
-    margin-right: 4px;
   }
 
   .input-container button {
@@ -221,7 +224,7 @@
   .chats {
     padding-left: 0;
     padding-right: 0;
-    margin-bottom: 132px;
+    padding-bottom: calc(var(--mobile-nav-height) + 8px);
   }
 
   .scroll-to-bottom-btn {

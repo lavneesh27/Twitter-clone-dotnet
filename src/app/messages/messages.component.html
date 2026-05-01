@@ -13,21 +13,16 @@
       (click)="navigateToChat(u.id)"
     >
       <div class="d-flex align-items-center profile">
-        <div class="rounded-circle me-4 overflow-hidden">
+        <div class="rounded-circle me-4 overflow-hidden message-avatar">
           <img
             *ngIf="u.image"
             [src]="u.image"
             alt=""
-            style="
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-            "
           />
           <span
             *ngIf="!u.image"
             class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-light fs-4"
-            style="width: 60px; height: 60px"
+            style="width:100%;height:100%"
             >{{ u?.firstName?.charAt(0) }}</span
           >
         </div>

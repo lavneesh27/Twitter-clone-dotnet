@@ -8,7 +8,7 @@
 <div class="header d-flex align-items-center px-3">
   <h5>Home</h5>
 </div>
-<div class="container home">
+<div class="home">
   <div class="my-3">
     <form (submit)="upload()">
       <div class="d-flex px-4">
@@ -30,8 +30,9 @@
             "
           />
           <span
+            *ngIf="!user?.image"
             class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-light fs-4"
-            style="width: 45px; height: 45px"
+            style="width:100%;height:100%"
             >{{ user?.firstName?.charAt(0) }}</span
           >
         </div>

@@ -2,7 +2,7 @@
     <h5>Register</h5>
 </div>
 <div class="register p-3">
-    <form class="container w-50 px-4" [formGroup]="registerForm" (ngSubmit)="register()">
+    <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="register()">
         <div class="row mb-3">
             <div class="col">
                 <label for="exampleInputEmail1" class="form-label">First Name <span class="text-danger">*</span></label>
@@ -93,7 +93,7 @@
         </div>
         <div class="justify-content-center d-flex w-100 mt-4" *ngIf="image">
             <div class="rounded-circle me-3 overflow-hidden text-center" style="width:300px;height:300px"><img
-                     [src]="image" style="width:100%;height:100%"></div>
+                     [src]="image" style="width:100%;height:100%;object-fit:cover;object-position:center center"></div>
         </div>
 
 

@@ -1,17 +1,16 @@
 :host {
   display: block;
-  min-width: 1070px;
-  height: 100vh;
+  min-width: 0;
 }
 li app-card {
   width: 100%;
 }
 .home {
   width: 100%;
+  max-width: none;
   border: 1px solid rgba(230, 230, 230, 0.5);
   padding: 0;
   position: relative;
-  top: 50px;
 }
 
 li {
@@ -20,7 +19,7 @@ li {
 }
 .header {
   height: 50px;
-  position: fixed;
+  position: sticky;
   top: 0;
   z-index: 3;
   background-color: rgba(255, 255, 255, 0.85);

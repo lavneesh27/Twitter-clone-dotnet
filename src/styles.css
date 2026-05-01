@@ -8,10 +8,10 @@
 :root {
   --twitter-primary: #1d9bf0;
   --twitter-secondary: #3096DB;
-  --nav-width: 380px;
+  --nav-width: 20%;
   --nav-compact-width: 88px;
-  --sidebar-width: 470px;
-  --content-max-width: 1070px;
+  --sidebar-width: 20%;
+  --content-max-width: 60%;
   --mobile-nav-height: 64px;
 }
 
@@ -39,9 +39,9 @@ app-chat,
 app-login,
 app-register {
   display: block;
-  width: min(var(--content-max-width), calc(100vw - var(--nav-width) - var(--sidebar-width)));
-  margin-left: var(--nav-width);
-  margin-right: var(--sidebar-width);
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
   min-width: 0;
 }
 
@@ -120,6 +120,14 @@ body:hover::-webkit-scrollbar-thumb {
   -webkit-backdrop-filter: blur(12px) saturate(180%);
   transition: all 0.3s ease;
 }
+.rounded-circle > img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: inherit;
+}
 .form-control, .form-select {
   border-bottom: 3px solid var(--twitter-primary);
 }
@@ -147,15 +155,13 @@ body:hover::-webkit-scrollbar-thumb {
   app-chat,
   app-login,
   app-register {
-    width: calc(100vw - var(--nav-compact-width));
-    margin-left: var(--nav-compact-width);
-    margin-right: 0;
+    width: 100%;
   }
 }
 
 @media (max-width: 767.98px) {
   body {
-    padding-bottom: var(--mobile-nav-height);
+    padding-bottom: 0;
   }
 
   app-home,
@@ -178,6 +184,6 @@ body:hover::-webkit-scrollbar-thumb {
   }
 }
 .header{
-    width: 1070px !important;
-    max-width: 1070px !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }

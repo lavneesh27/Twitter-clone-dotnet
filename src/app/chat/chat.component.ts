@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  HostListener,
   TemplateRef,
   ViewChild,
   inject,
@@ -75,6 +74,10 @@ export class ChatComponent {
     this.ngxService.start();
     this.isChatsLoading = true;
     this.chatService.getMessages().subscribe((res) => {
+      if (!this.user?.id || !this.reciever?.id) {
+        return;
+      }
+
       this.messages = res
       .filter((msg: any) => 
         (msg.recieverId === this.reciever.id && msg.senderId === this.user.id) ||
@@ -95,6 +98,10 @@ export class ChatComponent {
     });
 
     this.chatService.newMessageReceived.subscribe((msg: any) => {
+      if (!this.user?.id || !this.reciever?.id) {
+        return;
+      }
+
       if (
         (msg.recieverId === this.reciever.id && msg.senderId === this.user.id) ||
         (msg.recieverId === this.user.id && msg.senderId === this.reciever.id)
@@ -153,7 +160,7 @@ export class ChatComponent {
   }
   onImport(vitalSignsDataModal: any) {
     this.modalService.dismissAll();
-    this.modalService.open(vitalSignsDataModal, { size: 'lg', centered: true });
+    this.modalService.open(vitalSignsDataModal, { size: 'lg', centered: true, animation: false });
     this.service.getTrendingGifs();
     this.subscription = this.service.getGifs().subscribe((res) => {
       this.gifs = res;
@@ -192,20 +199,22 @@ export class ChatComponent {
     this.sendMessage();
     this.modalService.dismissAll();
   }
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-    const scrollPosition = window.scrollY;
-
-    if (scrollPosition + windowHeight >= documentHeight) {
-      this.showButton = false;
-    } else {
-      this.showButton = true;
+  onChatScroll() {
+    if (!this.myDiv) {
+      return;
     }
+
+    const chatBody = this.myDiv.nativeElement;
+    const isAtBottom =
+      chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight - 8;
+
+    this.showButton = !isAtBottom;
   }
 
   scrollToBottom() {
-    window.scrollTo({ top: this.myDiv!.nativeElement.scrollHeight, behavior: 'smooth' });
+    this.myDiv?.nativeElement.scrollTo({
+      top: this.myDiv.nativeElement.scrollHeight,
+      behavior: 'smooth',
+    });
   }
 }

@@ -2,13 +2,12 @@
   box-sizing: border-box;
 }
 :host {
-  /* display: block; */
-  min-width: 1070px;
-  height: 100vh;
+  display: block;
+  min-width: 0;
 }
 .header {
   height: 50px;
-  position: fixed;
+  position: sticky;
   top: 0;
   z-index: 3;
   background-color: rgba(255, 255, 255, 0.85);
@@ -18,9 +17,8 @@
 
 .profile {
   position: relative;
-  top: 50px;
   width:  100%;
-  height: calc(100vh - 50px);
+  min-height: calc(100vh - 50px);
   padding: 0;
 }
 .file {
@@ -69,6 +67,18 @@
   top: 125px;
   left: 15px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dp img,
+.dp span {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: inherit;
 }
 .dp:hover {
   filter: brightness(70%);
@@ -86,6 +96,28 @@
 }
 .edit-pic:hover {
   filter: brightness(80%);
+}
+
+.modal-dp {
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-dp img,
+.modal-dp span {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: inherit;
+}
+
+.modal-dp-edit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .banner-edit-pic,

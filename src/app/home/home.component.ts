@@ -133,7 +133,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onImport(vitalSignsDataModal: any) {
     this.modalService.dismissAll();
-    this.modalService.open(vitalSignsDataModal, { size: 'lg', centered: true });
+    this.modalService.open(vitalSignsDataModal, { size: 'lg', centered: true, animation: false });
     this.service.getTrendingGifs();
     this.subscription = this.service.getGifs().subscribe((res) => {
       this.gifs = res;

@@ -22,7 +22,7 @@
       <span
         *ngIf="!reciever?.image"
         class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-light fs-4"
-        style="width: 50px; height: 50px"
+        style="width:100%;height:100%"
         >{{ reciever?.firstName?.charAt(0) }}</span
       >
     </div>
@@ -61,7 +61,12 @@
 </div>
 
 <div class="body">
-  <ul #chatBody *ngIf="!isChatsLoading else skeleton" class="chats">
+  <ul
+    #chatBody
+    *ngIf="!isChatsLoading else skeleton"
+    class="chats px-3"
+    (scroll)="onChatScroll()"
+  >
     <ng-container *ngFor="let msg of messages">
       <li 
         class="msg" 

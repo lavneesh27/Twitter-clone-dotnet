@@ -27,6 +27,10 @@ export class ProfileComponent {
   hoverState: string | null = null;
   showProfileImage: boolean = false;
   showCoverImage: boolean = false;
+  get createdAtDate(): Date | null {
+    return this.toDate(this.user?.createdAt);
+  }
+
   constructor(
     private _location: Location,
     private router: Router,
@@ -146,6 +150,34 @@ export class ProfileComponent {
         [Validators.required, Validators.minLength(2)],
       ],
     });
+  }
+
+  private toDate(value: unknown): Date | null {
+    if (!value) {
+      return null;
+    }
+
+    if (value instanceof Date) {
+      return value;
+    }
+
+    if (typeof value === 'object' && 'toDate' in value && typeof (value as any).toDate === 'function') {
+      return (value as any).toDate();
+    }
+
+    if (typeof value === 'string') {
+      const ddMmYyyy = value.match(/^(\d{2})-(\d{2})-(\d{4})$/);
+
+      if (ddMmYyyy) {
+        const [, day, month, year] = ddMmYyyy;
+        return new Date(Number(year), Number(month) - 1, Number(day));
+      }
+
+      const parsed = new Date(value);
+      return Number.isNaN(parsed.getTime()) ? null : parsed;
+    }
+
+    return null;
   }
 
   onFileSelected(event: any, type?: any) {

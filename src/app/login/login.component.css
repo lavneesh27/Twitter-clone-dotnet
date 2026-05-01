@@ -1,15 +1,16 @@
 :host {
   display: block;
-  min-width: 1070px;
-  height: 100vh;
+  min-width: 0;
 }
 .login{
     width: 100%;
     height: calc(100vh-50px);
     border-top: 1px solid rgba(230, 230, 230,0.5);
 }
-form{
-    width: 100%;
+.auth-form{
+    width: min(100%, 560px);
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 }
 .btn{
     border-radius: 50px;
@@ -19,6 +20,33 @@ form{
 }
 .btn:hover{
     background-color: var(--twitter-secondary) !important;
+}
+.password-field {
+    position: relative;
+}
+
+.password-field .form-control {
+    padding-right: 48px;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-toggle:hover {
+    background-color: rgb(230, 230, 230);
 }
 .header{
     width: 100%;

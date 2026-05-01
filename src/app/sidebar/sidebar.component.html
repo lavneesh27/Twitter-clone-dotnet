@@ -6,17 +6,20 @@
         <h5 class="my-3">Who to follow</h5>
         <ul class="list-group" *ngIf="!isPeoplesLoading else skeleton">
             <li class="list-group-item border-0" *ngFor="let people of peoples">
-                <div class="d-flex align-items-start profile">
-                    <div class="rounded-circle me-3 overflow-hidden" style="width:50px;height:50px"
+                <div class="d-flex align-items-start profile follow-profile">
+                    <div class="rounded-circle overflow-hidden follow-avatar" style="width:50px;height:50px"
                         (click)="navigateToProfile(people.id)"><img *ngIf="people.image" [src]="people.image" alt=""
                             style="width:100%;height:100%;object-fit: cover; border-radius: inherit;"> <span *ngIf="!people.image"
                             class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-light fs-4"
-                            style="width:50px;height:50px;">{{
+                            style="width:100%;height:100%">{{
                             people?.firstName?.charAt(0) }}</span></div>
 
-                    <div class="d-flex flex-column" (click)="navigateToProfile(people.id)">
-                        <h6 class="text-strong d-flex align-items-center m-0">{{people.firstName}} {{people.lastName}} <img *ngIf="people?.userName=='lavneesh27'" src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" width="20px" alt="verified" title="verified"></h6>
-                        <p class="text-muted">&#64;{{people.userName}}</p>
+                    <div class="d-flex flex-column follow-info" (click)="navigateToProfile(people.id)">
+                        <h6 class="text-strong d-flex align-items-center m-0 follow-name">
+                            <span>{{people.firstName}} {{people.lastName}}</span>
+                            <img *ngIf="people?.userName=='lavneesh27'" src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" width="20px" alt="verified" title="verified">
+                        </h6>
+                        <p class="text-muted mb-0 follow-username">&#64;{{people.userName}}</p>
                     </div>
                     <button [class]="isFollower(people)?'btn btn-outline-dark float-end unfollow':'btn btn-dark float-end'"
                         style="cursor:pointer; transition: all 0.3s ease"

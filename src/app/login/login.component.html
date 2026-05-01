@@ -2,14 +2,31 @@
   <h5>Login</h5>
 </div>
 <div class="login p-3">
-  <form class="container w-50 px-4" (submit)="login()">
+  <form class="auth-form" (submit)="login()">
     <div class="mb-3">
       <label for="email" class="form-label">Email address</label>
       <input type="email" class="form-control" id="email" name="email"  [(ngModel)]="email"/>
     </div>
     <div class="mb-3">
       <label for="pwd" class="form-label">Password</label>
-      <input type="password" class="form-control" id="pwd" name="password" [(ngModel)]="password" />
+      <div class="password-field">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          class="form-control"
+          id="pwd"
+          name="password"
+          [(ngModel)]="password"
+        />
+        <button
+          type="button"
+          class="password-toggle"
+          (click)="showPassword = !showPassword"
+          [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+          [title]="showPassword ? 'Hide password' : 'Show password'"
+        >
+          <i [class]="showPassword ? 'bx bx-hide fs-5' : 'bx bx-show fs-5'"></i>
+        </button>
+      </div>
     </div>
     <div class="mb-3 form-check">
       <input type="checkbox" class="form-check-input" id="rem" name="remember"  [(ngModel)]="remember">  

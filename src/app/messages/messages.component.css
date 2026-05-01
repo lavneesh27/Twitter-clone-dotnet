@@ -3,12 +3,11 @@
 }
 :host {
   display: block;
-  min-width: 1070px;
-  height: 100vh;
+  min-width: 0;
 }
 .header {
   height: 50px;
-  position: fixed;
+  position: sticky;
   top: 0;
   z-index: 3;
   background-color: rgba(255, 255, 255, 0.5);
@@ -21,16 +20,24 @@
 }
 
 .body {
-  position: absolute;
-  top: 50px;
+  position: relative;
   width: 100% !important;
-  max-width: var(--content-max-width);
+  max-width: none;
 }
-.rounded-circle{
-  min-width: 60px;
-  max-width: 60px;
-  min-height: 60px;
-  max-height: 60px;
+.message-avatar{
+  width: 60px;
+  height: 60px;
+  flex: 0 0 60px;
+}
+
+.message-avatar img,
+.message-avatar span {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: inherit;
 }
 .profile,  .recentMessage{
   white-space: wrap;
