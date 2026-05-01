@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
 import { Tweet } from '../models/tweet.model';
 import { Bookmark } from '../models/bookmark.model';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 
 @Injectable({
@@ -96,7 +96,7 @@ export class MainService {
 
   searchGifs(searchTerm: string) {
     return this.http.get(
-      `https://api.giphy.com/v1/gifs/search?api_key=ARtK0z6wkEyhC5DExJuHQj6NHE70kDY8&q=${searchTerm}&limit=25&offset=0&rating=g&lang=en&bundle=messaging_non_clips`
+      `https://api.giphy.com/v1/gifs/search?api_key=${environment.gifApiKey}&q=${searchTerm}&limit=25&offset=0&rating=g&lang=en&bundle=messaging_non_clips`
     ).subscribe((res:any)=>{
       this.gifs.next(res.data);
     });
