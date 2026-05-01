@@ -4,8 +4,8 @@ import { Location } from '@angular/common';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
 import { ChatService } from '../shared/chat.service';
-import { forkJoin, map, Observable } from 'rxjs';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { Chat } from '../models/chat.model';
 
 @Component({
   selector: 'app-messages',
@@ -45,67 +45,96 @@ export class MessagesComponent implements OnInit {
             }
           )
           .filter((people: User) => people.userName !== this.user.userName);
-          this.getRecentForAllUsers();
+          this.loadRecentConversations();
         });
 
       this.chat.newMessageReceived.subscribe((msg: any) => {
-        const otherUserId = msg.senderId === this.user.id ? msg.recieverId : msg.senderId;
-        const userIndex = this.users.findIndex(u => u.id === otherUserId);
+        if (!this.isMessageForCurrentUser(msg)) {
+          return;
+        }
+
+        const otherUserId = this.getOtherUserId(msg);
+        const userIndex = this.users.findIndex(u => String(u.id) === String(otherUserId));
         if (userIndex !== -1) {
-          this.users[userIndex].recentMessage = msg.text;
+          this.users[userIndex].recentMessage = this.getMessagePreview(msg);
           this.users[userIndex].recentMessageTime = msg.createdAt;
-          this.displayUsers = this.users.filter(u => u.recentMessage).sort((a, b) => {
-            if (a.recentMessageTime && b.recentMessageTime) {
-              return new Date(b.recentMessageTime).getTime() - new Date(a.recentMessageTime).getTime();
-            } else if (a.recentMessageTime) {
-              return -1;
-            } else if (b.recentMessageTime) {
-              return 1;
-            }
-            return 0;
-          });
+          this.displayUsers = this.getSortedDisplayUsers();
         }
       });
     }
   }
 
   isMessagesLoading = true;
-  getRecentForAllUsers() {
+  loadRecentConversations() {
     this.isMessagesLoading = true;
-    for (let i = 0; i < this.users.length; i++) {
-      this.getRecentMessage(this.users[i].id).subscribe((msg: any) => {
-        this.users[i].recentMessage = msg?.text;
-        this.users[i].recentMessageTime = msg?.createdAt;
-        if (i == this.users.length - 1) {
-          this.displayUsers = this.users.filter(user => user.recentMessage).sort((a, b) => {
-            if (a.recentMessageTime && b.recentMessageTime) {
-              return new Date(b.recentMessageTime).getTime() - new Date(a.recentMessageTime).getTime();
-            } else if (a.recentMessageTime) {
-              return -1;
-            } else if (b.recentMessageTime) {
-              return 1;
+
+    this.chat.getMessages().subscribe({
+      next: (messages) => {
+        const latestByUserId = new Map<string, Chat>();
+
+        messages
+          .filter((msg) => this.isMessageForCurrentUser(msg))
+          .forEach((msg) => {
+            const otherUserId = this.getOtherUserId(msg);
+            const key = String(otherUserId);
+            const currentLatest = latestByUserId.get(key);
+
+            if (!currentLatest || this.getMessageTime(msg) > this.getMessageTime(currentLatest)) {
+              latestByUserId.set(key, msg);
             }
-            return 0;
           });
-          this.isMessagesLoading = false;
-          this.ngxService.stop();
-        }
-      });
-    }
+
+        this.users = this.users.map((user) => {
+          const latest = latestByUserId.get(String(user.id));
+
+          return {
+            ...user,
+            recentMessage: latest ? this.getMessagePreview(latest) : undefined,
+            recentMessageTime: latest?.createdAt,
+          };
+        });
+
+        this.displayUsers = this.getSortedDisplayUsers();
+        this.isMessagesLoading = false;
+        this.ngxService.stop();
+      },
+      error: () => {
+        this.displayUsers = [];
+        this.isMessagesLoading = false;
+        this.ngxService.stop();
+      },
+    });
   }
-  getRecentMessage(senderId: any): Observable<string> {
-    return this.chat.getDisplayMessage(senderId, this.user.id).pipe(
-      map((res: any) => {
-        let result;
-        if (res[0]?.createdAt && res[1]?.createdAt) {
-          result = (res[0].createdAt > res[1].createdAt) ? res[0] : res[1];
-        } else {
-          result = res[0] ? res[0] : res[1];
-        }
-        return result ? result : null;
-      })
+
+  private isMessageForCurrentUser(msg: Chat): boolean {
+    return (
+      String(msg.senderId) === String(this.user?.id) ||
+      String(msg.recieverId) === String(this.user?.id)
     );
-}
+  }
+
+  private getOtherUserId(msg: Chat): string | number {
+    return String(msg.senderId) === String(this.user.id) ? msg.recieverId : msg.senderId;
+  }
+
+  private getMessagePreview(msg: Chat): string {
+    return msg.text?.trim() || (msg.attachment ? 'Attachment' : '');
+  }
+
+  private getMessageTime(msg: Chat): number {
+    const parsed = new Date(msg.createdAt).getTime();
+    return Number.isNaN(parsed) ? 0 : parsed;
+  }
+
+  private getSortedDisplayUsers(): User[] {
+    return this.users
+      .filter((user) => user.recentMessageTime)
+      .sort((a, b) => {
+        const aTime = new Date(a.recentMessageTime || '').getTime() || 0;
+        const bTime = new Date(b.recentMessageTime || '').getTime() || 0;
+        return bTime - aTime;
+      });
+  }
   filter(searchText: string) {
     this.data.getAllUsers().subscribe((res: any) => {
       this.users = res
