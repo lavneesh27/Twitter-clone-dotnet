@@ -7,7 +7,7 @@ namespace Twitter_backend.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  public class TweetsController(TwitterDbContext db) : ControllerBase
+  public class TweetsController(TwitterDbContext db, IWebHostEnvironment env) : ControllerBase
   {
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Tweet>>> GetAll()
@@ -40,6 +40,14 @@ namespace Twitter_backend.Controllers
       if (tweet is null)
       {
         return NotFound();
+      }
+      if (!string.IsNullOrEmpty(tweet.Image))
+      {
+        var fileName = Path.GetFileName(tweet.Image);
+        var fullPath = Path.Combine(env.WebRootPath, "uploads", fileName);
+
+        if (System.IO.File.Exists(fullPath))
+          System.IO.File.Delete(fullPath);
       }
 
       db.Tweets.Remove(tweet);

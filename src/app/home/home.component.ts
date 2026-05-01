@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     likes: [],
     userId: 0,
     createdAt: '',
-    image: [],
+    image: '',
   };
   uploadForm: any = {
     content: '',
