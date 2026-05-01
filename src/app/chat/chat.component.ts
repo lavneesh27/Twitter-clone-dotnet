@@ -1,7 +1,7 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   TemplateRef,
   ViewChild,
   inject,
@@ -23,7 +23,7 @@ import { UploadService } from '../shared/upload.service';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
 })
-export class ChatComponent {
+export class ChatComponent implements OnDestroy {
   private modalService = inject(NgbModal);
   @ViewChild('chatBody') myDiv: ElementRef | undefined;
   @ViewChild('myInput') myInput: ElementRef | undefined;
@@ -62,6 +62,10 @@ export class ChatComponent {
     this.aRoute.params.subscribe(async (params) => {
       this.reciever = await this.data.getUser(params['uuid']);
       this.isRecieverLoading = false;
+
+      if (this.user?.id && this.reciever?.id) {
+        this.chatService.setActiveConversation(this.reciever.id);
+      }
     });
 
     this.user = await this.data.getUser(
@@ -71,6 +75,11 @@ export class ChatComponent {
     if (!this.user) {
       this.route.navigate(['login']);
     }
+
+    if (this.user?.id && this.reciever?.id) {
+      this.chatService.setActiveConversation(this.reciever.id);
+    }
+
     this.ngxService.start();
     this.isChatsLoading = true;
     this.chatService.getMessages().subscribe((res) => {
@@ -121,6 +130,10 @@ export class ChatComponent {
       this.myInput.nativeElement.focus();
     }
 
+  }
+
+  ngOnDestroy() {
+    this.chatService.setActiveConversation(null);
   }
 
   sendMessage() {

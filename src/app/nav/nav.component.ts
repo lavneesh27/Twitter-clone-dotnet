@@ -6,6 +6,7 @@ import { DataService } from '../shared/data.service';
 import { MainService } from '../shared/main.service';
 import { colors } from '../models/user.model';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { ChatService } from '../shared/chat.service';
 
 @Component({
   selector: 'app-nav',
@@ -15,18 +16,25 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 export class NavComponent implements OnInit {
   user?: any;
   imgUrl: any;
+  unreadMessagesCount = 0;
   private modalService = inject(NgbModal);
   colors: any[] = colors;
   constructor(
     private router: Router,
     private toastr: ToastrService,
     private data: DataService,
-    private ngxService: NgxUiLoaderService
+    private ngxService: NgxUiLoaderService,
+    private chat: ChatService
   ) {}
   async ngOnInit() {
+    this.chat.unreadTotal$.subscribe((count) => {
+      this.unreadMessagesCount = count;
+    });
+
     let uid = sessionStorage.getItem('token') ?? localStorage.getItem('token');
     if (uid) {
       this.user = await this.data.getUser(uid);
+      this.chat.refreshUnreadCounts();
 
       if (this.user?.defaultPrimaryColor) {
         const { color, secColor } = JSON.parse(this.user.defaultPrimaryColor);

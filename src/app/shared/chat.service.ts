@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Chat } from '../models/chat.model';
-import { firstValueFrom, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as signalR from '@microsoft/signalr';
 
@@ -11,9 +11,14 @@ import * as signalR from '@microsoft/signalr';
 export class ChatService {
   private readonly baseUrl = environment.apiUrl;
   private hubConnection: signalR.HubConnection | undefined;
+  private activeConversationId: string | null = null;
+  private unreadCountsSubject = new BehaviorSubject<Record<string, number>>({});
+  public unreadCounts$ = this.unreadCountsSubject.asObservable();
+  public unreadTotal$ = new BehaviorSubject<number>(0);
   public newMessageReceived = new Subject<Chat>();
 
   constructor(private http: HttpClient) {
+    this.loadUnreadCounts();
     this.startConnection();
   }
 
@@ -28,6 +33,7 @@ export class ChatService {
       .catch((err) => console.log('Error while starting SignalR connection: ' + err));
 
     this.hubConnection.on('ReceiveMessage', (data: Chat) => {
+      this.trackIncomingUnread(data);
       this.newMessageReceived.next(data);
     });
   }
@@ -65,5 +71,80 @@ export class ChatService {
         .then(() => console.log('cleared'))
         .catch((error) => console.error('Error deleting message: ', error));
     });
+  }
+
+  setActiveConversation(userId: string | number | null) {
+    this.activeConversationId = userId == null ? null : String(userId);
+
+    if (userId != null) {
+      this.markConversationRead(userId);
+    }
+  }
+
+  markConversationRead(userId: string | number) {
+    const counts = { ...this.unreadCountsSubject.value };
+    delete counts[String(userId)];
+    this.saveUnreadCounts(counts);
+  }
+
+  getUnreadCount(userId: string | number): number {
+    return this.unreadCountsSubject.value[String(userId)] || 0;
+  }
+
+  refreshUnreadCounts() {
+    this.loadUnreadCounts();
+  }
+
+  private trackIncomingUnread(message: Chat) {
+    const currentUserId = this.getCurrentUserId();
+
+    if (!currentUserId || String(message.recieverId) !== currentUserId) {
+      return;
+    }
+
+    const senderId = String(message.senderId);
+
+    if (this.activeConversationId === senderId) {
+      this.markConversationRead(senderId);
+      return;
+    }
+
+    const counts = { ...this.unreadCountsSubject.value };
+    counts[senderId] = (counts[senderId] || 0) + 1;
+    this.saveUnreadCounts(counts);
+  }
+
+  private loadUnreadCounts() {
+    const rawCounts = localStorage.getItem(this.getUnreadStorageKey());
+    let counts: Record<string, number> = {};
+
+    if (rawCounts) {
+      try {
+        counts = JSON.parse(rawCounts);
+      } catch {
+        counts = {};
+      }
+    }
+
+    this.unreadCountsSubject.next(counts);
+    this.unreadTotal$.next(this.getUnreadTotal(counts));
+  }
+
+  private saveUnreadCounts(counts: Record<string, number>) {
+    localStorage.setItem(this.getUnreadStorageKey(), JSON.stringify(counts));
+    this.unreadCountsSubject.next(counts);
+    this.unreadTotal$.next(this.getUnreadTotal(counts));
+  }
+
+  private getUnreadStorageKey(): string {
+    return `chatUnread:${this.getCurrentUserId() || 'anonymous'}`;
+  }
+
+  private getCurrentUserId(): string | null {
+    return sessionStorage.getItem('token') ?? localStorage.getItem('token');
+  }
+
+  private getUnreadTotal(counts: Record<string, number>): number {
+    return Object.values(counts).reduce((total, count) => total + count, 0);
   }
 }

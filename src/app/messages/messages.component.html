@@ -45,6 +45,9 @@
               {{ u.recentMessage }}
             </p>
           </div>
+          <span class="conversation-badge" *ngIf="getUnreadCount(u.id)">
+            {{ getUnreadCount(u.id) }}
+          </span>
       </div>
     </li>
   </ul>

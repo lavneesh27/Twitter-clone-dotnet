@@ -107,6 +107,31 @@ nav .nav-brand i {
 .nav-link{
   cursor: pointer;
 }
+
+.nav-icon-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.message-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background-color: var(--twitter-primary);
+  color: white;
+  border: 2px solid white;
+  font-size: 11px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .color-container{
   background: #F7F9F9;
   border-radius: 1rem;

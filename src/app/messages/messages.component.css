@@ -49,6 +49,21 @@
   white-space: nowrap;
 
 }
+
+.conversation-badge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  margin-left: 12px;
+  border-radius: 999px;
+  background-color: var(--twitter-primary);
+  color: white;
+  font-size: 12px;
+  line-height: 22px;
+  text-align: center;
+  flex: 0 0 auto;
+}
+
 li{
     padding: 10px;
     border-radius: 0px !important;

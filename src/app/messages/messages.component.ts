@@ -17,6 +17,7 @@ export class MessagesComponent implements OnInit {
   user: any;
   users: User[] = [];
   displayUsers: User[] = [];
+  unreadCounts: Record<string, number> = {};
 
   constructor(
     private data: DataService,
@@ -32,6 +33,10 @@ export class MessagesComponent implements OnInit {
     if (userToken) {
       this.ngxService.start();
       this.user = await this.data.getUser(userToken);
+      this.chat.unreadCounts$.subscribe((counts) => {
+        this.unreadCounts = counts;
+      });
+
       this.data.getAllUsers().subscribe((res: any) => {
         this.users = res
           .map(
@@ -161,7 +166,13 @@ export class MessagesComponent implements OnInit {
   goBack() {
     this._location.back();
   }
+
+  getUnreadCount(userId: string | number): number {
+    return this.unreadCounts[String(userId)] || 0;
+  }
+
   navigateToChat(userId: string | number): void {
+    this.chat.markConversationRead(userId);
     this.router.navigate(['/chat', userId]);
   }
 }
