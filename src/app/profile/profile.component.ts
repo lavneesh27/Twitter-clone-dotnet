@@ -1,4 +1,5 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../models/user.model';
 import { Tweet } from '../models/tweet.model';
 import { Location } from '@angular/common';
@@ -14,7 +15,7 @@ import { UploadService } from '../shared/upload.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit, OnDestroy {
   user!: any;
   tweets: Tweet[] = [];
   updateForm!: FormGroup;
@@ -30,6 +31,7 @@ export class ProfileComponent {
   get createdAtDate(): Date | null {
     return this.toDate(this.user?.createdAt);
   }
+  scrollListener: any;
 
   constructor(
     private _location: Location,
@@ -39,9 +41,15 @@ export class ProfileComponent {
     private toastr: ToastrService,
     private ngxService: NgxUiLoaderService,
     private aRoute: ActivatedRoute,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private modalService: NgbModal
   ) {}
   async ngOnInit() {
+    this.scrollListener = this.onWindowScroll.bind(this);
+    const appShell = document.querySelector('.app-shell');
+    if (appShell) {
+      appShell.addEventListener('scroll', this.scrollListener);
+    }
     this.ngxService.start();
     let userId;
     this.aRoute.params.subscribe(async (params) => {
@@ -78,6 +86,14 @@ export class ProfileComponent {
         this.countries = Object.keys(json);
       });
   }
+
+  ngOnDestroy(): void {
+    const appShell = document.querySelector('.app-shell');
+    if (appShell && this.scrollListener) {
+      appShell.removeEventListener('scroll', this.scrollListener);
+    }
+  }
+
   loadTweets(){
     this.data.getAllTweets().subscribe((res: any) => {
       this.tweets = res
@@ -223,9 +239,10 @@ export class ProfileComponent {
       this.toastr.success('Unfollow Successull');
     });
   }
-  @HostListener('window:scroll', [])
   onWindowScroll() {
-    if (window.scrollY > 400) {
+    const appShell = document.querySelector('.app-shell');
+    const scrollPos = appShell ? appShell.scrollTop : window.scrollY;
+    if (scrollPos > 400) {
       this.showButton = true;
     } else {
       this.showButton = false;
@@ -233,8 +250,15 @@ export class ProfileComponent {
   }
 
   scrollToTop() {
-    this.loadTweets();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const appShell = document.querySelector('.app-shell');
+    if (appShell) {
+      appShell.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    setTimeout(() => {
+      this.loadTweets();
+    }, 500);
   }
   redirect(id: string | number) {
     this.router.navigate(['post', id]);
@@ -245,5 +269,34 @@ export class ProfileComponent {
       .then(() => {
         this.toastr.success('Copied to Clipboard');
       });
+  }
+
+  modalType: 'followers' | 'following' = 'followers';
+  connections: User[] = [];
+  isConnectionsLoading = false;
+
+  openConnectionsModal(content: any, type: 'followers' | 'following') {
+    this.modalType = type;
+    this.modalService.open(content, { centered: true, scrollable: true });
+    
+    this.isConnectionsLoading = true;
+    this.data.getAllUsers().subscribe((res: any) => {
+      const allUsers = res.map((e: any) => {
+        const data = e.payload.doc.data();
+        data.id = e.payload.doc.id;
+        return data;
+      });
+
+      const connectionIds = type === 'followers' ? (this.user.followers || []) : (this.user.following || []);
+      
+      this.connections = allUsers.filter((u: any) => 
+        connectionIds.includes(u.id) || connectionIds.includes(u.id.toString())
+      );
+      this.isConnectionsLoading = false;
+    });
+  }
+
+  navigateToProfile(userId: string | number) {
+    this.router.navigate(['/profile', userId]);
   }
 }

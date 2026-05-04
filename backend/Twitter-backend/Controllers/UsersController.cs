@@ -28,6 +28,7 @@ namespace Twitter_backend.Controllers
       user.CreatedAt = string.IsNullOrWhiteSpace(user.CreatedAt) ? DateTime.Now.ToShortDateString() : user.CreatedAt;
       user.Followers ??= [];
       user.Following ??= [];
+      user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
       db.Users.Add(user);
       await db.SaveChangesAsync();
       return CreatedAtAction(nameof(Get), new { id = user.Id }, user);

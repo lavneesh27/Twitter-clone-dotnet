@@ -92,9 +92,14 @@
       </div>
 
       <h6 class="text-muted text-sm">
-        <span class="fw-bold">{{ user?.following?.length || 0 }}</span>
-        Following &nbsp;
-        <span class="fw-bold">{{ user?.followers?.length || 0 }}</span> Follower
+        <span class="fw-bold" (click)="openConnectionsModal(connectionsModal, 'following')" style="cursor: pointer;">
+          {{ user?.following?.length || 0 }}
+        </span>
+        <span (click)="openConnectionsModal(connectionsModal, 'following')" style="cursor: pointer;">Following</span> &nbsp;
+        <span class="fw-bold" (click)="openConnectionsModal(connectionsModal, 'followers')" style="cursor: pointer;">
+          {{ user?.followers?.length || 0 }}
+        </span> 
+        <span (click)="openConnectionsModal(connectionsModal, 'followers')" style="cursor: pointer;">Follower</span>
       </h6>
     </div>
 
@@ -363,3 +368,35 @@
     <img [src]="user?.banner" alt="img" class="image-viewer-img" (click)="$event.stopPropagation()">
   </div>
 </ng-container>
+
+<ng-template #connectionsModal let-modal>
+  <div class="modal-header border-0">
+    <h5 class="modal-title fw-bold">{{ modalType === 'followers' ? 'Followers' : 'Following' }}</h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body p-0 overflow-y-auto" style="max-height: 400px; min-height: 100px;">
+    <div *ngIf="isConnectionsLoading" class="d-flex justify-content-center align-items-center h-100 py-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div *ngIf="!isConnectionsLoading && connections.length === 0" class="text-center text-muted py-5">
+      <h5>No {{ modalType === 'followers' ? 'followers' : 'following' }} found.</h5>
+    </div>
+    <div *ngIf="!isConnectionsLoading && connections.length > 0" class="list-group list-group-flush">
+      <a *ngFor="let conn of connections" 
+         (click)="modal.close(); navigateToProfile(conn.id)"
+         class="list-group-item list-group-item-action d-flex align-items-center py-3 border-0" 
+         style="cursor: pointer;">
+        <img *ngIf="conn.image" [src]="conn.image" class="rounded-circle me-3" style="width: 45px; height: 45px; object-fit: cover;">
+        <span *ngIf="!conn.image" class="rounded-circle me-3 d-flex justify-content-center align-items-center bg-secondary text-light fw-bold fs-5" style="width: 45px; height: 45px;">
+          {{ conn.firstName?.charAt(0) }}
+        </span>
+        <div class="flex-grow-1">
+          <h6 class="mb-0 fw-bold">{{ conn.firstName }} {{ conn.lastName }}</h6>
+          <small class="text-muted">&#64;{{ conn.userName }}</small>
+        </div>
+      </a>
+    </div>
+  </div>
+</ng-template>

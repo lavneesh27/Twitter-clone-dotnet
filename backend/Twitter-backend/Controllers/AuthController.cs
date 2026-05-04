@@ -22,6 +22,7 @@ namespace Twitter_backend.Controllers
       user.CreatedAt = string.IsNullOrWhiteSpace(user.CreatedAt) ? DateTime.Now.ToShortDateString() : user.CreatedAt;
       user.Followers ??= [];
       user.Following ??= [];
+      user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
       db.Users.Add(user);
       await db.SaveChangesAsync();
 
@@ -32,10 +33,14 @@ namespace Twitter_backend.Controllers
     public async Task<ActionResult<object>> Login(LoginRequest request)
     {
       var user = await db.Users.FirstOrDefaultAsync(existing =>
-        existing.Email == request.Email &&
-        existing.Password == request.Password);
+        existing.Email == request.Email);
 
-      return user is null ? Unauthorized("Invalid email or password.") : Ok(new { token = user.Id, user });
+      if (user is null || !BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
+      {
+        return Unauthorized("Invalid email or password.");
+      }
+
+      return Ok(new { token = user.Id, user });
     }
 
     [HttpPost("forgot-password")]

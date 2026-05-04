@@ -49,8 +49,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    const appShell = document.querySelector('.app-shell');
+    if (appShell && this.scrollListener) {
+      appShell.removeEventListener('scroll', this.scrollListener);
+    }
   }
+  scrollListener: any;
+
   async ngOnInit() {
+    this.scrollListener = this.onWindowScroll.bind(this);
+    const appShell = document.querySelector('.app-shell');
+    if (appShell) {
+      appShell.addEventListener('scroll', this.scrollListener);
+    }
     this.ngxService.start();
     if (!sessionStorage.getItem('token') && !localStorage.getItem('token')) {
       this.router.navigate(['login']);
@@ -157,9 +168,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   navigateToProfile(userId: string | number): void {
     this.router.navigate(['/profile', userId]);
   }
-  @HostListener('window:scroll', [])
   onWindowScroll() {
-    if (window.scrollY > 400) {
+    const appShell = document.querySelector('.app-shell');
+    const scrollPos = appShell ? appShell.scrollTop : window.scrollY;
+    if (scrollPos > 400) {
       this.showButton = true;
     } else {
       this.showButton = false;
@@ -167,8 +179,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   scrollToTop() {
-    this.loadTweets();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const appShell = document.querySelector('.app-shell');
+    if (appShell) {
+      appShell.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Wait for the smooth scroll animation to finish before loading tweets
+    setTimeout(() => {
+      this.loadTweets();
+    }, 500);
   }
   
 }
