@@ -1,4 +1,3 @@
-
 export interface User {
   id: number | string;
   firstName: string;
@@ -18,6 +17,7 @@ export interface User {
   followers:any;
   following:any;
   defaultPrimaryColor?: string;
+  darkMode?: boolean;
 }
 
 export const colors: any[] = [

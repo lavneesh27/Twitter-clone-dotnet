@@ -390,7 +390,7 @@
          style="cursor: pointer;">
         <img *ngIf="conn.image" [src]="conn.image" class="rounded-circle me-3" style="width: 45px; height: 45px; object-fit: cover;">
         <span *ngIf="!conn.image" class="rounded-circle me-3 d-flex justify-content-center align-items-center bg-secondary text-light fw-bold fs-5" style="width: 45px; height: 45px;">
-          {{ conn.firstName?.charAt(0) }}
+          {{ conn.firstName.charAt(0) }}
         </span>
         <div class="flex-grow-1">
           <h6 class="mb-0 fw-bold">{{ conn.firstName }} {{ conn.lastName }}</h6>

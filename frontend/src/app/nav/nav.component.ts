@@ -41,6 +41,12 @@ export class NavComponent implements OnInit {
         document.documentElement.style.setProperty('--twitter-primary', color);
         document.documentElement.style.setProperty('--twitter-secondary', secColor);
       }
+
+      if (this.user?.darkMode) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
     }
   }
   
@@ -76,5 +82,16 @@ export class NavComponent implements OnInit {
 
     this.data.updateUser(this.user);
     this.toastr.success('Color set Successfully');
+  }
+
+  toggleDarkMode() {
+    this.user.darkMode = !this.user.darkMode;
+    if (this.user.darkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+    this.data.updateUser(this.user);
+    this.toastr.success('Theme updated successfully');
   }
 }

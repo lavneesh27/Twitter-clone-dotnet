@@ -99,13 +99,17 @@ nav .nav-brand i {
     border-radius: 50%;
     padding: 10px;
   transition: 0.3s;
+  cursor: pointer !important;
 }
 
 .logo:hover{
   background-color: rgb(230, 230, 230);
 }
-.nav-link{
+.nav-link:not(.main-logo){
   cursor: pointer;
+}
+.main-logo{
+  cursor: unset;
 }
 
 .nav-icon-wrap {
