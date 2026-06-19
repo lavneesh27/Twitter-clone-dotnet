@@ -19,3 +19,6 @@ describe('StartComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+
+

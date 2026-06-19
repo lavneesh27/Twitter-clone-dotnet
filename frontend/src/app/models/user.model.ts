@@ -28,3 +28,6 @@ export const colors: any[] = [
   { "color": "#FF7A00", "secColor": "#CC6200" },
   { "color": "#00B87A", "secColor": "#009264" }
 ]
+
+
+

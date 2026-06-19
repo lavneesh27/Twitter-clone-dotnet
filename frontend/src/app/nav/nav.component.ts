@@ -5,7 +5,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../shared/data.service';
 import { MainService } from '../shared/main.service';
 import { colors } from '../models/user.model';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ChatService } from '../shared/chat.service';
 
 @Component({
@@ -23,7 +22,6 @@ export class NavComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private data: DataService,
-    private ngxService: NgxUiLoaderService,
     private chat: ChatService
   ) {}
   async ngOnInit() {
@@ -70,8 +68,7 @@ export class NavComponent implements OnInit {
       ariaLabelledBy: 'modal-basic-title',
       centered: true,
       size: type == 'logout' ? 'sm' : 'md',
-      windowClass: 'dark-modal',
-      animation: false
+      windowClass: 'dark-modal'
     });
   }
   changeColor(colorObj: any) {
@@ -95,3 +92,6 @@ export class NavComponent implements OnInit {
     this.toastr.success('Theme updated successfully');
   }
 }
+
+
+

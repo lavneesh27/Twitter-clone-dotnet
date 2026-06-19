@@ -34,3 +34,6 @@ export class PostComponent implements OnInit {
     this.postId = undefined;
   }
 }
+
+
+

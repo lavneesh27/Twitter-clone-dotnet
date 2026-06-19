@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from '../shared/data.service';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UploadService } from '../shared/upload.service';
 
 @Component({
@@ -39,7 +38,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private data: DataService,
     private toastr: ToastrService,
-    private ngxService: NgxUiLoaderService,
     private aRoute: ActivatedRoute,
     private uploadService: UploadService,
     private modalService: NgbModal
@@ -50,7 +48,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (appShell) {
       appShell.addEventListener('scroll', this.scrollListener);
     }
-    this.ngxService.start();
+    this.isLoading = true;
     let userId;
     this.aRoute.params.subscribe(async (params) => {
       userId = params['uuid'];
@@ -75,7 +73,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.initializeForm();
 
       this.loadTweets();
-      this.ngxService.stop();
+      this.isLoading = false;
       setTimeout(() => {
         this.isLoading = false;
       }, 500);
@@ -300,3 +298,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.router.navigate(['/profile', userId]);
   }
 }
+
+
+

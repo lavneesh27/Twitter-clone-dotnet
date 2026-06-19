@@ -13,10 +13,13 @@
   background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(1em);
   margin: 0;
-  border-bottom: 1px solid rgba(230, 230, 230, 0.5);;
+  border: var(--twitter-border);
+    margin-bottom: -1px;
 }
 .message{
   width: 100%;
+  border: var(--twitter-border);
+  height: calc(100vh - 50px);
 }
 
 .body {
@@ -68,16 +71,15 @@ li{
     padding: 10px;
     border-radius: 0px !important;
     transition: all 0.5s;
-}
-li{
-  border-bottom: 0.5px solid rgba(230, 230, 230, 0.5) !important;
+    border: var(--twitter-border);
+    margin-bottom: -1px !important;
 }
 li:hover {
   background-color: rgb(240 , 240, 240) !important;
 } 
 ul {
   list-style: none;
-  height: calc(100vh-70px);
+  height: calc(100vh - 70px);
   overflow-y: auto;
   border-radius: 0 !important;
 }
@@ -129,4 +131,8 @@ ul:hover::-webkit-scrollbar-thumb {
     max-width: calc(100vw - 110px);
     white-space: nowrap;
   }
+}
+.list-group-item{
+  border: none;
+  border-bottom: var(--twitter-border);
 }

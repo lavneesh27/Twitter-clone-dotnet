@@ -145,3 +145,6 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('rPassword') as FormControl;
   }
 }
+
+
+

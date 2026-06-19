@@ -1,7 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Tweet } from '../models/tweet.model';
 import { Router } from '@angular/router';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../shared/data.service';
@@ -40,7 +39,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private modalService: NgbModal,
     private dataService: DataService,
-    private ngxService: NgxUiLoaderService,
     private service: MainService,
     private chat: ChatService,
     private uploadService: UploadService
@@ -62,7 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (appShell) {
       appShell.addEventListener('scroll', this.scrollListener);
     }
-    this.ngxService.start();
+    this.isLoading = true;
     if (!sessionStorage.getItem('token') && !localStorage.getItem('token')) {
       this.router.navigate(['login']);
       return;
@@ -73,7 +71,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
     this.loadTweets();
-    this.ngxService.stop();
+    this.isLoading = false;
     setTimeout(() => {
       this.isLoading = false;
     }, 500);
@@ -144,7 +142,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onImport(vitalSignsDataModal: any) {
     this.modalService.dismissAll();
-    this.modalService.open(vitalSignsDataModal, { size: 'lg', centered: true, animation: false });
+    this.modalService.open(vitalSignsDataModal, { size: 'lg', centered: true });
     this.service.getTrendingGifs();
     this.subscription = this.service.getGifs().subscribe((res) => {
       this.gifs = res;
@@ -193,3 +191,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   
 }
+
+
+

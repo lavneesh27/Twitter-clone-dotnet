@@ -16,7 +16,6 @@
   padding-left: clamp(12px, 1.0vw, 30px);
   padding-right: clamp(12px, 1.0vw, 30px);
   height: 100vh;
-  border-left: 1px solid rgba(230, 230, 230,0.5);
   z-index: 99;
 }
 
@@ -108,3 +107,5 @@ h6:hover{
     display: none;
   }
 }
+
+

@@ -7,3 +7,6 @@ export interface Tweet {
   createdAt: string;
   image?:any;
 }
+
+
+

@@ -6,10 +6,12 @@
 
 .card {
   border-radius: 0;
-  border: 1px solid rgba(230, 230, 230, 0.5);
+  border: var(--twitter-border);
+  margin-bottom: -1px;
   width: 100%;
   max-width: 100%;
-  margin: 0;
+  border-left: none;
+  border-right: none;
 }
 
 input {
@@ -31,7 +33,9 @@ input {
 
 .img-thumbnail {
   border-radius: 1rem;
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0;
+  background-color: transparent;
   cursor: pointer;
   width: min(100%, 500px);
   max-height: 70vh;

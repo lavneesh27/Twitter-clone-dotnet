@@ -99,7 +99,7 @@
     </li>
   </ul>
 </div>
-<ngx-ui-loader></ngx-ui-loader>
+<div class="twitter-spinner mx-auto my-4" *ngIf="isLoading"></div>
 <div class="no-data" *ngIf="!isLoading && !tweets?.length">
   <i class="bx bx-unlink fs-1 mb-3"></i>
   <h4>No tweets to show</h4>
@@ -137,3 +137,4 @@
     </div>
   </div>
 </ng-template>
+

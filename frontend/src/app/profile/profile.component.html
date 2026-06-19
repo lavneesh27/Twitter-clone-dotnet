@@ -10,7 +10,17 @@
     ><i class="bx bx-left-arrow-alt fs-3"></i
   ></a>
   <div>
-    <h5 class="m-0">{{ user?.firstName }} {{ user?.lastName }}</h5>
+    <h5 class="d-flex align-items-center mb-0">
+        {{ user?.firstName }} {{ user?.lastName }}
+        <img
+          *ngIf="user?.userName == 'lavneesh27'"
+          src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg"
+          width="25px"
+          alt="verified"
+          title="verified"
+          class="ms-1"
+        />
+      </h5>
     <small class="m-0 text-muted">{{ tweets.length }} Tweets</small>
   </div>
 </div>
@@ -26,8 +36,9 @@
         *ngIf="!this.user?.banner"
         style="background-color: #cfd9de; width: 100%"
       ></div>
-      <div
-        class="rounded-circle me-3 overflow-hidden text-center dp my-3"
+    </div>
+    <div
+      class="rounded-circle me-3 overflow-hidden text-center dp my-3"
         style="
           width: 150px;
           height: 150px;
@@ -49,7 +60,6 @@
           {{ user?.firstName.charAt(0) }}
         </span>
       </div>  
-    </div>
     <div class="flex flex-column info px-3">
       <h4 class="d-flex align-items-center mb-0">
         {{ user?.firstName }} {{ user?.lastName }}
@@ -59,6 +69,7 @@
           width="25px"
           alt="verified"
           title="verified"
+          class="ms-1"
         />
       </h4>
       <h6 class="text-muted text-sm">&#64;{{ user?.userName }}</h6>
@@ -91,15 +102,15 @@
         </div>
       </div>
 
-      <h6 class="text-muted text-sm">
+      <h6 class="text-sm">
         <span class="fw-bold" (click)="openConnectionsModal(connectionsModal, 'following')" style="cursor: pointer;">
           {{ user?.following?.length || 0 }}
         </span>
-        <span (click)="openConnectionsModal(connectionsModal, 'following')" style="cursor: pointer;">Following</span> &nbsp;
+        <span (click)="openConnectionsModal(connectionsModal, 'following')" style="cursor: pointer;" class="text-muted">Following</span> &nbsp;
         <span class="fw-bold" (click)="openConnectionsModal(connectionsModal, 'followers')" style="cursor: pointer;">
           {{ user?.followers?.length || 0 }}
         </span> 
-        <span (click)="openConnectionsModal(connectionsModal, 'followers')" style="cursor: pointer;">Follower</span>
+        <span (click)="openConnectionsModal(connectionsModal, 'followers')" style="cursor: pointer;" class="text-muted">Follower</span>
       </h6>
     </div>
 
@@ -155,8 +166,8 @@
     
   </div>
 
-  <div class="px-3">
-    <h5 class="mt-4">Tweets</h5>
+  <div>
+    <h5 class="mt-4 px-3">Tweets</h5>
     <ul
       *ngIf="tweets?.length"
       class="list-group d-flex justify-content-center mt-4"
@@ -168,7 +179,7 @@
         <app-card [tweet]="tweet" style="width:100%" (deleteTrigger)="loadTweets()"></app-card>
       </li>
     </ul>
-    <ngx-ui-loader [bgsPosition]="'bottom-center'"></ngx-ui-loader>
+    <div class="twitter-spinner mx-auto my-4" *ngIf="isLoading"></div>
     <div class="no-data text-center" *ngIf="!isLoading && !tweets?.length">
       <h2>
         &#64;{{ user?.userName }} <br />
@@ -180,7 +191,7 @@
 </div>
 
 <div
-  class="modal"
+  class="modal fade"
   id="staticBackdrop"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
@@ -188,8 +199,8 @@
   aria-labelledby="staticBackdropLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-lg" style="margin-top: 60px">
-    <div class="modal-content" style="height: 600px">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content overflow-hidden" style="height: 600px">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit profile</h1>
         <button
@@ -199,8 +210,8 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body overflow-y-scroll">
-        <div class="flex flex-column">
+      <div class="modal-body overflow-y-scroll p-0">
+        <div class="flex flex-column">  
           <div class="banner" style="width: 100%">
             <input
               type="file"
@@ -236,15 +247,17 @@
             >
               <i class="bx bx-x fs-3" style="color: white"></i>
             </label>
-              <div
-                class="rounded-circle me-3 overflow-hidden text-center my-3 d-flex modal-dp"
-                style="
-                  width: 150px;
-                  height: 150px;
-                position: absolute;
-                top: 140px;
-                left: 35px;
-              "
+          </div>
+          <div
+            class="rounded-circle me-3 overflow-hidden text-center my-3 d-flex modal-dp"
+            style="
+              width: 150px;
+              height: 150px;
+            position: absolute;
+            top: 125px;
+            left: 15px;
+            border: 4px solid white;
+          "
             >
               <input
                 type="file"
@@ -263,7 +276,7 @@
               <span
                 *ngIf="!user?.image"
                 class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-light fs-1"
-                style="width: 100%; height: 100%"
+                style="width: 100%; height: 100%; border: 4px solid white;"
                 >{{ user?.firstName.charAt(0) }}</span
               >
 
@@ -280,9 +293,8 @@
                 <i class="bx bx-camera fs-3" style="color: white"></i>
               </label>
             </div>
-          </div>
           <form
-            class="d-flex flex-column"
+            class="d-flex flex-column p-3"
             style="margin-top: 5rem"
             [formGroup]="updateForm"
             (ngSubmit)="update()"
@@ -353,7 +365,7 @@
           </form>
         </div>
       </div>
-      <div class="modal-footer"></div>
+      <div class="modal-footer d-none"></div>
     </div>
   </div>
 </div>
@@ -400,3 +412,4 @@
     </div>
   </div>
 </ng-template>
+

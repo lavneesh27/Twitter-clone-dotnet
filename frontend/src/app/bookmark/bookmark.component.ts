@@ -3,7 +3,6 @@ import { Tweet } from '../models/tweet.model';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { DataService } from '../shared/data.service';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -19,7 +18,6 @@ export class BookmarkComponent implements OnInit {
     private router: Router,
     private _location: Location,
     private data: DataService,
-    private ngxService: NgxUiLoaderService,
     private toastr: ToastrService
   ) {}
   async ngOnInit() {
@@ -32,7 +30,7 @@ export class BookmarkComponent implements OnInit {
       return;
     }
 
-    this.ngxService.start();
+    this.isLoading = true;
 
     this.getBookmarks();
   }
@@ -55,7 +53,7 @@ export class BookmarkComponent implements OnInit {
           this.tweets.push(tweet);
         });
 
-      this.ngxService.stop();
+      this.isLoading = false;
       setTimeout(() => {
         this.isLoading = false;
       }, 100);
@@ -74,3 +72,6 @@ export class BookmarkComponent implements OnInit {
     this._location.back();
   }
 }
+
+
+

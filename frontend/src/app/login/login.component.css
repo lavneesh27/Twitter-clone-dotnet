@@ -4,15 +4,15 @@
 }
 .login{
     width: 100%;
-    height: calc(100vh-50px);
-    border-top: 1px solid rgba(230, 230, 230,0.5);
+    height: calc(100vh - 50px);
+    border-top: none;
 }
 .auth-form{
     width: min(100%, 560px);
     padding-left: 1.5rem;
     padding-right: 1.5rem;
 }
-.btn{
+.btn {
     border-radius: 50px;
     background-color: var(--twitter-primary) !important;
     border:none;
@@ -53,3 +53,5 @@
     height: 50px;
     z-index: 3;
 }
+
+

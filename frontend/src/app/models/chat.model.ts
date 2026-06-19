@@ -6,3 +6,6 @@ export interface Chat {
   createdAt: string;
   attachment: string;
 }
+
+
+

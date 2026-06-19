@@ -59,3 +59,6 @@ export class StartComponent {
     return this.auth.googleSignIn();
   }
 }
+
+
+

@@ -13,6 +13,8 @@
   background-color: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   overflow: hidden;
+  border: var(--twitter-border);
+    margin-bottom: -1px;
 }
 
 .profile {
@@ -20,13 +22,17 @@
   width:  100%;
   min-height: calc(100vh - 50px);
   padding: 0;
+  border-left: 1px solid rgba(230, 230, 230, 0.5);
+  border-right: 1px solid rgba(230, 230, 230, 0.5);
 }
+
 .file {
   position: absolute;
   top: 50px;
   left: 0;
   z-index: 0;
 }
+
 .text-sm {
   font-size: 15px;
   font-weight: 400;
@@ -42,6 +48,7 @@
   color: #919191;
   flex-direction: column;
 }
+
 .banner {
   width: 100%;
   overflow: hidden;
@@ -50,13 +57,15 @@
   margin: 0;
   object-fit: cover;
 }
+
 .banner img {
   width:  100%;
   height: 100%;
   object-fit: cover;
-  object-position: right top;
+  object-position: center;
   cursor: pointer;
 }
+
 .banner img:hover {
   filter: brightness(70%);
   transition: 0.3s all;
@@ -71,6 +80,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .dp img,
 .dp span {
   width: 100%;
@@ -80,6 +90,7 @@
   object-position: center center;
   border-radius: inherit;
 }
+
 .dp:hover {
   filter: brightness(70%);
   transition: 0.3s all;
@@ -88,12 +99,14 @@
 .info {
   margin-top: 5rem;
 }
+
 .modal-content {
   border: none;
   outline: none;
   border-radius: 20px;
   height: 1000px;
 }
+
 .edit-pic:hover {
   filter: brightness(80%);
 }
@@ -123,16 +136,16 @@
 .banner-edit-pic,
 .banner-clear-pic {
   position: absolute;
-  top: 120px;
+  top: 50%;
   left: 50%;
 }
 
 .banner-edit-pic {
-  transform: translateX(-48px);
+  transform: translate(-48px, -50%);
 }
 
 .banner-clear-pic {
-  transform: translateX(8px);
+  transform: translate(8px, -50%);
 }
 
 .edit-btn {
@@ -149,6 +162,7 @@
   text-overflow: ellipsis;
   max-width: min(400px, 80vw);
 }
+
 .website a:hover {
   text-decoration: underline;
 }
@@ -162,6 +176,7 @@
   font-weight: bold;
   border: 1px solid rgba(145, 145, 145, 0.5);
 }
+
 .more-btn{
   width: 37px;
   height: 37px;
@@ -175,6 +190,7 @@
 li {
   border-radius: 0 !important;
 }
+
 .go-to-top {
   position: fixed;
   bottom: 20px;
@@ -213,6 +229,7 @@ li {
   color:#DC4C64;
   background-color: transparent !important;
 }
+
 .btn-grp-cstm{
   position: absolute;
   top:240px;
@@ -280,16 +297,15 @@ li {
     min-height: 100vh;
     border-radius: 0;
   }
-
-  .banner-edit-pic,
-  .banner-clear-pic {
-    top: 92px;
-  }
 }
+
 #more a {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   line-height: 1;
-   text-decoration: none;
- }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  text-decoration: none;
+}
+
+
+

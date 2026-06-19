@@ -12,3 +12,6 @@ export class SkeletonComponent {
   @Input() shape: 'circle' | 'rectangle' = 'rectangle';
   @Input() rows: number = 1;
 }
+
+
+

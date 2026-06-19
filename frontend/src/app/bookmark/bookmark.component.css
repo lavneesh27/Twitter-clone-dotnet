@@ -9,7 +9,7 @@ li app-card{
     position: relative;
     width: 100%;
     min-height: calc(100vh - 50px);
-    border-top: 1px solid rgba(230, 230, 230,0.5);
+    border: var(--twitter-border);
     padding:0;
 }
 li{
@@ -26,6 +26,8 @@ li{
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     overflow: hidden;
+    border: var(--twitter-border);
+    margin-bottom: -1px;
 }
 
 .back, .bookmark-btn{
@@ -66,3 +68,7 @@ li{
         width: 100vw;
     }
 }
+
+
+
+

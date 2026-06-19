@@ -148,3 +148,6 @@ export class ChatService {
     return Object.values(counts).reduce((total, count) => total + count, 0);
   }
 }
+
+
+

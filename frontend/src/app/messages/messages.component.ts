@@ -4,8 +4,8 @@ import { Location } from '@angular/common';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
 import { ChatService } from '../shared/chat.service';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Chat } from '../models/chat.model';
+
 
 @Component({
   selector: 'app-messages',
@@ -13,25 +13,24 @@ import { Chat } from '../models/chat.model';
   styleUrl: './messages.component.css',
 })
 export class MessagesComponent implements OnInit {
+  isLoading: boolean = false;
   @ViewChild('chatBody') myDiv: ElementRef | undefined;
   user: any;
   users: User[] = [];
   displayUsers: User[] = [];
   unreadCounts: Record<string, number> = {};
-
   constructor(
     private data: DataService,
     private _location: Location,
     private router: Router,
     private chat: ChatService,
-    private ngxService: NgxUiLoaderService
-  ) {}
+    ) {}
   async ngOnInit() {
     const userToken =
       sessionStorage.getItem('token') || localStorage.getItem('token');
 
     if (userToken) {
-      this.ngxService.start();
+      this.isLoading = true;
       this.user = await this.data.getUser(userToken);
       this.chat.unreadCounts$.subscribe((counts) => {
         this.unreadCounts = counts;
@@ -101,12 +100,12 @@ export class MessagesComponent implements OnInit {
 
         this.displayUsers = this.getSortedDisplayUsers();
         this.isMessagesLoading = false;
-        this.ngxService.stop();
+        this.isLoading = false;
       },
       error: () => {
         this.displayUsers = [];
         this.isMessagesLoading = false;
-        this.ngxService.stop();
+        this.isLoading = false;
       },
     });
   }
@@ -176,3 +175,7 @@ export class MessagesComponent implements OnInit {
     this.router.navigate(['/chat', userId]);
   }
 }
+
+
+
+

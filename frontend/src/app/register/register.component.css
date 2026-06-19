@@ -9,8 +9,8 @@
 }
 .register{
     width: 100%;
-    height: calc(100vh-50px);
-    border-top: 1px solid rgba(230, 230, 230,0.5);
+    height: calc(100vh - 50px);
+    border-top: none;
 }
 
 .btn{
@@ -28,3 +28,5 @@
     z-index: 3;
     /* align-items: center; */
 }
+
+

@@ -15,7 +15,7 @@
     <ul class="list-group d-flex justify-content-center" *ngIf="tweets?.length">
         <li class="list-group-item d-flex justify-content-center p-0" *ngFor="let tweet of tweets"><app-card
                 (likeEvent)="ngOnInit()" [tweet]="tweet" (bookmarkTrigger)="getBookmarks()" (deleteTrigger)="getBookmarks()"></app-card></li>
-        <ngx-ui-loader></ngx-ui-loader>
+        <div class="twitter-spinner mx-auto my-4" *ngIf="isLoading"></div>
     </ul>
     <div class="no-data text-center" *ngIf="!isLoading && !tweets?.length">
         <i class='bx bx-unlink fs-1 mb-3'></i>

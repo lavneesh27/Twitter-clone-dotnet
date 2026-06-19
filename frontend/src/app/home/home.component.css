@@ -15,8 +15,8 @@ li app-card {
 
 li {
   border: none;
-  
 }
+
 .header {
   height: 50px;
   position: sticky;
@@ -25,6 +25,8 @@ li {
   background-color: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   overflow: hidden;
+  border: var(--twitter-border);
+    margin-bottom: -1px;
 }
 
 .input {
@@ -155,3 +157,6 @@ li {
     top: 56px;
   }
 }
+
+
+

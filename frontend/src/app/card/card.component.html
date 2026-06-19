@@ -1,66 +1,77 @@
 <div class="card">
-  <div class="card-body ">
-    <div class="profile  d-flex align-items-center" >
-      <div class="rounded-circle me-2 overflow-hidden" style="width:50px;height:50px;cursor: pointer;" (click)="navigateToProfile(user.id)"
-      >
+  <div class="card-body d-flex">
+    <!-- Left Column: Profile Picture -->
+    <div class="me-2" style="width: 50px; flex-shrink: 0;">
+      <div class="rounded-circle overflow-hidden" style="width:50px;height:50px;cursor: pointer;" (click)="navigateToProfile(user.id)">
         <img *ngIf="user && user.image" [src]="user.image" style="width:100%;height:100%;object-fit: cover; border-radius: inherit; " alt="dp">
         <span *ngIf="!user || !user.image"
           class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-light"
           style="width:100%;height:100%">
           {{ user?.firstName?.charAt(0) }}
         </span>
-      </div > 
-      <div (click)="navigateToProfile(user.id)" style="cursor: pointer;" class="d-flex align-items-center">
-        <span class="fs-6 name">{{user?.firstName}} {{user?.lastName}}</span>
-        &nbsp;<img *ngIf="user?.userName=='lavneesh27'" src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" width="20px" alt="verified" title="verified"> <span class="text-muted fw-normal">&#64;{{user?.userName}} .
-          <span [title]="tweet.createdAt | date">{{tweet.createdAt | date:"dd MMM"}}</span></span>
       </div>
-      <div class="ms-auto">
-        <button id="more" class="btn rounded-pill more-btn" style="cursor: pointer">
-          <a class="text-reset text-decoration-none d-flex align-items-center justify-content-center" type="button"
-            data-bs-toggle="dropdown" data-bs-toggle="dropdown" title="More"><i class='bx bx-dots-horizontal-rounded'></i></a>
-          <ul class="dropdown-menu fw-normal">
-            <li *ngIf="loginUser?.id != user?.id">
-              <a class="dropdown-item d-flex align-items-center" (click)="unFollow(user?.id)">
-                <i class="bx bx-user-minus fs-4 me-2"></i>
-                  Unfollow &#64;{{ user?.userName }}
-              </a>
-            </li>
-            <li *ngIf="loginUser?.id == user?.id">
-              <a class="dropdown-item d-flex align-items-center text-danger" (click)="delete(tweet.id)">
-                <i class='bx bx-trash fs-5 me-2'></i> Delete
-              </a>
-            </li>
+    </div>
+    
+    <!-- Right Column: Content -->
+    <div class="flex-grow-1" style="min-width: 0;">
+      <!-- Header (Name, Handle, Date, More Button) -->
+      <div class="d-flex align-items-center justify-content-between w-100">
+        <div (click)="navigateToProfile(user.id)" style="cursor: pointer; min-width: 0;" class="d-flex align-items-center flex-wrap">
+          <span class="fs-6 name text-truncate" style="max-width: 150px;">{{user?.firstName}} {{user?.lastName}}</span>
+          <img *ngIf="user?.userName=='lavneesh27'" src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" width="20px" alt="verified" title="verified" class="ms-1 me-1"> 
+          <span class="text-muted fw-normal text-truncate ms-1" style="max-width: 150px;">&#64;{{user?.userName}}</span>
+          <span class="text-muted fw-normal mx-1">.</span>
+          <span class="text-muted fw-normal flex-shrink-0" [title]="tweet.createdAt | date">{{tweet.createdAt | date:"dd MMM"}}</span>
+        </div>
+        <div>
+          <button id="more" class="btn rounded-pill more-btn p-0 d-flex align-items-center justify-content-center" style="cursor: pointer;">
+            <a class="text-reset text-decoration-none d-flex align-items-center justify-content-center w-100 h-100" type="button"
+              data-bs-toggle="dropdown" title="More"><i class='bx bx-dots-horizontal-rounded'></i></a>
+            <ul class="dropdown-menu fw-normal dropdown-menu-end">
+              <li *ngIf="loginUser?.id != user?.id">
+                <a class="dropdown-item d-flex align-items-center" (click)="unFollow(user?.id)">
+                  <i class="bx bx-user-minus fs-4 me-2"></i>
+                    Unfollow &#64;{{ user?.userName }}
+                </a>
+              </li>
+              <li *ngIf="loginUser?.id == user?.id">
+                <a class="dropdown-item d-flex align-items-center text-danger" (click)="delete(tweet.id)">
+                  <i class='bx bx-trash fs-5 me-2'></i> Delete
+                </a>
+              </li>
+            </ul>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Tweet Content -->
+      <h6 class="card-text my-2" (click)="redirect(tweet.id)">{{tweet.content}}</h6>
+      
+      <!-- Tweet Image -->
+      <div class="img-container mb-3" *ngIf="dataURL">
+        <img class="img-thumbnail" [src]="dataURL" alt="tweetThumb" (click)="onClick($event); showImage=true" data-toggle="modal"
+          data-target="#myModal">
+      </div>
+      
+      <!-- Actions -->
+      <div class="d-flex justify-content-between pe-4 mt-1" style="margin-left: -8px;">
+        <a class="btn p-0 action" href="javascript:void(0)" style="cursor: not-allowed;"><i class='bx bx-comment fs-5'></i></a>
+        <a class="btn p-0 action" href="javascript:void(0)" style="cursor: not-allowed;"><i class='bx bx-git-compare fs-5'></i></a>
+        <div class="d-flex align-items-center">
+          <input id="like" type="checkbox" name="like" title="Like" [(ngModel)]="like" (change)="plusLike()" class="action"
+            [class]="like==false?'form-control bx bx-heart fs-5':'form-control bx bxs-heart fs-5'">
+            <span style="cursor: pointer;">{{tweet.likes.length?tweet.likes.length:''}}</span>
+        </div>    
+        <div class="dropdown">
+          <a class="btn p-0 action" type="button" data-bs-toggle="dropdown" title="Share"><i class='bx bx-share fs-5'></i></a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item d-flex align-items-center" (click)="copy()"><i class='bx bx-link fs-5'></i>&nbsp; Copy Link to Tweet</a></li>
+            <li *ngIf="bookmarkStatus"><a class="dropdown-item d-flex align-items-center" (click)="unBookmark()"><i class='bx bxs-bookmark-minus fs-5'></i>&nbsp; Remove Bookmark</a></li>
+            <li *ngIf="!bookmarkStatus"><a class="dropdown-item d-flex align-items-center" (click)="bookmark()"><i class='bx bx-bookmark fs-5'></i>&nbsp; Bookmark</a></li>
           </ul>
-        </button>
-      </div>
-     
-    </div>
-    <h6 class="card-text ms-4  my-2" (click)="redirect(tweet.id)">{{tweet.content}}</h6>
-    <div class="img-container mb-3 ms-3" *ngIf="dataURL">
-      <img class="img-thumbnail" [src]="dataURL" alt="tweetThumb" (click)="onClick($event)" data-toggle="modal"
-        data-target="#myModal" (click)="showImage=true">
-    </div>
-    <div class="d-flex justify-content-between px-4">
-        <a class="btn p-0 me-2 action" href="javascript:void(0)" style="cursor: not-allowed;"><i class='bx bx-comment fs-5'></i></a>
-        <a class="btn p-0 me-2 action" href="javascript:void(0)" style="cursor: not-allowed;"><i
-            class='bx bx-git-compare fs-5'></i></a>
-      <div class="d-flex align-items-center">
-        <input id="like" type="checkbox" name="like" title="Like" [(ngModel)]="like" (change)="plusLike()" class="action"
-          [class]="like==false?'form-control bx bx-heart fs-5':'form-control bx bxs-heart fs-5'">
-          <span  style="cursor: pointer;">{{tweet.likes.length?tweet.likes.length:''}}</span>
-      </div>    
-      <div class="dropdown">
-        <a class="btn p-0 me-2" type="button" data-bs-toggle="dropdown" data-bs-toggle="dropdown" title="Share"><i
-            class='bx bx-share action fs-5'></i></a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item d-flex align-items-center" (click)="copy()"><i class='bx bx-link fs-5'></i>&nbsp; Copy Link to Tweet</a></li>
-          <li *ngIf="bookmarkStatus"><a class="dropdown-item d-flex align-items-center" (click)="unBookmark()"><i class='bx bxs-bookmark-minus fs-5'></i>&nbsp; Remove Bookmark</a></li>
-          <li *ngIf="!bookmarkStatus"><a class="dropdown-item d-flex align-items-center" (click)="bookmark()"><i class='bx bx-bookmark fs-5'></i>&nbsp; Bookmark</a></li>
-        </ul>
+        </div>
       </div>
     </div>
-
   </div>
 </div>
 

@@ -14,7 +14,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Chat } from '../models/chat.model';
 import { MainService } from '../shared/main.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UploadService } from '../shared/upload.service';
 
 @Component({
@@ -24,6 +23,7 @@ import { UploadService } from '../shared/upload.service';
   styleUrl: './chat.component.css',
 })
 export class ChatComponent implements OnDestroy {
+  isLoading: boolean = false;
   private modalService = inject(NgbModal);
   @ViewChild('chatBody') myDiv: ElementRef | undefined;
   @ViewChild('myInput') myInput: ElementRef | undefined;
@@ -53,7 +53,6 @@ export class ChatComponent implements OnDestroy {
     private route: Router,
     private service: MainService,
     private toastr: ToastrService,
-    private ngxService: NgxUiLoaderService,
     private uploadService: UploadService
   ) {}
   async ngOnInit() {
@@ -80,7 +79,7 @@ export class ChatComponent implements OnDestroy {
       this.chatService.setActiveConversation(this.reciever.id);
     }
 
-    this.ngxService.start();
+    this.isLoading = true;
     this.isChatsLoading = true;
     this.chatService.getMessages().subscribe((res) => {
       if (!this.user?.id || !this.reciever?.id) {
@@ -100,9 +99,9 @@ export class ChatComponent implements OnDestroy {
             this.scrollToBottom();
           }
         }, 500);
-        this.ngxService.stop();
+        this.isLoading = false;
       }else{
-        this.ngxService.stop();
+        this.isLoading = false;
       }
     });
 
@@ -168,12 +167,12 @@ export class ChatComponent implements OnDestroy {
       centered: true,
       size: 'sm',
       windowClass: 'dark-modal',
-      animation: false
+      animation: true
     });
   }
   onImport(vitalSignsDataModal: any) {
     this.modalService.dismissAll();
-    this.modalService.open(vitalSignsDataModal, { size: 'lg', centered: true, animation: false });
+    this.modalService.open(vitalSignsDataModal, { size: 'lg', centered: true, animation: true });
     this.service.getTrendingGifs();
     this.subscription = this.service.getGifs().subscribe((res) => {
       this.gifs = res;
@@ -231,3 +230,7 @@ export class ChatComponent implements OnDestroy {
     });
   }
 }
+
+
+
+
