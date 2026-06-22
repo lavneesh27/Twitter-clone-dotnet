@@ -2,6 +2,7 @@
     <a href="javascript:void(0)" (click)="goBack()" class="back me-3"><i class='bx bx-left-arrow-alt  fs-3 '></i></a>
     <h5>Post</h5>
 </div>
-<app-card *ngIf="tweet" [tweet]="tweet" (deleteTrigger)="removePost()"></app-card>
-
+<div class="post">
+  <app-card *ngIf="tweet" [tweet]="tweet" (deleteTrigger)="removePost()"></app-card>
+</div>
 
