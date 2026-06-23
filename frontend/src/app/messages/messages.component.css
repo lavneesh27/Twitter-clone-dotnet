@@ -132,6 +132,15 @@ ul:hover::-webkit-scrollbar-thumb {
     max-width: calc(100vw - 110px);
     white-space: nowrap;
   }
+
+  .message {
+    height: calc(100vh - 50px - var(--mobile-nav-height)) !important;
+    height: calc(100dvh - 50px - var(--mobile-nav-height)) !important;
+  }
+
+  ul {
+    height: 100% !important;
+  }
 }
 .list-group-item{
   border: none;

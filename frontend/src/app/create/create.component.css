@@ -61,6 +61,8 @@
     .create {
         border-left: 0;
         border-right: 0;
+        min-height: calc(100vh - 50px - var(--mobile-nav-height)) !important;
+        min-height: calc(100dvh - 50px - var(--mobile-nav-height)) !important;
     }
 }
 /* Dark Mode Overrides */
@@ -73,4 +75,13 @@
 
 :host-context(body.dark-mode) .create {
   border-color: #2F3336;
+}
+.upload-btn {
+  width: 50%;
+}
+
+@media (min-width: 992px) {
+  .upload-btn {
+    width: 25%;
+  }
 }

@@ -40,6 +40,9 @@
         <li class="nav-item mb-3" *ngIf="user">
           <a class="nav-link d-flex" aria-current="page" (click)="user ? open(display, 'color') : login()"><i class='bx bxs-paint-roll fs-3'></i>&nbsp; Display</a>
         </li>
+        <li class="nav-item mb-3 d-md-none" *ngIf="user">
+          <a class="nav-link d-flex text-danger" aria-current="page" (click)="open(content, 'logout')" title="Logout"><i class='bx bx-log-out fs-3'></i>&nbsp; Logout</a>
+        </li>
         <li class="mb-3" *ngIf="user">
           <a class="btn btn-dark mb-3 tweet" routerLink="/create">Post</a>
         </li>

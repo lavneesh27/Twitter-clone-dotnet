@@ -5,7 +5,7 @@
     <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="register()">
         <div class="row mb-3">
             <div class="col">
-                <label for="exampleInputEmail1" class="form-label">First Name <span class="text-danger">*</span></label>
+                <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="firstName" formControlName="firstName" [ngClass]="
                 (submitted || registerForm.get('firstName')!.touched) && registerForm.get('firstName')!.invalid
                   ? 'is-invalid'
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="col">
-                <label for="exampleInputEmail1" class="form-label">Last Name <span class="text-danger">*</span></label>
+                <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="lastName" formControlName="lastName" [ngClass]="
                 (submitted || registerForm.get('lastName')!.touched) && registerForm.get('lastName')!.invalid ? 'is-invalid' : ''
               " />
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address <span class="text-danger">*</span></label>
+            <label for="email" class="form-label">Email address <span class="text-danger">*</span></label>
             <input type="email" class="form-control" id="email" aria-describedby="emailHelp" formControlName="email"
                 [ngClass]="
                 (submitted || registerForm.get('email')!.touched) && registerForm.get('email')!.invalid ? 'is-invalid' : ''
@@ -39,12 +39,12 @@
             </div>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">DOB</label>
+            <label for="dob" class="form-label">DOB</label>
             <input type="date" class="form-control" id="dob" formControlName="dob">
         </div>
 
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">User Name <span class="text-danger">*</span></label>
+            <label for="userName" class="form-label">User Name <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="userName" formControlName="userName" [ngClass]="
             (submitted || registerForm.get('userName')!.touched) && registerForm.get('userName')!.invalid ? 'is-invalid' : ''
               " />
@@ -57,7 +57,7 @@
 
         <div class="row mb-3">
             <div class="col">
-                <label for="exampleInputPassword1" class="form-label">Password <span
+                <label for="password" class="form-label">Password <span
                         class="text-danger">*</span></label>
                 <input type="password" class="form-control" id="password" formControlName="password" [ngClass]="
                 (submitted || registerForm.get('password')!.touched) && registerForm.get('password')!.invalid ? 'is-invalid' : ''
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="col">
-                <label for="exampleInputPassword2" class="form-label">Repeat Password <span
+                <label for="rPassword" class="form-label">Repeat Password <span
                         class="text-danger">*</span></label>
                 <input type="password" class="form-control" id="rPassword" formControlName="rPassword" [ngClass]="
                 (submitted || registerForm.get('rPassword')!.touched) && registerForm.get('rPassword')!.invalid ? 'is-invalid' : ''
@@ -79,7 +79,6 @@
                     Passwords do not match!
                 </div>
             </div>
-
         </div>
         <div class="col">
             <label for="image" class="form-label">Upload Image</label>
@@ -87,16 +86,14 @@
                 (change)="onFileSelected($event)" />
         </div>
         <div class="text-center mt-3">
-            <button type="submit" class="mx-auto btn btn-primary" [disabled]="registerForm.invalid">
-                Register
+            <button type="submit" class="mx-auto btn btn-primary" [disabled]="registerForm.invalid || isLoading">
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" *ngIf="isLoading"></span>
+                <span>{{ isLoading ? 'Registering...' : 'Register' }}</span>
             </button>
         </div>
         <div class="justify-content-center d-flex w-100 mt-4" *ngIf="image">
             <div class="rounded-circle me-3 overflow-hidden text-center" style="width:300px;height:300px"><img
                      [src]="image" style="width:100%;height:100%;object-fit:cover;object-position:center center"></div>
         </div>
-
-
     </form>
 </div>
-

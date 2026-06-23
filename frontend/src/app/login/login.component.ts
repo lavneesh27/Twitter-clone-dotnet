@@ -15,6 +15,7 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   showPassword: boolean = false;
+  isLoading: boolean = false;
   constructor(
     private _location: Location,
     private auth: AuthService,
@@ -34,11 +35,15 @@ export class LoginComponent {
       return;
     }
 
+    this.isLoading = true;
     this.auth.login(this.email, this.password, this.remember).then(async token=>{
       if (token) {
         this.main.loginUserObject = await this.data.getUser(token);
       }
-    })
+      this.isLoading = false;
+    }).catch(() => {
+      this.isLoading = false;
+    });
   }
 
   goBack() {

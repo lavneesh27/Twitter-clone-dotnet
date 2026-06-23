@@ -40,16 +40,18 @@ export class AuthService {
       });
   }
   
-  register(user: User) {
-    firstValueFrom(this.http.post<User>(`${this.baseUrl}/auth/register`, user))
+  register(user: User): Promise<boolean> {
+    return firstValueFrom(this.http.post<User>(`${this.baseUrl}/auth/register`, user))
       .then(
         (res) => {
           this.toastr.success('Registration Successful');
           this.router.navigate(['login']);
+          return true;
         },
         (err) => {
           this.toastr.error(err.error || err.message);
           this.router.navigate(['/register']);
+          return false;
         }
       );
   }

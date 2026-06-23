@@ -67,6 +67,10 @@ li{
         left: 0;
         width: 100vw;
     }
+    .bookmark {
+        min-height: calc(100vh - 50px - var(--mobile-nav-height)) !important;
+        min-height: calc(100dvh - 50px - var(--mobile-nav-height)) !important;
+    }
 }
 
 

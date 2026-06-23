@@ -36,6 +36,13 @@ router-outlet{
         padding-bottom: var(--mobile-nav-height);
         -webkit-overflow-scrolling: touch;
     }
+    .app-shell:has(app-messages),
+    .app-shell:has(app-chat) {
+        overflow-y: hidden !important;
+        padding-bottom: 0 !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+    }
 }
 
 

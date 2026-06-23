@@ -37,9 +37,9 @@
     </div>
 
 
-    <button type="submit" class="d-block mx-auto btn">
-      Login
+    <button type="submit" class="d-block mx-auto btn" [disabled]="isLoading">
+      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" *ngIf="isLoading"></span>
+      <span>{{ isLoading ? 'Logging in...' : 'Login' }}</span>
     </button>
   </form>
 </div>
-

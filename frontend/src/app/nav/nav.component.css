@@ -246,7 +246,9 @@ nav .nav-brand i {
     left: 0;
     right: 0;
     bottom: 0;
-    overflow: hidden;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none;
     border-top: 1px solid rgba(230, 230, 230, 0.8);
     border-right: none;
     background-color: rgba(255, 255, 255, 0.94);
@@ -255,21 +257,34 @@ nav .nav-brand i {
     padding: 0;
     z-index: 100;
   }
-  .tweet{
+  nav::-webkit-scrollbar {
+    display: none;
+  }
+  .tweet {
     margin-bottom: 0px !important;
   }
 
   nav .container-fluid,
-  nav .navbar-collapse,
-  nav .navbar-nav {
+  nav .navbar-collapse {
     height: 100%;
-    width: 100%;
+    width: max-content;
+    min-width: 100%;
+    display: flex !important;
+    flex-direction: row !important;
+    padding: 0;
+    margin: 0;
   }
 
   nav .navbar-nav {
+    height: 100%;
     flex-direction: row !important;
+    flex-wrap: nowrap !important;
     justify-content: space-around;
     align-items: center;
+    width: max-content;
+    min-width: 100%;
+    gap: 24px;
+    padding: 0 24px;
   }
 
   .nav-brand,
@@ -290,8 +305,6 @@ nav .nav-brand i {
     height: 48px;
   }
 }
-
-
 
 /* Dark Mode Overrides */
 :host-context(body.dark-mode) .nav-item:hover {

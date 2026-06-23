@@ -194,6 +194,11 @@
 }
 
 @media (max-width: 767.98px) {
+  :host {
+    height: calc(100vh - var(--mobile-nav-height)) !important;
+    height: calc(100dvh - var(--mobile-nav-height)) !important;
+  }
+
   .header {
     width: 100%;
   }
@@ -203,7 +208,7 @@
   }
 
   .input-container {
-    bottom: var(--mobile-nav-height);
+    bottom: 0;
     width: 100%;
     height: auto;
     min-height: 64px;
@@ -230,11 +235,11 @@
   .chats {
     padding-left: 0;
     padding-right: 0;
-    padding-bottom: calc(var(--mobile-nav-height) + 80px);
+    padding-bottom: 80px;
   }
 
   .scroll-to-bottom-btn {
-    bottom: calc(var(--mobile-nav-height) + 74px);
+    bottom: 74px;
   }
 }
 

@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   image: any;
   submitted: boolean = false;
+  isLoading: boolean = false;
   constructor(
     private fb: FormBuilder,
     private _location: Location,
@@ -80,6 +81,9 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.submitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    }
    
     let user: User = {
       id: 0,
@@ -99,7 +103,12 @@ export class RegisterComponent implements OnInit {
       following:[],
       defaultPrimaryColor: ''
     };
-    this.auth.register(user);
+    this.isLoading = true;
+    this.auth.register(user).then(() => {
+      this.isLoading = false;
+    }).catch(() => {
+      this.isLoading = false;
+    });
   }
 
   onFileSelected(event: any) {
