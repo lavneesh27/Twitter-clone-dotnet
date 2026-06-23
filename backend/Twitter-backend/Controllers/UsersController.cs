@@ -54,6 +54,7 @@ namespace Twitter_backend.Controllers
       existing.Image = user.Image;
       existing.Banner = user.Banner;
       existing.DefaultPrimaryColor = user.DefaultPrimaryColor;
+      existing.DarkMode = user.DarkMode;
       await db.SaveChangesAsync();
 
       return NoContent();

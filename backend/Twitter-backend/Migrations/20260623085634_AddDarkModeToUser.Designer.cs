@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Twitter_backend.Data;
 
@@ -10,9 +11,11 @@ using Twitter_backend.Data;
 namespace Twitter_backend.Migrations
 {
     [DbContext(typeof(TwitterDbContext))]
-    partial class TwitterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260623085634_AddDarkModeToUser")]
+    partial class AddDarkModeToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

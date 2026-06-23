@@ -51,7 +51,7 @@ export class CreateComponent implements OnInit {
       return;
     }
     if (!file.type.startsWith('image/')) {
-      alert('Please select only image files.');
+      this.toastr.warning('Please select only image files.');
       return;
     }
   

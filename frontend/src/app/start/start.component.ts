@@ -8,6 +8,7 @@ import {
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-start',
@@ -20,7 +21,8 @@ export class StartComponent {
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private auth: AuthService
+    private auth: AuthService,
+    private toastr: ToastrService
   ) {}
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -34,12 +36,12 @@ export class StartComponent {
   }
   lo() {
     if (this.loginForm.get('email')!.value == '') {
-      alert('Please enter email');
+      this.toastr.warning('Please enter email');
       return;
     }
 
-    if (this.loginForm.get('email')!.value== '') {
-      alert('Please enter password');
+    if (this.loginForm.get('pwd')!.value == '') {
+      this.toastr.warning('Please enter password');
       return;
     }
 

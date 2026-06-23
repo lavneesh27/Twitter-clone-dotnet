@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { AuthService } from '../shared/auth.service';
 import { MainService } from '../shared/main.service';
 import { DataService } from '../shared/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -14,16 +15,22 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   showPassword: boolean = false;
-  constructor(private _location: Location, private auth: AuthService, private main: MainService, private data: DataService) {}
+  constructor(
+    private _location: Location,
+    private auth: AuthService,
+    private main: MainService,
+    private data: DataService,
+    private toastr: ToastrService
+  ) {}
 
   login() {
     if (this.email == '') {
-      alert('Please enter email');
+      this.toastr.warning('Please enter email');
       return;
     }
 
     if (this.password == '') {
-      alert('Please enter password');
+      this.toastr.warning('Please enter password');
       return;
     }
 
@@ -38,6 +45,3 @@ export class LoginComponent {
     this._location.back();
   }
 }
-
-
-

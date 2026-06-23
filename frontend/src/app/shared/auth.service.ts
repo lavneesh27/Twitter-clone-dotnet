@@ -34,7 +34,8 @@ export class AuthService {
         return userId;
       })
       .catch((err) => {
-        alert(err.message);
+        const errorMsg = err.error || (err.status === 401 ? 'Invalid email or password.' : err.message);
+        this.toastr.error(errorMsg);
         return null;
       });
   }
@@ -47,7 +48,7 @@ export class AuthService {
           this.router.navigate(['login']);
         },
         (err) => {
-          alert(err.error || err.message);
+          this.toastr.error(err.error || err.message);
           this.router.navigate(['/register']);
         }
       );
@@ -60,18 +61,18 @@ export class AuthService {
   }
 
   googleSignIn() {
-    alert('Google sign-in is not configured for the .NET API yet.');
+    this.toastr.info('Google sign-in is not configured for the .NET API yet.');
     return Promise.resolve();
   }
 
   forgotPassword(email: string) {
     firstValueFrom(this.http.post(`${this.baseUrl}/auth/forgot-password`, { email }, { responseType: 'text' })).then(
       () => {
-        alert('Password reset is not configured for the local .NET API yet.');
+        this.toastr.info('Password reset is not configured for the local .NET API yet.');
         this.router.navigate(['login'])
       },
       (_err) => {
-        alert('Something went wrong');
+        this.toastr.error('Something went wrong');
       }
     );
   }

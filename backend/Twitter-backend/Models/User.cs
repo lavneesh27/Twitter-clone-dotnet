@@ -18,5 +18,6 @@ namespace Twitter_backend.Models
     public List<string> Followers { get; set; } = [];
     public List<string> Following { get; set; } = [];
     public string? DefaultPrimaryColor { get; set; }
+    public bool DarkMode { get; set; } = false;
   }
 }

@@ -137,7 +137,7 @@ export class ChatComponent implements OnDestroy {
 
   sendMessage() {
     if (this.message!.text == '' && this.message!.attachment == '') {
-      alert('Please enter some message');
+      this.toastr.warning('Please enter some message');
       return;
     }
     this.chatService.sendMessage(this.message, this.reciever.id);
@@ -184,7 +184,7 @@ export class ChatComponent implements OnDestroy {
       return;
     }
     if (!file.type.startsWith('image/')) {
-      alert('Please select only image files.');
+      this.toastr.warning('Please select only image files.');
       return;
     }
 

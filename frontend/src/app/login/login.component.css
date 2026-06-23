@@ -55,3 +55,11 @@
 }
 
 
+
+/* Dark Mode Overrides */
+:host-context(body.dark-mode) .password-toggle {
+  color: #E7E9EA;
+}
+:host-context(body.dark-mode) .password-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}

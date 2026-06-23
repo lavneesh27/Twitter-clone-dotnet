@@ -14,3 +14,9 @@
   }
   
 
+
+/* Dark Mode Overrides */
+:host-context(body.dark-mode) .skeleton-loader {
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%) !important;
+  background-size: 200% 100% !important;
+}

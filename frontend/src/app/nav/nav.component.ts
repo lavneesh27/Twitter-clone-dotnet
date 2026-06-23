@@ -25,6 +25,20 @@ export class NavComponent implements OnInit {
     private chat: ChatService
   ) {}
   async ngOnInit() {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+      document.body.classList.add('dark-mode');
+    } else if (savedDarkMode === 'false') {
+      document.body.classList.remove('dark-mode');
+    }
+
+    const savedColor = localStorage.getItem('defaultPrimaryColor');
+    if (savedColor) {
+      const { color, secColor } = JSON.parse(savedColor);
+      document.documentElement.style.setProperty('--twitter-primary', color);
+      document.documentElement.style.setProperty('--twitter-secondary', secColor);
+    }
+
     this.chat.unreadTotal$.subscribe((count) => {
       this.unreadMessagesCount = count;
     });
@@ -38,12 +52,15 @@ export class NavComponent implements OnInit {
         const { color, secColor } = JSON.parse(this.user.defaultPrimaryColor);
         document.documentElement.style.setProperty('--twitter-primary', color);
         document.documentElement.style.setProperty('--twitter-secondary', secColor);
+        localStorage.setItem('defaultPrimaryColor', this.user.defaultPrimaryColor);
       }
 
       if (this.user?.darkMode) {
         document.body.classList.add('dark-mode');
+        localStorage.setItem('darkMode', 'true');
       } else {
         document.body.classList.remove('dark-mode');
+        localStorage.setItem('darkMode', 'false');
       }
     }
   }
@@ -76,6 +93,7 @@ export class NavComponent implements OnInit {
 
     document.documentElement.style.setProperty('--twitter-primary', colorObj.color);
     document.documentElement.style.setProperty('--twitter-secondary', colorObj.secColor);
+    localStorage.setItem('defaultPrimaryColor', JSON.stringify(colorObj));
 
     this.data.updateUser(this.user);
     this.toastr.success('Color set Successfully');
@@ -85,8 +103,10 @@ export class NavComponent implements OnInit {
     this.user.darkMode = !this.user.darkMode;
     if (this.user.darkMode) {
       document.body.classList.add('dark-mode');
+      localStorage.setItem('darkMode', 'true');
     } else {
       document.body.classList.remove('dark-mode');
+      localStorage.setItem('darkMode', 'false');
     }
     this.data.updateUser(this.user);
     this.toastr.success('Theme updated successfully');

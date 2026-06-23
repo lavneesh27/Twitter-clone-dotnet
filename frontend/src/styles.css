@@ -83,20 +83,20 @@ input:hover,
 button:hover {
   outline: none !important;
 }
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 8px;
 }
 
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background-color: #888;
   border-radius: 4px;
 }
 
-body::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background-color: #f1f1f1;
 }
 
-body:hover::-webkit-scrollbar-thumb {
+*:hover::-webkit-scrollbar-thumb {
   background-color: #777;
 }
 .image-viewer-img-circle {
@@ -287,12 +287,10 @@ body.dark-mode a:not(.btn) {
 
 body.dark-mode .nav-link {
   color: #E7E9EA !important;
-  border-radius: 100px !important;
 }
 
 body.dark-mode .nav-link:not(.main-logo):hover,
 body.dark-mode .nav-link.active:not(.main-logo) {
-  background-color: rgba(231, 233, 234, 0.1);
   color: #E7E9EA !important;
 }
 
@@ -303,13 +301,7 @@ body.dark-mode .btn-outline {
 body.dark-mode .btn-outline:hover {
   background-color: rgba(231, 233, 234, 0.1);
 }
-body.dark-mode .btn {
-  /* background-color: #E7E9EA; */
-  color: #0F1419;
-}
-body.dark-mode .btn:hover {
-  background-color: rgba(231, 233, 234, 0.1);
-}
+
 
 body.dark-mode .form-control,
 body.dark-mode .form-select {
@@ -346,13 +338,16 @@ body.dark-mode .color-container {
   border: 1px solid #2F3336;
 }
 
-body.dark-mode nav .nav-item:hover,
 body.dark-mode .logo:hover,
-body.dark-mode .profile:hover {
+body.dark-mode nav .profile:hover {
   background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-body.dark-mode .profile {
+body.dark-mode nav .nav-item:hover {
+  /* background-color: transparent !important; */
+}
+
+body.dark-mode nav .profile {
   background-color: #000000;
   color: #E7E9EA;
 }
@@ -361,7 +356,6 @@ body.dark-mode nav {
   border-color: #2F3336 !important;
 }
 
-body.dark-mode .text-dark,
 body.dark-mode .text-muted {
   color: #71767B !important;
 }
@@ -410,6 +404,156 @@ body.dark-mode::-webkit-scrollbar-thumb {
 
 body.dark-mode:hover::-webkit-scrollbar-thumb {
   background-color: #536471;
+}
+
+/* --- Extended Dark Mode Coverage --- */
+
+/* Fix .text-dark: must be light in dark mode (was dim gray making it invisible) */
+body.dark-mode .text-dark {
+  color: #E7E9EA !important;
+}
+
+/* General text color inheritance for all headings & paragraphs */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode label,
+body.dark-mode small {
+  color: inherit;
+}
+
+/* List group items (Bootstrap) — remove white background */
+body.dark-mode .list-group-item {
+  background-color: #000000 !important;
+  color: #E7E9EA !important;
+  border-color: #2F3336 !important;
+}
+
+body.dark-mode .list-group-item-action:hover,
+body.dark-mode .list-group-item-action:focus {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  color: #E7E9EA !important;
+}
+
+/* Form labels */
+body.dark-mode .form-label {
+  color: #E7E9EA !important;
+}
+
+/* Form controls text color */
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+  color: #E7E9EA !important;
+  border-color: #2F3336 !important;
+}
+
+body.dark-mode textarea {
+  background-color: #000000 !important;
+  color: #E7E9EA !important;
+  border-color: #2F3336 !important;
+}
+
+/* btn-close (X buttons in modals) */
+body.dark-mode .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* btn-dark in dark mode — invert to light style */
+body.dark-mode .btn-dark {
+  background-color: #E7E9EA !important;
+  color: #0F1419 !important;
+  border-color: #E7E9EA !important;
+}
+body.dark-mode .btn-dark:hover {
+  background-color: #D6D9DB !important;
+  color: #0F1419 !important;
+}
+
+/* btn-outline-dark in dark mode — invert to light outline */
+body.dark-mode .btn-outline-dark {
+  color: #E7E9EA !important;
+  border-color: #536471 !important;
+  background-color: transparent !important;
+}
+body.dark-mode .btn-outline-dark:hover {
+  background-color: rgba(231, 233, 234, 0.1) !important;
+  color: #E7E9EA !important;
+}
+
+/* Modal header & footer borders */
+body.dark-mode .modal-header {
+  border-bottom-color: #2F3336 !important;
+  color: #E7E9EA;
+}
+body.dark-mode .modal-footer {
+  border-top-color: #2F3336 !important;
+}
+body.dark-mode .modal-title {
+  color: #E7E9EA !important;
+}
+body.dark-mode .modal-body {
+  color: #E7E9EA;
+}
+
+/* Form switch / checkbox in dark mode */
+body.dark-mode .form-check-input {
+  background-color: #2F3336;
+  border-color: #536471;
+}
+body.dark-mode .form-check-input:checked {
+  background-color: var(--twitter-primary);
+  border-color: var(--twitter-primary);
+}
+
+/* No data / empty state text */
+body.dark-mode .no-data {
+  color: #71767B !important;
+}
+body.dark-mode .no-data h2,
+body.dark-mode .no-data h4 {
+  color: #E7E9EA !important;
+}
+
+body.dark-mode .no-user {
+  color: #71767B !important;
+}
+
+/* Image thumbnail border in dark mode */
+body.dark-mode .img-thumbnail {
+  border-color: #2F3336 !important;
+  background-color: transparent !important;
+}
+
+/* Message badge border matches dark bg */
+body.dark-mode .message-badge {
+  border-color: #000000 !important;
+}
+
+/* Fix generic anchor text-reset */
+body.dark-mode .text-reset {
+  color: #E7E9EA !important;
+}
+
+/* Scrollbar overrides for all scrollable containers in dark mode */
+body.dark-mode *::-webkit-scrollbar-track {
+  background-color: #000000;
+}
+body.dark-mode *::-webkit-scrollbar-thumb {
+  background-color: #333639;
+}
+body.dark-mode *:hover::-webkit-scrollbar-thumb {
+  background-color: #536471;
+}
+
+/* Skeleton loader in dark mode */
+body.dark-mode .skeleton-loader {
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%) !important;
+  background-size: 200% 100% !important;
 }
 
 .twitter-spinner {

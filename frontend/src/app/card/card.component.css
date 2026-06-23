@@ -126,3 +126,57 @@ img:hover {
     height: 36px;
   }
 }
+
+/* Dark Mode Overrides */
+:host-context(body.dark-mode) .card {
+  border-color: #2F3336;
+}
+
+:host-context(body.dark-mode) .action {
+  color: #71767B;
+}
+
+:host-context(body.dark-mode) .action:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #E7E9EA;
+}
+
+:host-context(body.dark-mode) #like {
+  color: #71767B;
+}
+
+:host-context(body.dark-mode) #like.bxs-heart {
+  color: #dc4c64 !important;
+}
+
+:host-context(body.dark-mode) #like:hover {
+  background-color: rgba(230, 150, 150, 0.2);
+  color: #dc4c64 !important;
+}
+
+:host-context(body.dark-mode) .more-btn {
+  color: #71767B;
+}
+
+:host-context(body.dark-mode) .more-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #E7E9EA;
+}
+
+:host-context(body.dark-mode) .name {
+  color: #E7E9EA;
+}
+
+:host-context(body.dark-mode) .card-text {
+  color: #E7E9EA;
+}
+
+:host-context(body.dark-mode) .img-thumbnail {
+  border-color: #2F3336;
+}
+
+:host-context(body.dark-mode) .dropdown-menu {
+  box-shadow: rgba(255, 255, 255, 0.05) 0px 2px 4px 0px,
+    rgba(255, 255, 255, 0.1) 0px 2px 16px 0px;
+}
+

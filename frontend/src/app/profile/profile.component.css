@@ -11,7 +11,8 @@
   top: 0;
   z-index: 3;
   background-color: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   overflow: hidden;
   border: var(--twitter-border);
     margin-bottom: -1px;
@@ -309,3 +310,46 @@ li {
 
 
 
+
+/* Dark Mode Overrides */
+:host-context(body.dark-mode) .header {
+  background-color: rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-color: #2F3336;
+}
+
+:host-context(body.dark-mode) .profile {
+  border-color: #2F3336;
+}
+
+:host-context(body.dark-mode) .dp {
+  border-color: #000000 !important;
+}
+
+:host-context(body.dark-mode) .edit-btn {
+  border-color: #536471;
+}
+
+:host-context(body.dark-mode) .chat-btn {
+  border-color: #536471;
+}
+
+:host-context(body.dark-mode) .more-btn {
+  border-color: #536471;
+}
+
+:host-context(body.dark-mode) .unfollow:hover {
+  border-color: #DC4C64 !important;
+  color: #DC4C64 !important;
+  background-color: rgba(220, 76, 100, 0.1) !important;
+}
+
+:host-context(body.dark-mode) .modal-content {
+  background-color: #000000;
+  border: 1px solid #2F3336;
+}
+
+:host-context(body.dark-mode) .modal-dp {
+  border-color: #000000 !important;
+}

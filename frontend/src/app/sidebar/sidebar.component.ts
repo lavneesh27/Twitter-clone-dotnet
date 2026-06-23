@@ -52,7 +52,7 @@ export class SidebarComponent implements OnInit {
             return data;
           },
           () => {
-            alert('Error while fetching users');
+            this.toastr.error('Error while fetching users');
           }
         )
         .filter((people: User) => people.userName !== this.user.userName);

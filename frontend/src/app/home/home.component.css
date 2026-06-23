@@ -23,7 +23,8 @@ li {
   top: 0;
   z-index: 3;
   background-color: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   overflow: hidden;
   border: var(--twitter-border);
     margin-bottom: -1px;
@@ -157,6 +158,39 @@ li {
     top: 56px;
   }
 }
+
+/* Dark Mode Overrides */
+:host-context(body.dark-mode) .header {
+  background-color: rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-color: #2F3336;
+}
+
+:host-context(body.dark-mode) .input {
+  background-color: #000000;
+  color: #E7E9EA;
+}
+
+:host-context(body.dark-mode) .home {
+  border-color: #2F3336;
+}
+
+:host-context(body.dark-mode) .image:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:host-context(body.dark-mode) .line {
+  border-color: #2F3336;
+}
+
+:host-context(body.dark-mode) .cross {
+  color: #71767B;
+}
+:host-context(body.dark-mode) .cross:hover {
+  color: #E7E9EA;
+}
+
 
 
 

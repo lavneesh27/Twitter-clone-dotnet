@@ -10,6 +10,7 @@ import { Location } from '@angular/common';
 import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router';
 import { UploadService } from '../shared/upload.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -25,7 +26,8 @@ export class RegisterComponent implements OnInit {
     private _location: Location,
     private auth: AuthService,
     private router: Router,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private toastr: ToastrService
   ) {}
   ngOnInit(): void {
     this.registerForm = this.fb.group(
@@ -106,7 +108,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
     if (!file.type.startsWith('image/')) {
-      alert('Please select only image files.');
+      this.toastr.warning('Please select only image files.');
       return;
     }
 
@@ -145,6 +147,3 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('rPassword') as FormControl;
   }
 }
-
-
-

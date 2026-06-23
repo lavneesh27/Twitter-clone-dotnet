@@ -109,3 +109,33 @@ h6:hover{
 }
 
 
+
+/* Dark Mode Overrides */
+:host-context(body.dark-mode) .form-control {
+  background-color: #16181C !important;
+  color: #E7E9EA;
+  border-color: #2F3336;
+}
+
+:host-context(body.dark-mode) .people {
+  background-color: #000000 !important;
+  border: 1px solid #2F3336 !important;
+}
+
+:host-context(body.dark-mode) .people li {
+  background-color: transparent;
+}
+
+:host-context(body.dark-mode) footer * {
+  color: #71767B;
+}
+
+:host-context(body.dark-mode) img:hover {
+  filter: brightness(80%);
+}
+
+:host-context(body.dark-mode) .unfollow:hover {
+  border-color: #DC4C64 !important;
+  color: #DC4C64 !important;
+  background-color: rgba(220, 76, 100, 0.1) !important;
+}

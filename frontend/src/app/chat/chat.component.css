@@ -4,17 +4,19 @@
   min-width: 0;
   height: 100vh;
   overflow: hidden;
+  position: relative;
 }
 .input-container {
   display: flex;
-  position: sticky;
+  position: absolute;
   bottom: 0;
   width: 100%;
   max-width: none;
   align-items: center;
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   height: 70px;
   gap: 8px;
   z-index: 4;
@@ -39,23 +41,25 @@
   font-size: 16px;
   cursor: pointer;
 }
-
 * {
   box-sizing: border-box;
 }
 
 .header {
-  flex: 0 0 70px;
   height: 70px;
-  position: sticky;
+  position: absolute;
   top: 0;
+  width: 100%;
   z-index: 3;
-  background-color: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: var(--twitter-border);
 }
 
 .body {
   flex: 1 1 auto;
+  height: 100vh;
   min-height: 0;
   position: relative;
   width: 100%;
@@ -68,6 +72,8 @@
   height: 100%;
   margin-bottom: 0;
   overflow-y: auto;
+  padding-top: 70px;
+  padding-bottom: 70px;
 }
 
 .msg {
@@ -224,7 +230,7 @@
   .chats {
     padding-left: 0;
     padding-right: 0;
-    padding-bottom: calc(var(--mobile-nav-height) + 8px);
+    padding-bottom: calc(var(--mobile-nav-height) + 80px);
   }
 
   .scroll-to-bottom-btn {
@@ -248,3 +254,55 @@
 }
 
 
+
+/* Dark Mode Overrides */
+:host-context(body.dark-mode) .header {
+  background-color: rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom-color: #2F3336;
+}
+
+:host-context(body.dark-mode) .dots {
+  background-color: transparent !important;
+  color: #E7E9EA;
+}
+
+:host-context(body.dark-mode) .input-container {
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+:host-context(body.dark-mode) .input-container input[type="text"] {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #E7E9EA !important;
+}
+
+:host-context(body.dark-mode) .msg {
+ background-color: #2F3336;
+ color: #E7E9EA;
+}
+
+:host-context(body.dark-mode) .msg.right {
+ background-color: var(--twitter-primary);
+ color: white;
+}
+
+:host-context(body.dark-mode) .dots:hover {
+ background-color: rgba(255, 255, 255, 0.1);
+}
+
+:host-context(body.dark-mode) .image:hover {
+ background-color: rgba(255, 255, 255, 0.1);
+}
+
+:host-context(body.dark-mode) .chats::-webkit-scrollbar-track {
+ background-color: #000000;
+}
+:host-context(body.dark-mode) .chats::-webkit-scrollbar-thumb {
+ background-color: #333639;
+}
+:host-context(body.dark-mode) .chats:hover::-webkit-scrollbar-thumb {
+ background-color: #536471;
+}

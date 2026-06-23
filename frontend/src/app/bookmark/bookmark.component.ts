@@ -45,7 +45,7 @@ export class BookmarkComponent implements OnInit {
             return data;
           },
           () => {
-            alert('Error while fetching tweets');
+            this.toastr.error('Error while fetching tweets');
           }
         )
         .forEach(async (element: any) => {

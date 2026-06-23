@@ -8,8 +8,9 @@ nav {
   overflow-y: auto;
   z-index: 5;
   font-size: large;
-  font-weight: bold;
+  font-weight: 500;
   align-items: baseline;
+  scrollbar-width: none;
   scrollbar-width: none;
 }
 
@@ -249,7 +250,8 @@ nav .nav-brand i {
     border-top: 1px solid rgba(230, 230, 230, 0.8);
     border-right: none;
     background-color: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     padding: 0;
     z-index: 100;
   }
@@ -290,3 +292,55 @@ nav .nav-brand i {
 }
 
 
+
+/* Dark Mode Overrides */
+:host-context(body.dark-mode) .nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:host-context(body.dark-mode) .profile {
+  background-color: #000000;
+  color: #E7E9EA;
+}
+
+:host-context(body.dark-mode) .profile:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:host-context(body.dark-mode) .logo:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:host-context(body.dark-mode) .message-badge {
+  border-color: #000000;
+}
+
+:host-context(body.dark-mode) .color-container {
+  background: #000000;
+  border: 1px solid #2F3336;
+}
+
+:host-context(body.dark-mode) .dropdown-menu {
+  background-color: #000000;
+  border: 1px solid #2F3336;
+  box-shadow: rgba(255, 255, 255, 0.05) 0px 2px 4px 0px,
+    rgba(255, 255, 255, 0.1) 0px 2px 16px 0px;
+}
+
+@media (max-width: 767.98px) {
+  :host-context(body.dark-mode) nav {
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-top-color: #2F3336;
+  }
+}
+
+:host-context(body.dark-mode) .tweet {
+  background-color: var(--twitter-primary) !important;
+  color: white !important;
+}
+
+:host-context(body.dark-mode) .tweet:hover {
+  background-color: var(--twitter-secondary) !important;
+}

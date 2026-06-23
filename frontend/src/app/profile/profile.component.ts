@@ -102,7 +102,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             return data;
           },
           () => {
-            alert('Error while fetching tweets');
+            this.toastr.error('Error while fetching tweets');
           }
         )
         .filter((tweet: Tweet) => {
@@ -200,7 +200,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       return;
     }
     if (!file.type.startsWith('image/')) {
-      alert('Please select only image files.');
+      this.toastr.warning('Please select only image files.');
       return;
     }
 

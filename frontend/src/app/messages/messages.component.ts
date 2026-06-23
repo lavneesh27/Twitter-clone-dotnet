@@ -5,6 +5,7 @@ import { User } from '../models/user.model';
 import { Router } from '@angular/router';
 import { ChatService } from '../shared/chat.service';
 import { Chat } from '../models/chat.model';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class MessagesComponent implements OnInit {
     private _location: Location,
     private router: Router,
     private chat: ChatService,
+    private toastr: ToastrService
     ) {}
   async ngOnInit() {
     const userToken =
@@ -45,7 +47,7 @@ export class MessagesComponent implements OnInit {
               return data;
             },
             () => {
-              alert('Error while fetching users');
+              this.toastr.error('Error while fetching users');
             }
           )
           .filter((people: User) => people.userName !== this.user.userName);
@@ -150,7 +152,7 @@ export class MessagesComponent implements OnInit {
             return data;
           },
           () => {
-            alert('Error while fetching users');
+            this.toastr.error('Error while fetching users');
           }
         )
         .filter((user: User) => {
