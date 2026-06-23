@@ -173,8 +173,10 @@
   font-size: 15px;
   cursor: pointer;
   opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
   display: flex;
-  transition: opacity 0.4s;
+  transition: opacity 0.4s, visibility 0.4s;
   justify-content: center;
   align-items: center;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
@@ -183,6 +185,8 @@
 }
 .scroll-to-bottom-btn.show {
   opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
 }
 
 @media (max-width: 1399.98px) {
