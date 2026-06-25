@@ -1,0 +1,45 @@
+<div class="emoji-picker-container" *ngIf="visible">
+  <div class="emoji-picker-panel">
+    <div class="emoji-categories">
+      <button
+        *ngFor="let cat of categories; let i = index"
+        class="category-btn"
+        [class.active]="activeCategory === i && !searchTerm.trim()"
+        (click)="setCategory(i)"
+        [title]="cat.name"
+      >
+        {{ cat.icon }}
+      </button>
+    </div>
+    <div class="emoji-search">
+      <input
+        type="text"
+        placeholder="Search emojis..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        class="emoji-search-input"
+      />
+    </div>
+    <div class="emoji-grid-wrapper">
+      <div class="emoji-category-label" *ngIf="!searchTerm.trim()">
+        {{ categories[activeCategory].name }}
+      </div>
+      <div class="emoji-category-label" *ngIf="searchTerm.trim()">
+        Search Results
+      </div>
+      <div class="emoji-grid">
+        <button
+          *ngFor="let emoji of displayEmojis"
+          class="emoji-btn"
+          (click)="selectEmoji(emoji)"
+          [title]="emoji"
+        >
+          {{ emoji }}
+        </button>
+        <div *ngIf="searchTerm.trim() && displayEmojis.length === 0" class="no-results">
+          No emojis found
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

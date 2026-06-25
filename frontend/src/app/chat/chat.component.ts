@@ -44,6 +44,7 @@ export class ChatComponent implements OnDestroy {
   showButton: boolean = false;
   isChatsLoading = true;
   isRecieverLoading = true;
+  emojiPickerVisible: boolean = false;
 
   constructor(
     private chatService: ChatService,
@@ -228,6 +229,13 @@ export class ChatComponent implements OnDestroy {
       top: this.myDiv.nativeElement.scrollHeight,
       behavior: 'smooth',
     });
+  }
+
+  handleEmojiSelection(emoji: string) {
+    this.message.text += emoji;
+    if (this.myInput) {
+      this.myInput.nativeElement.focus();
+    }
   }
 }
 

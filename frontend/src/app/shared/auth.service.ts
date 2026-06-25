@@ -33,9 +33,12 @@ export class AuthService {
         }
         return userId;
       })
-      .catch((err) => {
-        const errorMsg = err.error || (err.status === 401 ? 'Invalid email or password.' : err.message);
-        this.toastr.error(errorMsg);
+      .catch(err => {
+        this.toastr.error(
+          err.status === 0
+            ? 'Server Error'
+            : err.error || (err.status === 401 ? 'Invalid email or password.' : err.message)
+        );
         return null;
       });
   }

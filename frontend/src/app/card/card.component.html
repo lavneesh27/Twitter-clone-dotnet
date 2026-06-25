@@ -35,7 +35,7 @@
                 </a>
               </li>
               <li *ngIf="loginUser?.id == user?.id">
-                <a class="dropdown-item d-flex align-items-center text-danger" (click)="delete(tweet.id)">
+                <a class="dropdown-item d-flex align-items-center text-danger" (click)="openDeleteModal(deleteModal, tweet.id)">
                   <i class='bx bx-trash fs-5 me-2'></i> Delete
                 </a>
               </li>
@@ -80,3 +80,15 @@
     <img [src]="dataURL" alt="img" class="image-viewer-img" (click)="$event.stopPropagation()">
   </div>
 </ng-container>
+
+<ng-template #deleteModal let-modal>
+  <div class="modal-body p-4">
+    <div class="text-center"><i class="bx bxl-twitter text-center fs-1 mb-3"></i></div>
+    <h3>Delete post?</h3>
+    <p>This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and search results.</p>
+    <div class="d-flex flex-column">
+      <button class="btn btn-danger mb-2" (click)="confirmDelete()">Delete</button>
+      <button class="btn btn-outline-dark" (click)="modal.dismiss()">Cancel</button>
+    </div>
+  </div>
+</ng-template>

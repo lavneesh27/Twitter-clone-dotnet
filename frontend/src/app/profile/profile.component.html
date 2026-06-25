@@ -15,7 +15,7 @@
         <img
           *ngIf="user?.userName == 'lavneesh27'"
           src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg"
-          width="25px"
+          width="23px"
           alt="verified"
           title="verified"
           class="ms-1"
@@ -54,8 +54,8 @@
         />
         <span
           *ngIf="!user?.image"
-          class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-light fs-1"
-          style="width: 100%; height: 100%"
+          class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-light"
+          style="width: 100%; height: 100%; font-size: 4.5rem;"
         >
           {{ user?.firstName.charAt(0) }}
         </span>
@@ -66,7 +66,7 @@
         <img
           *ngIf="user?.userName == 'lavneesh27'"
           src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg"
-          width="25px"
+          width="23px"
           alt="verified"
           title="verified"
           class="ms-1"
@@ -156,7 +156,7 @@
           class="btn btn-outline-dark rounded-pill edit-btn"
           data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"
-          data-bs-transition-duration="500"
+          data-bs-transition-duration="30"
         >
           Edit Profile
         </button>
@@ -212,52 +212,45 @@
       </div>
       <div class="modal-body overflow-y-scroll p-0">
         <div class="flex flex-column">  
-          <div class="banner" style="width: 100%; position: relative;">
-            <input
-              type="file"
-              class="d-none"
-              accept="image/*"
-              name="banner"
-              id="banner"
-              (change)="onFileSelected($event, 'banner')"
-              style="cursor: none"
-            />
-            <img [src]="this.user?.banner" style="width: 100%" alt="preview" />
-            <label
-              for="banner"
-              class="rounded-circle d-flex justify-content-center align-items-center edit-pic banner-edit-pic"
-              style="
-                background-color: rgba(50, 50, 50, 0.7);
-                width: 40px;
-                height: 40px;
-                cursor: pointer;
-              "
-            >
-              <i class="bx bx-camera fs-3" style="color: white"></i>
-            </label>
-            <label
-              class="rounded-circle d-flex justify-content-center align-items-center edit-pic banner-clear-pic"
-              style="
-                background-color: rgba(50, 50, 50, 0.7);
-                width: 40px;
-                height: 40px;
-                cursor: pointer;
-              "
-              (click)="clearBanner()"
-            >
-              <i class="bx bx-x fs-3" style="color: white"></i>
-            </label>
-          </div>
-          <div
-            class="rounded-circle me-3 overflow-hidden text-center my-3 d-flex modal-dp"
-            style="
-              width: 150px;
-              height: 150px;
-            position: absolute;
-            top: 125px;
-            left: 15px;
-            border: 4px solid white;
-          "
+          <div class="position-relative">
+            <div class="banner" style="width: 100%; position: relative;">
+              <input
+                type="file"
+                class="d-none"
+                accept="image/*"
+                name="banner"
+                id="banner"
+                (change)="onFileSelected($event, 'banner')"
+                style="cursor: none"
+              />
+              <img [src]="this.user?.banner" style="width: 100%" alt="preview" />
+              <label
+                for="banner"
+                class="rounded-circle d-flex justify-content-center align-items-center edit-pic banner-edit-pic"
+                style="
+                  background-color: rgba(50, 50, 50, 0.7);
+                  width: 40px;
+                  height: 40px;
+                  cursor: pointer;
+                "
+              >
+                <i class="bx bx-camera fs-3" style="color: white"></i>
+              </label>
+              <label
+                class="rounded-circle d-flex justify-content-center align-items-center edit-pic banner-clear-pic"
+                style="
+                  background-color: rgba(50, 50, 50, 0.7);
+                  width: 40px;
+                  height: 40px;
+                  cursor: pointer;
+                "
+                (click)="clearBanner()"
+              >
+                <i class="bx bx-x fs-3" style="color: white"></i>
+              </label>
+            </div>
+            <div
+              class="rounded-circle me-3 overflow-hidden text-center d-flex modal-dp"
             >
               <input
                 type="file"
@@ -275,8 +268,8 @@
               />
               <span
                 *ngIf="!user?.image"
-                class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-light fs-1"
-                style="width: 100%; height: 100%; border: 4px solid white;"
+                class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-light"
+                style="width: 100%; height: 100%; font-size: 4.5rem;"
                 >{{ user?.firstName.charAt(0) }}</span
               >
 
@@ -293,9 +286,9 @@
                 <i class="bx bx-camera fs-3" style="color: white"></i>
               </label>
             </div>
+          </div>
           <form
-            class="d-flex flex-column p-3"
-            style="margin-top: 5rem"
+            class="d-flex flex-column p-3 update-profile-form"
             [formGroup]="updateForm"
             (ngSubmit)="update()"
             *ngIf="updateForm"
@@ -412,4 +405,3 @@
     </div>
   </div>
 </ng-template>
-

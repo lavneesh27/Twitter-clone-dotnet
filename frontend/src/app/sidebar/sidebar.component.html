@@ -1,11 +1,14 @@
 <div class="sidebar" *ngIf="user">
-    <input type="text" class="form-control" id="user" name="user" placeholder="Search" [(ngModel)]="inputUser"
+    <div class="header d-flex align-items-center py-2">
+        <input type="text" class="form-control" id="user" name="user" placeholder="Search" [(ngModel)]="inputUser"
         (ngModelChange)="filter(inputUser)">
+    </div>
+    
 
-    <div class="my-4 people p-3">
+    <div class="my-2 people p-3">
         <h5 class="my-3">Who to follow</h5>
         <ul class="list-group" *ngIf="!isPeoplesLoading else skeleton">
-            <li class="list-group-item border-0" *ngFor="let people of peoples">
+            <li class="list-group-item border-0 pb-3" *ngFor="let people of peoples">
                 <div class="d-flex align-items-start profile follow-profile">
                     <div class="rounded-circle overflow-hidden follow-avatar" style="width:50px;height:50px"
                         (click)="navigateToProfile(people.id)"><img *ngIf="people.image" [src]="people.image" alt=""
@@ -22,7 +25,7 @@
                         <p class="text-muted mb-0 follow-username">&#64;{{people.userName}}</p>
                     </div>
                     <button [class]="isFollower(people)?'btn btn-outline-dark float-end unfollow':'btn btn-dark float-end'"
-                        style="cursor:pointer; transition: all 0.3s ease"
+                        style="cursor:pointer; transition: all 0.2s ease"
                         (mouseenter)="isFollower(people) ? hoverState = people.id : null" 
                         (mouseleave)="hoverState = null" 
                         (click)="isFollower(people)?unFollow(people.id):follow(people.id)">{{isFollower(people)?(hoverState === people.id ? 'Unfollow' : 'Following'):'Follow'}}</button>  

@@ -1,5 +1,5 @@
 .form-control {
-  height: 45px;
+  height: 35px;
   border-radius: 100px;
   border: none;
   background-color: rgb(239,243,244);
@@ -95,7 +95,7 @@ footer a{
 
 img:hover{
   filter: brightness(70%);
-  transition: 0.3s all;  
+  transition: 0.2s all;  
 }
 
 h6:hover{
@@ -118,12 +118,17 @@ h6:hover{
 }
 
 :host-context(body.dark-mode) .people {
-  background-color: #000000 !important;
-  border: 1px solid #2F3336 !important;
+  background-color: #16181C !important;
+  border: none !important;
 }
 
-:host-context(body.dark-mode) .people li {
-  background-color: transparent;
+:host-context(body.dark-mode) .people li,
+:host-context(body.dark-mode) .people .list-group-item {
+  background-color: transparent !important;
+}
+.people .list-group-item{
+  padding: 0 !important;
+  padding-bottom: 1rem !important;
 }
 
 :host-context(body.dark-mode) footer * {
@@ -138,4 +143,21 @@ h6:hover{
   border-color: #DC4C64 !important;
   color: #DC4C64 !important;
   background-color: rgba(220, 76, 100, 0.1) !important;
+}
+.header{
+    width: inherit;
+    /* height: 50px; */
+    position: sticky;
+    top:0;
+    z-index: 3;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+:host-context(body.dark-mode) .header {
+  background-color: rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-left-color: #2F3336;
+  border-right-color: #2F3336;
 }

@@ -8,7 +8,8 @@ li app-card {
 .home {
   width: 100%;
   max-width: none;
-  border: 1px solid rgba(230, 230, 230, 0.5);
+  border-left: 1px solid rgba(230, 230, 230, 0.5);
+  border-right: 1px solid rgba(230, 230, 230, 0.5);
   padding: 0;
   position: relative;
 }
@@ -26,8 +27,8 @@ li {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   overflow: hidden;
-  border: var(--twitter-border);
-    margin-bottom: -1px;
+  border-left: var(--twitter-border);
+  border-right: var(--twitter-border);
 }
 
 .input {
@@ -95,6 +96,13 @@ li {
   height: 450px !important;
   overflow-y: scroll;
 }
+#gifModal .modal-header{
+  border-bottom: 0 !important;
+}
+#gifModal .input{
+  position: sticky;
+  top: 0;
+}
 
 .gifs {
   display: grid;
@@ -120,11 +128,11 @@ li {
   border-radius: 30px;
   padding: 10px;
   width: auto;
-  height: 40px;
+  height: 35px;
   font-size: 15px;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.4s;
+  transition: opacity 0.25s;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -164,7 +172,8 @@ li {
   background-color: rgba(0, 0, 0, 0.65) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
-  border-color: #2F3336;
+  border-left-color: #2F3336;
+  border-right-color: #2F3336;
 }
 
 :host-context(body.dark-mode) .input {
@@ -173,7 +182,8 @@ li {
 }
 
 :host-context(body.dark-mode) .home {
-  border-color: #2F3336;
+  border-left-color: #2F3336;
+  border-right-color: #2F3336;
 }
 
 :host-context(body.dark-mode) .image:hover {

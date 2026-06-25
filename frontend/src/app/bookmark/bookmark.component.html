@@ -6,7 +6,7 @@
         <small class="m-0 text-muted">&#64;{{ user?.userName }}</small>
     </div>
     <div *ngIf="tweets?.length" class="ms-auto">
-        <a href="javascript:void(0)" class="text-reset fs-5 bookmark-btn" title="Clear Bookmarks" (click)="clearBookmarks()">
+        <a href="javascript:void(0)" class="text-reset fs-5 bookmark-btn" title="Clear Bookmarks" (click)="openClearBookmarksModal(clearBookmarksModal)">
             <i class='bx bx-brush-alt' ></i>
         </a>
     </div>
@@ -23,3 +23,15 @@
         <p>Don't let the good ones fly away! Bookmark Tweets to <br> easily find them again in the future.</p>
     </div>
 </div>
+
+<ng-template #clearBookmarksModal let-modal>
+  <div class="modal-body p-4">
+    <div class="text-center"><i class="bx bxl-twitter text-center fs-1 mb-3"></i></div>
+    <h3>Clear Bookmarks?</h3>
+    <p>This can’t be undone and all Tweets will be removed from your Bookmarks.</p>
+    <div class="d-flex flex-column">
+      <button class="btn btn-danger mb-2" (click)="confirmClearBookmarks()">Clear</button>
+      <button class="btn btn-outline-dark" (click)="modal.dismiss()">Cancel</button>
+    </div>
+  </div>
+</ng-template>

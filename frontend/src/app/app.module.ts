@@ -23,6 +23,7 @@ import { CommonModule } from '@angular/common';
 import { MessagesComponent } from './messages/messages.component';
 import { PostComponent } from './post/post.component';
 import { SkeletonComponent } from './skeleton/skeleton.component';
+import { EmojiPickerComponent } from './emoji-picker/emoji-picker.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { SkeletonComponent } from './skeleton/skeleton.component';
     ChatComponent,
     MessagesComponent,
     PostComponent,
-    SkeletonComponent
+    SkeletonComponent,
+    EmojiPickerComponent
   ],
   imports: [
     BrowserModule,

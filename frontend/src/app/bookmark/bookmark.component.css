@@ -9,7 +9,8 @@ li app-card{
     position: relative;
     width: 100%;
     min-height: calc(100vh - 50px);
-    border: var(--twitter-border);
+    border-left: var(--twitter-border);
+    border-right: var(--twitter-border);
     padding:0;
 }
 li{
@@ -26,8 +27,8 @@ li{
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     overflow: hidden;
-    border: var(--twitter-border);
-    margin-bottom: -1px;
+    border-left: var(--twitter-border);
+    border-right: var(--twitter-border);
 }
 
 .back, .bookmark-btn{
@@ -40,7 +41,7 @@ li{
     width: 40px;
     height: 40px;
     /* background-color: aquamarine; */
-    transition: all 0.5s;
+    transition: all 0.2s;
 }
 .back:hover, .bookmark-btn:hover{
     background-color: rgb(230, 230, 230);
@@ -82,11 +83,13 @@ li{
   background-color: rgba(0, 0, 0, 0.65) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
-  border-color: #2F3336;
+  border-left-color: #2F3336;
+  border-right-color: #2F3336;
 }
 
 :host-context(body.dark-mode) .bookmark {
-  border-color: #2F3336;
+  border-left-color: #2F3336;
+  border-right-color: #2F3336;
 }
 
 :host-context(body.dark-mode) .back,

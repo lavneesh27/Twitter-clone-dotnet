@@ -10,8 +10,8 @@
   margin-bottom: -1px;
   width: 100%;
   max-width: 100%;
-  border-left: none;
-  border-right: none;
+  border-left: none !important;
+  border-right: none !important;
 }
 
 input {
@@ -70,7 +70,7 @@ input {
 
 img:hover {
   filter: brightness(70%);
-  transition: 0.3s all;
+  transition: 0.2s all;
 }
 .name{
   font-size: 18px;
@@ -179,4 +179,4 @@ img:hover {
   box-shadow: rgba(255, 255, 255, 0.05) 0px 2px 4px 0px,
     rgba(255, 255, 255, 0.1) 0px 2px 16px 0px;
 }
-
+

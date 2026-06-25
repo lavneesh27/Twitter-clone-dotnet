@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, inject } from '@angular/core';
 import { Tweet } from '../models/tweet.model';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { DataService } from '../shared/data.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-bookmark',
@@ -14,6 +15,7 @@ export class BookmarkComponent implements OnInit {
   tweets: Tweet[] = [];
   user!: any;
   isLoading: boolean = true;
+  private modalService = inject(NgbModal);
   constructor(
     private router: Router,
     private _location: Location,
@@ -59,14 +61,21 @@ export class BookmarkComponent implements OnInit {
       }, 100);
     });
   }
-  clearBookmarks() {
-    if (window.confirm('Are you sure you want to clear all bookmarks?')) {
-      this.tweets = [];
-      this.data.clearBookmarks(this.user?.id).then(() => {
-        this.toastr.success('Bookmarks cleared successfully');
-        this.getBookmarks();
-      })
-    }
+  openClearBookmarksModal(content: TemplateRef<any>) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      size: 'sm',
+      windowClass: 'dark-modal'
+    });
+  }
+  confirmClearBookmarks() {
+    this.tweets = [];
+    this.data.clearBookmarks(this.user?.id).then(() => {
+      this.toastr.success('Bookmarks cleared successfully');
+      this.getBookmarks();
+      this.modalService.dismissAll();
+    });
   }
   goBack() {
     this._location.back();

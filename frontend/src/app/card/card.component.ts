@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, inject } from '@angular/core';
 import { Tweet } from '../models/tweet.model';
 import { Bookmark } from '../models/bookmark.model';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from '../shared/data.service';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-card',
@@ -23,6 +24,8 @@ export class CardComponent implements OnInit {
   like: boolean = false;
   bookmarkStatus: boolean | null = null;
   showImage: boolean = false;
+  private modalService = inject(NgbModal);
+  postIdToDelete?: string | number;
 
   constructor(
     private toastr: ToastrService,
@@ -104,12 +107,22 @@ export class CardComponent implements OnInit {
   redirect(id: string | number) {
     this.router.navigate(['post', id]);
   }
-  delete(postId: string | number) {
-    if (window.confirm("Are you sure you want to delete this post?")) {
-      this.afs.removeTweet(postId).then((res) => {
+  openDeleteModal(content: TemplateRef<any>, postId: string | number) {
+    this.postIdToDelete = postId;
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      size: 'sm',
+      windowClass: 'dark-modal'
+    });
+  }
+  confirmDelete() {
+    if (this.postIdToDelete) {
+      this.afs.removeTweet(this.postIdToDelete).then((res) => {
         this.toastr.success('Tweet successfully deleted');
         this.deleteTrigger.emit();
-      })
+        this.modalService.dismissAll();
+      });
     }
   }
   unFollow(userId: string | number) {
