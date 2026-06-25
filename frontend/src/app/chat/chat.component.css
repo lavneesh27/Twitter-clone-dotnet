@@ -363,3 +363,6 @@
   border-left-color: #2F3336;
   border-right-color: #2F3336;
 }
+:host-context(body.dark-mode) .dropdown-menu{
+  border: 1px solid rgba(175, 175, 175,0.5) !important;
+}

@@ -16,6 +16,7 @@ export class NavComponent implements OnInit {
   user?: any;
   imgUrl: any;
   unreadMessagesCount = 0;
+  isMobileMoreOpen = false;
   private modalService = inject(NgbModal);
   colors: any[] = colors;
   constructor(
@@ -80,7 +81,19 @@ export class NavComponent implements OnInit {
   login() {
     this.router.navigate(['/login']);
   }
+
+  toggleMobileMore(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isMobileMoreOpen = !this.isMobileMoreOpen;
+  }
+
+  closeMobileMore() {
+    this.isMobileMoreOpen = false;
+  }
+
   open(content: TemplateRef<any>, type: string) {
+    this.closeMobileMore();
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       centered: true,

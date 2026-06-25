@@ -112,6 +112,10 @@ nav .nav-brand i {
   cursor: unset;
 }
 
+.nav-link.active:not(.main-logo) {
+  font-weight: 800;
+}
+
 .nav-icon-wrap {
   position: relative;
   display: inline-flex;
@@ -151,6 +155,14 @@ nav .nav-brand i {
 }
 
 @media (max-width: 1399.98px) {
+  .nav-link,
+    .tweet {
+      width: 35px !important;
+      height: 35px !important;
+    }
+  .dropdown-menu {
+      padding: 5px !important;
+    }
   nav {
     width: 100% !important;
     padding-top: 6px;
@@ -246,8 +258,7 @@ nav .nav-brand i {
     left: 0;
     right: 0;
     bottom: 0;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
+    overflow: visible !important;
     scrollbar-width: none;
     border-top: 1px solid rgba(230, 230, 230, 0.8);
     border-right: none;
@@ -263,28 +274,30 @@ nav .nav-brand i {
   .tweet {
     margin-bottom: 0px !important;
   }
-
+ 
   nav .container-fluid,
   nav .navbar-collapse {
     height: 100%;
-    width: max-content;
+    width: 100%;
     min-width: 100%;
     display: flex !important;
     flex-direction: row !important;
     padding: 0;
     margin: 0;
+    overflow: visible !important;
   }
-
+ 
   nav .navbar-nav {
     height: 100%;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     justify-content: space-around;
     align-items: center;
-    width: max-content;
+    width: 100%;
     min-width: 100%;
-    gap: 24px;
-    padding: 0 24px;
+    gap: 0;
+    padding: 0 12px;
+    overflow: visible !important;
   }
 
   .nav-brand,
@@ -303,6 +316,23 @@ nav .nav-brand i {
   .tweet {
     width: 48px;
     height: 48px;
+  }
+
+  .mobile-more-item {
+    position: relative;
+  }
+
+  .mobile-more-menu {
+    position: absolute !important;
+    right: 0 !important;
+    bottom: calc(100% + 8px) !important;
+    top: auto !important;
+    min-width: 180px;
+    transform: none !important;
+  }
+
+  .mobile-more-menu.show {
+    display: block;
   }
 }
 

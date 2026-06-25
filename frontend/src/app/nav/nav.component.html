@@ -7,27 +7,27 @@
               class='bx bxl-twitter fs-1 logo' title="Twitter"></i></a>
         </li>
         <li class="nav-item mb-3" *ngIf="user">
-          <a class="nav-link d-flex" aria-current="page" routerLink="/home" routerLinkActive="active"><i
-              class='bx bxs-home fs-3'></i>&nbsp; Home</a>
+          <a class="nav-link d-flex" aria-current="page" routerLink="/home" routerLinkActive="active" #homeLink="routerLinkActive"><i
+              class='bx fs-3' [ngClass]="homeLink.isActive ? 'bxs-home' : 'bx-home'"></i>&nbsp; Home</a>
         </li>
         <li class="nav-item mb-3" *ngIf="!user">
-          <a class="nav-link d-flex" aria-current="page" routerLink="/login" routerLinkActive="active"><i
-              class='bx bxs-key fs-3'></i>&nbsp; Login</a>
+          <a class="nav-link d-flex" aria-current="page" routerLink="/login" routerLinkActive="active" #loginLink="routerLinkActive"><i
+              class='bx fs-3' [ngClass]="loginLink.isActive ? 'bxs-key' : 'bx-key'"></i>&nbsp; Login</a>
         </li>
         <li class="nav-item mb-3" *ngIf="!user">
-          <a class="nav-link d-flex" aria-current="page" routerLink="/register" routerLinkActive="active"><i
-              class='bx bxs-user-plus fs-3'></i>&nbsp; Register</a>
+          <a class="nav-link d-flex" aria-current="page" routerLink="/register" routerLinkActive="active" #registerLink="routerLinkActive"><i
+              class='bx fs-3' [ngClass]="registerLink.isActive ? 'bxs-user-plus' : 'bx-user-plus'"></i>&nbsp; Register</a>
         </li>
         <li class="nav-item mb-3" *ngIf="user">
-          <a class="nav-link d-flex" aria-current="page" routerLink="/bookmark" routerLinkActive="active"><i
-              class='bx bxs-bookmark fs-3'></i>&nbsp; Bookmarks</a>
+          <a class="nav-link d-flex" aria-current="page" routerLink="/bookmark" routerLinkActive="active" #bookmarkLink="routerLinkActive"><i
+              class='bx fs-3' [ngClass]="bookmarkLink.isActive ? 'bxs-bookmark' : 'bx-bookmark'"></i>&nbsp; Bookmarks</a>
         </li>
         
         <li class="nav-item mb-3" *ngIf="user">
           <a class="nav-link d-flex align-items-center message-nav-link" aria-current="page" [routerLink]="['/messages']"
-            routerLinkActive="active">
+            routerLinkActive="active" #messagesLink="routerLinkActive">
             <span class="nav-icon-wrap">
-              <i class='bx bxs-envelope fs-3'></i>
+              <i class='bx fs-3' [ngClass]="messagesLink.isActive ? 'bxs-envelope' : 'bx-envelope'"></i>
               <span class="message-badge" *ngIf="unreadMessagesCount">{{ unreadMessagesCount }}</span>
             </span>
             &nbsp; Messages
@@ -35,15 +35,45 @@
         </li>
         <li class="nav-item mb-3" *ngIf="user">
           <a class="nav-link d-flex" aria-current="page" [routerLink]="['/profile', user.id]"
-            routerLinkActive="active" title="Profile"><i class='bx bxs-user fs-3'></i>&nbsp; Profile</a>
+            routerLinkActive="active" title="Profile" #profileLink="routerLinkActive"><i class='bx fs-3' [ngClass]="profileLink.isActive ? 'bxs-user' : 'bx-user'"></i>&nbsp; Profile</a>
         </li>
-        <li class="nav-item mb-3" *ngIf="user">
+        <li class="nav-item mb-3 dropdown mobile-more-item d-md-none" *ngIf="user">
+          <a
+            class="nav-link d-flex"
+            href="javascript:void(0)"
+            role="button"
+            [attr.aria-expanded]="isMobileMoreOpen"
+            (click)="toggleMobileMore($event)"
+            title="More"
+          >
+            <i class="bx bx-dots-horizontal-rounded fs-3"></i>&nbsp; More
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-end mobile-more-menu"
+            [class.show]="isMobileMoreOpen"
+            (click)="$event.stopPropagation()"
+          >
+            <li>
+              <a class="dropdown-item p-2" routerLink="/create" (click)="closeMobileMore()">
+                <i class="bx bx-plus-circle fs-5"></i>&nbsp; Post
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item p-2" (click)="user ? open(display, 'color') : login()">
+                <i class="bx bxs-paint-roll fs-5"></i>&nbsp; Display
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item text-danger p-2" (click)="open(content, 'logout')">
+                <i class="bx bx-log-out fs-5"></i>&nbsp; Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item mb-3 d-none d-md-block" *ngIf="user">
           <a class="nav-link d-flex" aria-current="page" (click)="user ? open(display, 'color') : login()"><i class='bx bxs-paint-roll fs-3'></i>&nbsp; Display</a>
         </li>
-        <li class="nav-item mb-3 d-md-none" *ngIf="user">
-          <a class="nav-link d-flex text-danger" aria-current="page" (click)="open(content, 'logout')" title="Logout"><i class='bx bx-log-out fs-3'></i>&nbsp; Logout</a>
-        </li>
-        <li class="mb-3" *ngIf="user">
+        <li class="mb-3 d-none d-md-block" *ngIf="user">
           <a class="btn btn-dark mb-3 tweet" routerLink="/create">Post</a>
         </li>
 
@@ -112,4 +142,3 @@
     <button class="btn btn-primary mb-2" (click)="modal.dismiss()">Done</button>
   </div>
 </ng-template>
-
