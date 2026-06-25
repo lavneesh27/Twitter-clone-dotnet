@@ -1,8 +1,8 @@
+<div class="header d-flex align-items-center pt-3 px-vw-1">
+    <input type="text" class="form-control" id="user" name="user" placeholder="Search" [(ngModel)]="inputUser"
+    (ngModelChange)="filter(inputUser)">
+</div>
 <div class="sidebar" *ngIf="user">
-    <div class="header d-flex align-items-center py-2">
-        <input type="text" class="form-control" id="user" name="user" placeholder="Search" [(ngModel)]="inputUser"
-        (ngModelChange)="filter(inputUser)">
-    </div>
     
 
     <div class="my-2 people p-3">

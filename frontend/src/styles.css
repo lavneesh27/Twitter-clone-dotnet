@@ -583,3 +583,7 @@ body.dark-mode .skeleton-loader {
     transform: rotate(360deg);
   }
 }
+.px-vw-1 {
+    padding-left: 1vw;
+    padding-right: 1vw;
+}

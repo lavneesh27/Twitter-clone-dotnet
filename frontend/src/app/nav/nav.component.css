@@ -1,16 +1,20 @@
+:host {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 5;
+  display: block;
+}
+
 nav {
   width: 100% !important;
   margin: 0;
-  position: sticky;
-  height: 100vh;
-  top: 0;
+  height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  z-index: 5;
   font-size: large;
   font-weight: 500;
   align-items: baseline;
-  scrollbar-width: none;
   scrollbar-width: none;
 }
 
@@ -250,6 +254,10 @@ nav .nav-brand i {
 }
 
 @media (max-width: 767.98px) {
+  :host {
+    position: static;
+    height: auto;
+  }
   nav {
     position: fixed;
     width: 100% !important;

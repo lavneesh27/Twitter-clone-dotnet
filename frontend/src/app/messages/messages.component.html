@@ -5,55 +5,57 @@
   <h5 class="m-0">Messages</h5>
 </div>
 <div class="body message">
-  <ul #chatBody class="list-group" *ngIf="!isMessagesLoading else skeleton">
-    <li
-      class="list-group-item"
-      *ngFor="let u of displayUsers"
-      style="cursor: pointer"
-      (click)="navigateToChat(u.id)"
-    >
-      <div class="d-flex align-items-center profile">
-        <div class="rounded-circle me-4 overflow-hidden message-avatar">
-          <img
-            *ngIf="u.image"
-            [src]="u.image"
-            alt=""
-          />
-          <span
-            *ngIf="!u.image"
-            class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-light fs-4"
-            style="width:100%;height:100%"
-            >{{ u?.firstName?.charAt(0) }}</span
-          >
-        </div>
-        <div class="d-flex flex-column w-100">
-            <h6 class="text-strong d-flex align-items-center justify-content-between">
-              <div>
-                {{ u.firstName }}
-                <img
-                  *ngIf="u?.userName == 'lavneesh27'"
-                  src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg"
-                  width="20px"
-                  alt="verified"
-                  title="verified"
-                />&nbsp;
-              </div>
-          
-              <span class="time text-muted small" [title]="u.recentMessageTime | date: 'short'">{{ u.recentMessageTime | date : "h:mm a" }}</span>
-            </h6>
-            <p class="text-muted recentMessage m-0">
-              {{ u.recentMessage }}
-            </p>
+  <ng-container *ngIf="!isMessagesLoading; else skeleton">
+    <ul #chatBody class="list-group" *ngIf="displayUsers.length">
+      <li
+        class="list-group-item"
+        *ngFor="let u of displayUsers"
+        style="cursor: pointer"
+        (click)="navigateToChat(u.id)"
+      >
+        <div class="d-flex align-items-center profile">
+          <div class="rounded-circle me-4 overflow-hidden message-avatar">
+            <img
+              *ngIf="u.image"
+              [src]="u.image"
+              alt=""
+            />
+            <span
+              *ngIf="!u.image"
+              class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-light fs-4"
+              style="width:100%;height:100%"
+              >{{ u?.firstName?.charAt(0) }}</span
+            >
           </div>
-          <span class="conversation-badge" *ngIf="getUnreadCount(u.id)">
-            {{ getUnreadCount(u.id) }}
-          </span>
-      </div>
-    </li>
-  </ul>
-  <div *ngIf="!(isMessagesLoading || displayUsers.length)" class="no-user">
-    No users to display
-  </div>
+          <div class="d-flex flex-column w-100">
+              <h6 class="text-strong d-flex align-items-center justify-content-between">
+                <div>
+                  {{ u.firstName }}
+                  <img
+                    *ngIf="u?.userName == 'lavneesh27'"
+                    src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg"
+                    width="20px"
+                    alt="verified"
+                    title="verified"
+                  />&nbsp;
+                </div>
+            
+                <span class="time text-muted small" [title]="u.recentMessageTime | date: 'short'">{{ u.recentMessageTime | date : "h:mm a" }}</span>
+              </h6>
+              <p class="text-muted recentMessage m-0">
+                {{ u.recentMessage }}
+              </p>
+            </div>
+            <span class="conversation-badge" *ngIf="getUnreadCount(u.id)">
+              {{ getUnreadCount(u.id) }}
+            </span>
+        </div>
+      </li>
+    </ul>
+    <div *ngIf="!displayUsers.length" class="no-user">
+      No users to display
+    </div>
+  </ng-container>
 </div>
 <ng-template #skeleton>
   <app-skeleton [width]="'100%'" [height]="'50px'" [shape]="'rectangle'" [rows]="5"></app-skeleton>
