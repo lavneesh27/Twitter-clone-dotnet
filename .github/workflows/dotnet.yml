@@ -1,12 +1,13 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET Backend CI
+name: Build .NET + Angular
 
 on:
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
@@ -16,24 +17,43 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: backend/Twitter-backend
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
 
-      - name: Setup .NET 8
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
+    # Checkout repository
+    - name: Checkout Code
+      uses: actions/checkout@v4
 
-      - name: Restore Packages
-        run: dotnet restore
+    ########################################
+    # .NET
+    ########################################
 
-      - name: Build Project
-        run: dotnet build --configuration Release --no-restore
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
 
-      - name: Run Tests
-        run: dotnet test --configuration Release --no-build --verbosity normal
+    - name: Restore NuGet Packages
+      run: dotnet restore Backend/MyProject.sln
+
+    - name: Build .NET
+      run: dotnet build Backend/MyProject.sln --configuration Release --no-restore
+
+    - name: Run .NET Tests
+      run: dotnet test Backend/MyProject.sln --no-build
+
+    ########################################
+    # Angular
+    ########################################
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+
+    - name: Install Angular Packages
+      working-directory: Frontend
+      run: npm install
+
+    - name: Build Angular
+      working-directory: Frontend
+      run: npm run build
