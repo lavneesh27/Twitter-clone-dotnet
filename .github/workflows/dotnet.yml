@@ -33,13 +33,13 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore NuGet Packages
-      run: dotnet restore Backend/Twitter-backend.sln
+      run: dotnet restore backend/Twitter-backend/Twitter-backend.csproj
 
     - name: Build .NET
-      run: dotnet build Backend/Twitter-backend.sln --configuration Release --no-restore
+      run: dotnet build backend/Twitter-backend/Twitter-backend.csproj --configuration Release --no-restore
 
     - name: Run .NET Tests
-      run: dotnet test Backend/Twitter-backend.sln --no-build
+      run: dotnet test backend/Twitter-backend/Twitter-backend.csproj --no-build
 
     ########################################
     # Angular
