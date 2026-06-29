@@ -1,8 +1,9 @@
+<ng-container *ngIf="user">
 <div class="header d-flex align-items-center pt-3 px-vw-1">
     <input type="text" class="form-control" id="user" name="user" placeholder="Search" [(ngModel)]="inputUser"
     (ngModelChange)="filter(inputUser)">
 </div>
-<div class="sidebar" *ngIf="user">
+<div class="sidebar">
     
 
     <div class="my-2 people p-3">
@@ -47,6 +48,8 @@
         </div>
     </footer>
 </div>
+</ng-container>
+
 
 <ng-template #skeleton>
     <app-skeleton [width]="'100%'" [height]="'50px'" [shape]="'rectangle'" [rows]="5"></app-skeleton>
